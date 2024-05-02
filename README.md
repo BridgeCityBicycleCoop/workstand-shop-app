@@ -1,4 +1,4 @@
-# Workstand - Open Source memebership, inventory, and task tracking and management.
+# Workstand - Open Source management, tracking and reporting tool for non-profit memberhips, inventory, and activities.
 
 ## Developing
 
