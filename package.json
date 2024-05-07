@@ -35,5 +35,9 @@
 		"vite": "^5.2.11",
 		"vitest": "^1.6.0"
 	},
-	"type": "module"
+	"type": "module",
+	"dependencies": {
+		"cookie": "^0.6.0",
+		"pocketbase": "^0.21.2"
+	}
 }

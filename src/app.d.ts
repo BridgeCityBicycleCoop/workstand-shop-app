@@ -3,11 +3,17 @@
 declare global {
 	namespace App {
 		// interface Error {}
-		// interface Locals {}
+		interface Locals {
+			user: Record<string, unknown>;
+		}
 		// interface PageData {}
 		// interface PageState {}
 		// interface Platform {}
 	}
+	declare type Branded<T, B> = T & Brand<B>;
 }
+
+declare const __brand: unique symbol;
+type Brand<B> = { [__brand]: B };
 
 export {};
