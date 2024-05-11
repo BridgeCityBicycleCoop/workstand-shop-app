@@ -3,7 +3,7 @@ import { loginWithPassword } from '$lib/auth';
 import type { Actions } from './$types';
 
 export const actions = {
-	default: async ({ request, cookies }) => {
+	login: async ({ request, cookies }) => {
 		const form = await request.formData();
 		const email = form.get('email');
 		const password = form.get('password');
@@ -12,5 +12,9 @@ export const actions = {
 		}
 		await loginWithPassword(cookies, email, password);
 		redirect(303, '/');
+	},
+	register: async (event) => {
+		// TODO register the user
+		console.log('register', event);
 	}
 } satisfies Actions;
