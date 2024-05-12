@@ -1,13 +1,13 @@
 <script>
 	import { page } from '$app/stores';
-	import logo from '$lib/images/svelte-logo.svg';
+	import logo from '$lib/images/cropped-BCBCLogo_Long-2048x788.png';
 	import github from '$lib/images/github.svg';
 </script>
 
 <header>
-	<div class="corner">
-		<a href="https://kit.svelte.dev">
-			<img src={logo} alt="SvelteKit" />
+	<div class="corner-logo">
+		<a href="https://bcbc.bike/">
+			<img src={logo} alt="Bridge City Bicyle Co-Op Home Page" />
 		</a>
 	</div>
 
@@ -32,8 +32,8 @@
 	</nav>
 
 	<div class="corner">
-		<a href="https://github.com/sveltejs/kit">
-			<img src={github} alt="GitHub" />
+		<a href="https://github.com/BridgeCityBicycleCoop/workstand-2024" target="_blank">
+			<img src={github} alt="GitHub Repo for Workstand" />
 		</a>
 	</div>
 </header>
@@ -60,6 +60,11 @@
 	.corner img {
 		width: 2em;
 		height: 2em;
+		object-fit: contain;
+	}
+
+	.corner-logo img {
+		width: 8em;
 		object-fit: contain;
 	}
 
