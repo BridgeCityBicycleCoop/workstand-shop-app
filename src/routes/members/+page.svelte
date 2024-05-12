@@ -30,7 +30,7 @@
 		created_at: Date;
 		modified_at: Date;
 		activities: string[];
-		logins: Date[];
+		login_history: Date[];
 	};
 
 	import members from './membersData.json';
@@ -39,11 +39,25 @@
 {#each members as member}
 	<div class="card">
 		<div>Id: {member.id}</div>
-		<div>Name: {member.name}</div>
-		<div>Address: {member.address}</div>
-		<div>IsMember: {member.isMember}</div>
+		<div>User Id: {member.user_id}</div>
+		<div>Email: {member.email}</div>
+		<div>Email Consent: {member.email_consent}</div>
+		<div>Name: {member.first_name} {member.last_name}</div>
+		<div>Preferred Name: {member.preferred_name}</div>
+		<div>DOB: {member.date_of_birth}</div>
+		<div>Guardian Name: {member.guardian_name}</div>
+		<div>Phone: {member.phone}</div>
+		<div>Address: {member.street} {member.city}, {member.post_code}</div>
+		<div>Province/Country: {member.province} {member.country}</div>
+		<div>Is Active: {member.is_active}</div>
+		<div>Banned: {member.banned}</div>
+		<div>Suspended: {member.suspended}</div>
+		<div>Waiver Date: {member.waiver}</div>
+		<div>Created Date: {member.created_at}</div>
+		<div>Modified Date: {member.modified_at}</div>
 		<div>Activities: {member.activities}</div>
-		<div>Login History: {member.logins}</div>
+		<div>Login History: {member.login_history}</div>
+		<div>Notes: {member.notes}</div>
 	</div>
 {/each}
 
