@@ -1,2 +1,2 @@
 export * from './types';
-export * from './pocketbase';
+export * from './pocketbase/pocketbase-auth.server';

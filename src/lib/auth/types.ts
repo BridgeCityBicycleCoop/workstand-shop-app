@@ -1,8 +1,9 @@
-import type { Cookies, Handle } from '@sveltejs/kit';
+import type { Handle, RequestEvent } from '@sveltejs/kit';
 export type SessionToken = Branded<string, 'SessionToken'>;
 
 export interface AuthModule {
-	loginWithPassword: (cookies: Cookies, email: string, password: string) => Promise<void>;
+	loginWithPassword: (event: RequestEvent, email: string, password: string) => Promise<void>;
+	logout: (event: RequestEvent) => Promise<void>;
 }
 /**
  * AuthHandler functions must return a function that implements the Handle interface from SvelteKit

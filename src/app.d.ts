@@ -4,13 +4,17 @@ declare global {
 	namespace App {
 		// interface Error {}
 		interface Locals {
-			user: Record<string, unknown>;
+			pb: import('$lib/server/db/pocketbase/types').TypedPocketBase;
+			user?: Record<string, unknown> | null;
 		}
 		// interface PageData {}
 		// interface PageState {}
 		// interface Platform {}
 	}
 	declare type Branded<T, B> = T & Brand<B>;
+	declare type Prettify<T> = {
+		[K in keyof T]: T[K];
+	} & NonNullable<unknown>;
 }
 
 declare const __brand: unique symbol;
