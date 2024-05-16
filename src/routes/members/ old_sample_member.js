@@ -35,3 +35,31 @@ const oldCoreMembershipData = {
 	member_id: 1,
 	payment_id: 1
 };
+
+type OldMember = {
+	id: number;
+	email: string;
+	email_consent: boolean;
+	first_name: string;
+	last_name: string;
+	preferred_name: string | undefined;
+	date_of_birth: Date;
+	guardian_name: string | undefined;
+	phone: string;
+	street: string;
+	city: string;
+	province: string;
+	country: string | undefined;
+	post_code: string;
+	wavier: Date;
+	is_active: boolean;
+	user_id: number;
+	banned: boolean;
+	notes: string;
+	suspended: boolean;
+	created_at: Date;
+	modified_at: Date;
+	activities: string[];
+	logins: Date[];
+};
+
