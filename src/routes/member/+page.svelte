@@ -14,15 +14,9 @@
 </script>
 
 <div class="card">
-	hello
-	<!-- <div>Id: {data.member.id}</div> -->
-	<!-- <div>
-		Email:
-		<span
-			on:dblclick={editProp('email', data.member.email)}
-			on:keydown={editProp('email', data.member.email)}>{data.member.email}</span
-		>
-	</div> -->
+	{#each Object.entries(data.member) as [key, val]}
+		<div>{key}: <span>{val}</span></div>
+	{/each}
 </div>
 
 <style>
