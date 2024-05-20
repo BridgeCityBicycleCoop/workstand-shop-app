@@ -1,22 +1,22 @@
 import z from 'zod';
 
-export const Member = z.object({
-	id: z.number(),
-	user_id: z.string(),
+export const memberSchema = z.object({
 	name: z.string(),
-	preferred_name: z.string(),
+	preferredName: z.string().optional(),
+	email: z.string().email(),
+	emailConsent: z.boolean(),
 	phone: z.string(),
-	email: z.string(),
-	email_consent: z.boolean(),
-	date_of_birth: z.date(),
-	guardian_name: z.string(),
-	is_active: z.boolean(),
+	dateOfBirth: z.date(),
+	guardianName: z.string(),
+	active: z.boolean(),
 	banned: z.boolean(),
 	suspended: z.boolean(),
 	waiver: z.date(),
-	notes: z.string(),
+	notes: z.string().optional(),
 	activities: z.array(z.string()),
 	logins: z.array(z.date()),
+	id: z.number(),
+	user_id: z.string(),
 	created_at: z.date(),
 	modified_at: z.date()
 });
@@ -26,12 +26,12 @@ const testMember = {
 	user_id: 'kungfu_panda',
 	phone: '3554255555',
 	email: 'frank@beans.com',
-	email_consent: true,
+	emailConsent: true,
 	name: 'Frankfurter N Beans',
-	preferred_name: 'Frank',
-	date_of_birth: new Date('1980-01-01'),
-	guardian_name: 'H.D. Bunns',
-	is_active: true,
+	preferredName: 'Frank',
+	dateOfBirth: new Date('1980-01-01'),
+	guardianName: 'H.D. Bunns',
+	active: true,
 	banned: false,
 	suspended: false,
 	waiver: new Date('2016-01-09 00:00:00+00'),
@@ -49,6 +49,6 @@ const testMember = {
 export const getMember = async (id: number) => {
 	// test data
 	if (id === 1001) {
-		return Member.parse(testMember);
+		return memberSchema.parse(testMember);
 	}
 };

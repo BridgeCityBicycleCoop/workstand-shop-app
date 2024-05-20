@@ -1,10 +1,26 @@
-import { Member, getMember } from '$lib/models/member';
-import { superValidate } from 'sveltekit-superforms';
+import { memberSchema, getMember } from '$lib/models/member';
+import { superValidate, fail } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 
-export async function load() {
-	const member = await getMember(1001);
-	const form = await superValidate(zod(Member));
+const superformMemberSchema = zod(memberSchema);
 
-	return { member, form };
+export async function load(event) {
+	// const member = await getMember(1001);
+	const form = await superValidate(event, superformMemberSchema);
+
+	return { form };
 }
+
+export const actions = {
+	default: async (event) => {
+		const form = await superValidate(event, superformMemberSchema);
+
+		if (!form.valid) {
+			return fail(400, {
+				form
+			});
+		}
+
+		return form;
+	}
+};
