@@ -1,6 +1,7 @@
-import { memberSchema, getMember } from '$lib/models/member';
+import { memberSchema } from '$lib/models/member';
 import { superValidate, fail } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
+import type { Actions } from './$types';
 
 const superformMemberSchema = zod(memberSchema);
 
@@ -11,16 +12,27 @@ export async function load(event) {
 	return { form };
 }
 
-export const actions = {
-	default: async (event) => {
-		const form = await superValidate(event, superformMemberSchema);
+export const actions: Actions = {
+	update: async ({ locals, request }) => {
+		const data = await request.formData();
 
-		if (!form.valid) {
-			return fail(400, {
-				form
-			});
+		// remove empty fields
+		for (const [key, value] of (await data).entries()) {
+			if (value === '') (await data).delete(key);
 		}
 
-		return form;
+		const id = locals.pb.authStore.model?.id;
+		console.log('id', id, data);
+
+		try {
+			await locals.pb.collection('users').update(id, data);
+		} catch (e) {
+			console.log('error', e);
+			return fail(400, { unknown: true });
+		}
+	},
+
+	register: async ({ locals, request }) => {
+		const data = request.formData;
 	}
 };

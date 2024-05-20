@@ -6,24 +6,24 @@ export const memberSchema = z.object({
 	email: z.string().email(),
 	emailConsent: z.boolean(),
 	phone: z.string(),
-	dateOfBirth: z.date(),
-	guardianName: z.string(),
-	active: z.boolean(),
-	banned: z.boolean(),
-	suspended: z.boolean(),
-	waiver: z.date(),
-	notes: z.string().optional(),
-	activities: z.array(z.string()),
-	logins: z.array(z.date()),
-	id: z.number(),
-	user_id: z.string(),
-	created_at: z.date(),
-	modified_at: z.date()
+	dateOfBirth: z.coerce.date(),
+	// guardianName: z.string(),
+	// active: z.boolean(),
+	// banned: z.boolean(),
+	// suspended: z.boolean(),
+	// waiver: z.coerce.date().optional(),
+	// notes: z.string().optional(),
+	// activities: z.array(z.string()),
+	// logins: z.array(z.coerce.date()),
+	id: z.number()
+	// user_id: z.string(),
+	// created_at: z.date().optional(),
+	// modified_at: z.date().optional()
 });
 
 const testMember = {
 	id: 1001,
-	user_id: 'kungfu_panda',
+	username: 'kungfu_panda',
 	phone: '3554255555',
 	email: 'frank@beans.com',
 	emailConsent: true,
@@ -42,13 +42,21 @@ const testMember = {
 		new Date('2018-02-11 02:53:24.334+00'),
 		new Date('2018-02-27 04:21:18.658+00')
 	],
-	created_at: new Date('2017-05-18 04:27:09.503+00'),
-	modified_at: new Date('2018-02-07 02:36:31.766+00')
+	created: new Date('2017-05-18 04:27:09.503+00'),
+	updated: new Date('2018-02-07 02:36:31.766+00')
 };
 
 export const getMember = async (id: number) => {
 	// test data
 	if (id === 1001) {
 		return memberSchema.parse(testMember);
+	}
+};
+
+export const updateMember = async (form: any) => {
+	if (form.id) {
+		console.log('update current member at id:', form.id);
+	} else {
+		console.log('register new member', form);
 	}
 };

@@ -1,15 +1,17 @@
 <script lang="ts">
 	/** @type {import('./$types').PageData} */
-	import SuperDebug, { superForm } from 'sveltekit-superforms';
+	import SuperDebug, { superForm, dateProxy } from 'sveltekit-superforms';
 
 	const mode = import.meta.env.MODE;
 
 	export let data;
 
 	const { form, errors, enhance } = superForm(data.form);
+
+	const proxyDate = dateProxy(form, 'dateOfBirth', { format: 'date' });
 </script>
 
-{#if mode === 'dev'}
+{#if mode === 'development'}
 	<SuperDebug data={$form} />
 {/if}
 
@@ -18,22 +20,22 @@
 		<h1>New Member</h1>
 	</div>
 	<div class="form-container">
-		<form method="POST" use:enhance>
-			<label for="name">Name</label>
+		<form method="POST" action="?/update" use:enhance>
+			<!-- <label for="name">Name</label>
 			<input type="text" name="name" bind:value={$form.name} />
 			{#if $errors.name}
 				<small>{$errors.name}</small>
 			{:else}
 				<small></small>
-			{/if}
+			{/if} -->
 
-			<label for="preferredName">Preferred Name</label>
+			<!-- <label for="preferredName">Preferred Name</label>
 			<input type="text" name="preferredName" bind:value={$form.preferredName} />
 			{#if $errors.name}
 				<small>{$errors.name}</small>
 			{:else}
 				<small></small>
-			{/if}
+			{/if} -->
 
 			<label for="email">Email</label>
 			<input type="email" name="email" bind:value={$form.email} />
@@ -43,7 +45,7 @@
 				<small></small>
 			{/if}
 
-			<label for="emailConsent">
+			<!-- <label for="emailConsent">
 				Email Consent
 				<input type="checkbox" name="emailConsent" bind:value={$form.emailConsent} />
 			</label>
@@ -51,33 +53,33 @@
 				<small>{$errors.emailConsent}</small>
 			{:else}
 				<small></small>
-			{/if}
+			{/if} -->
 
-			<label for="phone">Phone</label>
+			<!-- <label for="phone">Phone</label>
 			<input type="tel" name="phone" bind:value={$form.phone} />
 			{#if $errors.phone}
 				<small>{$errors.phone}</small>
 			{:else}
 				<small></small>
-			{/if}
+			{/if} -->
 
 			<label for="dateOfBirth">Date of Birth</label>
-			<input type="date" name="dateOfBirth" bind:value={$form.dateOfBirth} />
+			<input type="date" name="dateOfBirth" bind:value={$proxyDate} />
 			{#if $errors.dateOfBirth}
 				<small>{$errors.dateOfBirth}</small>
 			{:else}
 				<small></small>
 			{/if}
-
-			<label for="guardianName">Date of Birth</label>
-			<input type="date" name="guardianName" bind:value={$form.guardianName} />
+			<!-- 
+			<label for="guardianName">Guardian Name</label>
+			<input type="text" name="guardianName" bind:value={$form.guardianName} />
 			{#if $errors.guardianName}
 				<small>{$errors.guardianName}</small>
 			{:else}
 				<small></small>
-			{/if}
+			{/if} -->
 
-			<div><button>Submit</button></div>
+			<button>Update</button>
 		</form>
 	</div>
 </div>
