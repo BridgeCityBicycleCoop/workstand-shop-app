@@ -1,22 +1,42 @@
 <script lang="ts">
 	/** @type {import('./$types').PageData} */
+	import { superForm } from 'sveltekit-superforms';
+
 	export let data;
 
-	// function handleEditMember(key: string, value: string) {
-	// 	console.log('kv', key, value);
-	// }
+	const { form } = superForm(data.form);
 
-	// function saveEdit() {
-	// 	console.log('saving data changes');
-	// }
+	function mapInputType(val: any) {
+		const dataType = Object.prototype.toString.call(val) === '[object Date]' ? 'date' : typeof val;
+
+		switch (dataType) {
+			case 'string':
+				return 'text';
+				break;
+			case 'date':
+				return 'date';
+				break;
+			case 'boolean':
+				return 'checkbox';
+				break;
+			default:
+				return 'text';
+		}
+	}
 
 	console.log('data', data);
 </script>
 
 <div class="card">
-	{#each Object.entries(data.member) as [key, val]}
-		<div>{key}: <span>{val}</span></div>
-	{/each}
+	<form method="POST">
+		{#each Object.entries(data.member) as [key, val]}
+			<label for={key}>{key}</label>
+			<input type={mapInputType(val)} name="key" />
+			<br />
+		{/each}
+		<br />
+		<div><button>Submit</button></div>
+	</form>
 </div>
 
 <style>
