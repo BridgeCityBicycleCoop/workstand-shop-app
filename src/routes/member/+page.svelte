@@ -43,8 +43,10 @@
 				<small></small>
 			{/if}
 
-			<label for="emailConsent">Email Consent</label>
-			<input type="checkbox" name="emailConsent" bind:value={$form.emailConsent} />
+			<label for="emailConsent">
+				Email Consent
+				<input type="checkbox" name="emailConsent" bind:value={$form.emailConsent} />
+			</label>
 			{#if $errors.emailConsent}
 				<small>{$errors.emailConsent}</small>
 			{:else}
