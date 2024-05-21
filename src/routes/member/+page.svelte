@@ -79,6 +79,14 @@
 				<small></small>
 			{/if}
 
+			<label for="postalCode">Postal Code</label>
+			<input type="text" name="postalCode" bind:value={$form.postalCode} />
+			{#if $errors.postalCode}
+				<small>{$errors.postalCode}</small>
+			{:else}
+				<small></small>
+			{/if}
+
 			<label for="notes">Notes</label>
 			<input type="text" name="notes" bind:value={$form.notes} />
 			{#if $errors.notes}
