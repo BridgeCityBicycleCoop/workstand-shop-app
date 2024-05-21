@@ -11,31 +11,31 @@
 	const proxyDate = dateProxy(form, 'dateOfBirth', { format: 'date' });
 </script>
 
-{#if mode === 'development'}
+<!-- {#if mode === 'development'}
 	<SuperDebug data={$form} />
-{/if}
+{/if} -->
 
 <div>
 	<div>
-		<h1>New Member</h1>
+		<h1>Update Member</h1>
 	</div>
 	<div class="form-container">
 		<form method="POST" action="?/update" use:enhance>
-			<!-- <label for="name">Name</label>
+			<label for="name">Name</label>
 			<input type="text" name="name" bind:value={$form.name} />
 			{#if $errors.name}
 				<small>{$errors.name}</small>
 			{:else}
 				<small></small>
-			{/if} -->
+			{/if}
 
-			<!-- <label for="preferredName">Preferred Name</label>
+			<label for="preferredName">Preferred Name</label>
 			<input type="text" name="preferredName" bind:value={$form.preferredName} />
 			{#if $errors.name}
 				<small>{$errors.name}</small>
 			{:else}
 				<small></small>
-			{/if} -->
+			{/if}
 
 			<label for="email">Email</label>
 			<input type="email" name="email" bind:value={$form.email} />
@@ -45,7 +45,7 @@
 				<small></small>
 			{/if}
 
-			<!-- <label for="emailConsent">
+			<label for="emailConsent">
 				Email Consent
 				<input type="checkbox" name="emailConsent" bind:value={$form.emailConsent} />
 			</label>
@@ -53,15 +53,15 @@
 				<small>{$errors.emailConsent}</small>
 			{:else}
 				<small></small>
-			{/if} -->
+			{/if}
 
-			<!-- <label for="phone">Phone</label>
+			<label for="phone">Phone</label>
 			<input type="tel" name="phone" bind:value={$form.phone} />
 			{#if $errors.phone}
 				<small>{$errors.phone}</small>
 			{:else}
 				<small></small>
-			{/if} -->
+			{/if}
 
 			<label for="dateOfBirth">Date of Birth</label>
 			<input type="date" name="dateOfBirth" bind:value={$proxyDate} />
@@ -70,14 +70,22 @@
 			{:else}
 				<small></small>
 			{/if}
-			<!-- 
+
 			<label for="guardianName">Guardian Name</label>
 			<input type="text" name="guardianName" bind:value={$form.guardianName} />
 			{#if $errors.guardianName}
 				<small>{$errors.guardianName}</small>
 			{:else}
 				<small></small>
-			{/if} -->
+			{/if}
+
+			<label for="notes">Notes</label>
+			<input type="text" name="notes" bind:value={$form.notes} />
+			{#if $errors.notes}
+				<small>{$errors.notes}</small>
+			{:else}
+				<small></small>
+			{/if}
 
 			<button>Update</button>
 		</form>
