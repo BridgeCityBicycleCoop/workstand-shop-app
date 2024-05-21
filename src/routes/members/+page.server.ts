@@ -1,7 +1,7 @@
 import { memberSchema } from '$lib/models/member';
 import { superValidate, fail } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
-import type { Actions } from './$types';
+import type { Actions } from '../member/$types';
 
 const superformMemberSchema = zod(memberSchema);
 
