@@ -1,34 +1,32 @@
 import z from 'zod';
 
 export const memberSchema = z.object({
-	id: z.number(),
-	username: z.string(),
+	id: z.string().optional(),
 	name: z.string(),
 	preferredName: z.string().optional(),
-	email: z.string().email(),
-	emailConsent: z.boolean(),
-	phone: z.string(),
-	dateOfBirth: z.coerce.date(),
-	guardianName: z.string(),
+	email: z.string().email().optional(),
+	emailConsent: z.boolean().optional(),
+	phone: z.string().optional(),
+	requiresGuardian: z.boolean().optional(),
+	guardianName: z.string().optional(),
 	postalCode: z.string().optional(),
-	active: z.boolean(),
-	banned: z.boolean(),
-	suspended: z.boolean(),
+	active: z.boolean().optional(),
+	banned: z.boolean().optional(),
+	suspended: z.boolean().optional(),
 	waiver: z.coerce.date().optional(),
-	notes: z.string().optional(),
-	created: z.date().optional(),
-	updated: z.date().optional()
+	notes: z.string().optional()
+	// created: z.date().optional(),
+	// updated: z.date().optional()
 });
 
 export const testMember = {
 	id: 1001,
-	username: 'kungfu_panda',
 	name: 'Frankfurter N Beans',
 	preferredName: 'Frank',
 	email: 'frank@beans.com',
 	emailConsent: true,
 	phone: '3554255555',
-	dateOfBirth: new Date('1980-01-01'),
+	requiresGuardian: false,
 	guardianName: 'H.D. Bunns',
 	postalCode: 'S7L 0L8',
 	active: true,

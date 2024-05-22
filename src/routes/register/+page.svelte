@@ -7,27 +7,33 @@
 	export let data;
 
 	const { form, errors, enhance } = superForm(data.form);
+	const proxyDate = dateProxy(form, 'waiver', { format: 'date' });
 
-	const proxyDate = dateProxy(form, 'dateOfBirth', { format: 'date' });
+	async function register(event: Event) {
+		const form = event.target as HTMLFormElement;
+		const data = new FormData(form);
+
+		console.log('register data', data);
+
+		await fetch('/api/members', {
+			method: 'POST',
+			body: data
+		});
+	}
 </script>
 
-<!-- {#if mode === 'development'}
+{#if mode === 'development'}
 	<SuperDebug data={$form} />
-{/if} -->
+{/if}
 
 <div>
 	<div>
-		<h1>Update Member</h1>
+		<h1>Register New Member</h1>
 	</div>
 	<div class="form-container">
-		<form method="POST" action="?/update" use:enhance>
+		<form method="POST">
 			<label for="name">Name</label>
-			<input type="text" name="name" bind:value={$form.name} />
-			{#if $errors.name}
-				<small>{$errors.name}</small>
-			{:else}
-				<small></small>
-			{/if}
+			<input type="text" name="name" />
 
 			<label for="preferredName">Preferred Name</label>
 			<input type="text" name="preferredName" bind:value={$form.preferredName} />
@@ -38,7 +44,7 @@
 			{/if}
 
 			<label for="email">Email</label>
-			<input type="email" name="email" bind:value={$form.email} />
+			<input type="email" name="email" />
 			{#if $errors.email}
 				<small>{$errors.email}</small>
 			{:else}
@@ -63,10 +69,12 @@
 				<small></small>
 			{/if}
 
-			<label for="dateOfBirth">Date of Birth</label>
-			<input type="date" name="dateOfBirth" bind:value={$proxyDate} />
-			{#if $errors.dateOfBirth}
-				<small>{$errors.dateOfBirth}</small>
+			<label for="requiresGuardian">
+				Requires Guardian
+				<input type="checkbox" name="requiresGuardian" bind:value={$form.requiresGuardian} />
+			</label>
+			{#if $errors.requiresGuardian}
+				<small>{$errors.requiresGuardian}</small>
 			{:else}
 				<small></small>
 			{/if}
@@ -87,6 +95,44 @@
 				<small></small>
 			{/if}
 
+			<label for="active">
+				Active
+				<input type="checkbox" name="active" bind:value={$form.active} />
+			</label>
+			{#if $errors.active}
+				<small>{$errors.active}</small>
+			{:else}
+				<small></small>
+			{/if}
+
+			<label for="banned">
+				Banned
+				<input type="checkbox" name="banned" bind:value={$form.banned} />
+			</label>
+			{#if $errors.banned}
+				<small>{$errors.banned}</small>
+			{:else}
+				<small></small>
+			{/if}
+
+			<label for="suspended">
+				Suspended
+				<input type="checkbox" name="suspended" bind:value={$form.suspended} />
+			</label>
+			{#if $errors.suspended}
+				<small>{$errors.suspended}</small>
+			{:else}
+				<small></small>
+			{/if}
+
+			<label for="waiver">Waiver Date</label>
+			<input type="date" name="waiver" bind:value={$proxyDate} />
+			{#if $errors.waiver}
+				<small>{$errors.waiver}</small>
+			{:else}
+				<small></small>
+			{/if}
+
 			<label for="notes">Notes</label>
 			<input type="text" name="notes" bind:value={$form.notes} />
 			{#if $errors.notes}
@@ -95,7 +141,7 @@
 				<small></small>
 			{/if}
 
-			<button>Update</button>
+			<button>Register</button>
 		</form>
 	</div>
 </div>
