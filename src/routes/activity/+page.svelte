@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { memberSearchFilter } from '$lib/models/member';
+	import { Table } from '$lib/ui';
 	export let data;
 
 	let filter = '';
@@ -33,7 +34,6 @@
 
 	<h3>Members</h3>
 	<table>
-		<caption>Members</caption>
 		<thead>
 			<tr>
 				<th class="col">Name</th>
@@ -56,4 +56,28 @@
 </div>
 
 <style>
+	table {
+		width: 100%;
+		border-collapse: collapse;
+		background-color: white;
+	}
+	thead {
+		border-spacing: 0;
+
+		th {
+			border: 1px solid #e9ecef;
+			border-bottom: 2px solid #e9ecef;
+			vertical-align: bottom;
+			text-align: start;
+		}
+	}
+	th,
+	td {
+		border: 1px solid #e9ecef;
+		padding: 0.55rem;
+		height: 40px;
+	}
+	tbody tr:nth-of-type(odd) {
+		background-color: rgba(0, 0, 0, 0.03);
+	}
 </style>
