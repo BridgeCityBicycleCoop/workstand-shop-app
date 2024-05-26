@@ -9,7 +9,7 @@
 	$: console.log('PAGE ERRS', $errors);
 </script>
 
-{#if import.meta.env.MODE === 'development'}
+{#if import.meta.env.MODE === 'developmen'}
 	<SuperDebug data={$form} />
 {/if}
 
