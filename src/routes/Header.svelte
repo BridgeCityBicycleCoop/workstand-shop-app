@@ -16,12 +16,14 @@
 			<path d="M0,0 L1,2 C1.5,3 1.5,3 2,3 L2,0 Z" />
 		</svg>
 		<ul>
-			<li aria-current={$page.url.pathname === '/' ? 'page' : undefined}>
-				<a href="/">Home</a>
-			</li>
 			<li aria-current={$page.url.pathname === '/login' ? 'page' : undefined}>
-				<a href="/login">Log In</a>
+				<a href="/login">LogIn</a>
 			</li>
+
+			<li aria-current={$page.url.pathname === '/activity' ? 'page' : undefined}>
+				<a href="/activity">Activity</a>
+			</li>
+
 			<li aria-current={$page.url.pathname === '/register' ? 'page' : undefined}>
 				<a href="/register">Register</a>
 			</li>

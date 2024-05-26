@@ -139,16 +139,6 @@
 			<button>Register</button>
 		</form>
 	</div>
-	<section>
-		<h3>Members</h3>
-		<ul>
-			{#each data.members as { id, name, email, phone, active, banned, suspended, waiver, notes }}
-				<li>
-					{name} - {email} - {phone} - {active} - {banned} - {suspended} - {waiver} - {@html notes}
-				</li>
-			{/each}
-		</ul>
-	</section>
 </div>
 
 <style>

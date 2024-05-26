@@ -1,4 +1,4 @@
-import type { Member, MemberFilters } from '$lib/models/member';
+import type { Member, MemberFilter } from '$lib/models/member';
 
 interface ResourceService<
 	Resource extends { id: unknown },
@@ -11,4 +11,4 @@ interface ResourceService<
 	remove(id: Resource['id'], params?: unknown): Promise<boolean>;
 }
 
-export type MembersService = ResourceService<Member, MemberFilters>;
+export type MembersService = ResourceService<Member, MemberFilter>;
