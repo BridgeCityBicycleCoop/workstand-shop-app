@@ -126,7 +126,7 @@
 			{/if}
 
 			<label for="notes">Notes</label>
-			<input type="text" name="notes" bind:value={$form.notes} />
+			<textarea name="notes" bind:value={$form.notes}></textarea>
 			{#if $errors.notes}
 				<small>{$errors.notes}</small>
 			{:else}

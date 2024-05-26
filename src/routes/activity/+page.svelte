@@ -1,12 +1,9 @@
 <script lang="ts">
-	import type { EventHandler } from 'svelte/elements';
-
+	import { memberSearchFilter } from '$lib/models/member';
 	export let data;
 
-	const handleFilterMembers: EventHandler = (e) => {
-		console.log('ev', e);
-		// console.log('mem list', members);
-	};
+	let filter = '';
+	$: members = memberSearchFilter(data.members, filter);
 </script>
 
 <svelte:head>
@@ -20,45 +17,43 @@
 	<p>Search for a member, Tap to Select, then choose activities and 'SignIn'</p>
 
 	<label for="memberlist">Search</label>
-	<input name="memberlist" type="text" on:keydown|preventDefault={handleFilterMembers} />
-
-	<section>
-		<h3>Members</h3>
-
-		<header>
-			<div class="col">Name</div>
-			<div class="col">Email</div>
-			<div class="col">Phone</div>
-			<div class="col">Active</div>
-			<div class="col">Banned</div>
-			<div class="col">Waiver</div>
-			<div class="col">Notes</div>
-		</header>
-		{#each data.members as { id, name, email, phone, active, banned, suspended, waiver, notes }}
-			<div class="row">
-				<div class="col">{name}</div>
-				<div class="col">{email}</div>
-				<div class="col">{active}</div>
-				<div class="col">{banned}</div>
-				<div class="col">{suspended}</div>
-				<div class="col">{waiver}</div>
-				<div class="col">{notes}</div>
-			</div>
+	<input
+		name="memberlist"
+		list="membersearch"
+		type="text"
+		on:input|preventDefault={(e) => {
+			filter = e.currentTarget.value;
+		}}
+	/>
+	<datalist id="membersearch">
+		{#each data.members as { id, name } (id)}
+			<option value={name}>{name}</option>
 		{/each}
-	</section>
+	</datalist>
+
+	<h3>Members</h3>
+	<table>
+		<caption>Members</caption>
+		<thead>
+			<tr>
+				<th class="col">Name</th>
+				<th class="col">Email</th>
+				<th class="col">Phone</th>
+				<th class="col">Notes</th>
+			</tr></thead
+		>
+		<tbody>
+			{#each members as { id, name, email, phone, notes } (id)}
+				<tr class="row">
+					<td class="col">{name}</td>
+					<td class="col">{email}</td>
+					<td class="col">{phone}</td>
+					<td class="col">{@html notes}</td>
+				</tr>
+			{/each}
+		</tbody>
+	</table>
 </div>
 
 <style>
-	section {
-		display: table;
-		width: 100%;
-	}
-
-	section > * {
-		display: table-row;
-	}
-
-	section .col {
-		display: table-cell;
-	}
 </style>

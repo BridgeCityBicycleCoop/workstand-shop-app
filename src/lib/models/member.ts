@@ -35,6 +35,11 @@ export type MemberUpdate = z.infer<typeof memberUpdateSchema>;
 
 export type MemberFilter = z.infer<typeof memberFilterSchema>; // Todo: use this in the find method
 
+export const memberSearchFilter = (members: Member[], filter: string) => {
+	return members.filter(
+		(m) => !filter || m.name.toLocaleLowerCase().includes(filter.toLocaleLowerCase())
+	);
+};
 // TODO: move activities and logins to their own tables for reporting
 
 // activities: ['21cd9799b6', '3a5a719017', '0ebb0b5468', '84309225e7', 'c96d389517'],
