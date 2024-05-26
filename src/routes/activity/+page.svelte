@@ -1,7 +1,9 @@
 <script lang="ts">
+	import type { EventHandler } from 'svelte/elements';
+
 	export let data;
 
-	const filterMemberList = (members: any) => {
+	const filterMemberList: EventHandler = (members: any) => {
 		console.log('mem list', members);
 	};
 </script>
@@ -14,10 +16,7 @@
 <div class="text-column">
 	<h1>Member Activity SignIn</h1>
 
-	<p>
-		Search for a member, select them from the list, choose their activity or activities for the day,
-		and select 'SignIn'.
-	</p>
+	<p>Search for a member, Tap to Select, then choose activities and 'SignIn'</p>
 
 	<label for="memberlist">Search</label>
 	<input name="memberlist" type="text" on:keydown={filterMemberList(data.members)} />

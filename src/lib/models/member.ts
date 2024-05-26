@@ -35,24 +35,6 @@ export type MemberUpdate = z.infer<typeof memberUpdateSchema>;
 
 export type MemberFilter = z.infer<typeof memberFilterSchema>; // Todo: use this in the find method
 
-export const testMember = {
-	id: 1001,
-	name: 'Frankfurter N Beans',
-	preferredName: 'Frank',
-	email: 'frank@beans.com',
-	emailConsent: true,
-	phone: '3554255555',
-	requiresGuardian: false,
-	guardianName: 'H.D. Bunns',
-	postalCode: 'S7L 0L8',
-	active: true,
-	banned: false,
-	suspended: false,
-	waiver: new Date('2016-01-09 00:00:00+00'),
-	notes: '',
-	created: new Date('2017-05-18 04:27:09.503+00'),
-	updated: new Date('2018-02-07 02:36:31.766+00')
-};
 // TODO: move activities and logins to their own tables for reporting
 
 // activities: ['21cd9799b6', '3a5a719017', '0ebb0b5468', '84309225e7', 'c96d389517'],
