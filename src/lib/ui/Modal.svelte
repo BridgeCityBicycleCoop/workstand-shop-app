@@ -1,31 +1,32 @@
-<script>
-	export let modalContent;
+<script lang="ts">
+	import { type Member } from '$lib/models/member';
 
-	function handleClose(event) {
-		const dialog = document.getElementById('modalDialog');
-		console.log('close ev', event);
-		dialog?.close();
+	export let dialog: HTMLDialogElement | null = null;
+	export let member: Member | null = null;
+
+	$: member ? dialog?.showModal() : dialog?.close();
+
+	function handleClose(event: HTMLElementEventMap['click']) {
+		console.log('close ev', dialog, event);
+		member = null;
 	}
 </script>
 
-<dialog id="modalDialog" class="modal">
+<dialog bind:this={dialog}>
 	<div class="content">
-		<svelte:component this={modalContent} />
+		<slot />
+		{#if member}
+			<p>{member.name}</p>
+		{:else}
+			<p>No member selected</p>
+		{/if}
 	</div>
 	<button on:click={handleClose}>Close</button>
 </dialog>
 
 <style>
-	.modal {
+	dialog::backdrop {
 		background-color: rgba(0, 0, 0, 0.4);
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		display: flex;
-		justify-content: center;
-		align-items: center;
 	}
 
 	.content {
