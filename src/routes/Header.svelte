@@ -5,12 +5,6 @@
 </script>
 
 <header>
-	<div class="corner-logo">
-		<a href="https://bcbc.bike/">
-			<img src={logo} alt="Bridge City Bicyle Co-Op Home Page" />
-		</a>
-	</div>
-
 	<nav>
 		<svg viewBox="0 0 2 3" aria-hidden="true">
 			<path d="M0,0 L1,2 C1.5,3 1.5,3 2,3 L2,0 Z" />
@@ -33,6 +27,12 @@
 		</svg>
 	</nav>
 
+	<div class="corner-logo">
+		<a href="https://bcbc.bike/">
+			<img src={logo} alt="Bridge City Bicyle Co-Op Home Page" />
+		</a>
+	</div>
+
 	<div class="corner">
 		<a href="https://github.com/BridgeCityBicycleCoop/workstand-2024" target="_blank">
 			<img src={github} alt="GitHub Repo for Workstand" />
@@ -42,11 +42,31 @@
 
 <style>
 	header {
-		display: flex;
-		justify-content: space-between;
+		display: grid;
+		grid-template-areas: 'logo nav corner';
+		grid-template-columns: max-content auto max-content;
+	}
+
+	@media (max-width: 540px) {
+		header {
+			grid-template-areas:
+				'nav nav nav'
+				'logo x corner';
+		}
+	}
+
+	.corner-logo {
+		grid-area: logo;
+		height: 3em;
+	}
+
+	.corner-logo img {
+		object-fit: contain;
+		max-height: 100%;
 	}
 
 	.corner {
+		grid-area: corner;
 		width: 3em;
 		height: 3em;
 	}
@@ -65,12 +85,8 @@
 		object-fit: contain;
 	}
 
-	.corner-logo img {
-		width: 8em;
-		object-fit: contain;
-	}
-
 	nav {
+		grid-area: 1 / 1 / 2 / 4;
 		display: flex;
 		justify-content: center;
 		--background: rgba(255, 255, 255, 0.7);

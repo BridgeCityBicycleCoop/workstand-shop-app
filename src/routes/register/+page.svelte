@@ -5,8 +5,6 @@
 
 	const { form, errors, enhance, message } = superForm(data.form);
 	const proxyDate = dateProxy(form, 'waiver', { format: 'date' });
-
-	$: console.log('PAGE ERRS', $errors);
 </script>
 
 {#if import.meta.env.MODE === 'developmen'}
@@ -156,6 +154,7 @@
 	form {
 		display: flex;
 		flex-direction: column;
+		width: 100%;
 	}
 
 	small {
