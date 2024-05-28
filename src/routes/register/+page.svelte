@@ -115,7 +115,7 @@
 				<small></small>
 			{/if}
 
-			<label for="waiver">Waiver Date <small>({$proxyDate})</small></label>
+			<label for="waiver">Waiver Date <small>(05/20/2024)</small></label>
 			<input type="date" name="waiver" bind:value={$proxyDate} />
 			{#if $errors.waiver}
 				<small>{$errors.waiver}</small>

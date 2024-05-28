@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { memberSearchFilter } from '$lib/models/member';
-	import type { Member } from '$lib/models/member';
+	import { type Member } from '$lib/models/member';
 	import Modal from './Modal.svelte';
 	import EditMember from './EditMember.svelte';
 	// import ActivitySelect from './ActivitySelect.svelte';
@@ -73,7 +73,7 @@
 		</tbody>
 	</table>
 	<Modal bind:member={memberToEdit}>
-		<EditMember />
+		<EditMember bind:member={memberToEdit} />
 	</Modal>
 </div>
 
