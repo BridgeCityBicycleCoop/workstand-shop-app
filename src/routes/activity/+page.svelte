@@ -1,6 +1,36 @@
 <script lang="ts">
-	import { MembersTable } from '$lib/ui';
+	import { type Member } from '$lib/models/member.js';
+	import Modal from '$lib/ui/Modal.svelte';
+
 	export let data;
+
+	let filterText: string;
+	let memberName: string;
+	let perferredName: string | undefined;
+	let filteredMemeberList: Member[];
+
+	let showList: boolean;
+
+	const handleInput = (event: InputEvent) => {
+		const element = event.target as HTMLInputElement;
+
+		filterText = element?.value.toLocaleLowerCase();
+
+		filteredMemeberList = data.members.filter((member) => {
+			memberName = member.name.toLocaleLowerCase();
+			perferredName = member.preferredName?.toLocaleLowerCase();
+
+			return memberName.match(filterText) || perferredName?.toLocaleLowerCase().match(filterText);
+		});
+
+		showList = filterText.length > 1 && filteredMemeberList.length > 0;
+	};
+
+	const handleClick = (event: MouseEvent, member: Member) => {
+		const element = event.target as HTMLButtonElement;
+
+		console.log('open modal', member);
+	};
 </script>
 
 <svelte:head>
@@ -10,7 +40,18 @@
 
 <div class="text-column">
 	<h1>Member Activity SignIn</h1>
-	<MembersTable members={data.members} />
+	<label for="filter">Search</label>
+	<input on:input={handleInput} name="filter" type="text" />
+
+	<div class="search-results">
+		{#if showList}
+			{#each filteredMemeberList as member}
+				<button on:click={(event) => handleClick(event, member)} class="signin-button"
+					>{member.name} [{member.preferredName}]</button
+				>
+			{/each}
+		{/if}
+	</div>
 </div>
 
 <style>
@@ -22,5 +63,16 @@
 		flex-direction: column;
 		justify-content: center;
 		margin: 0 auto;
+	}
+
+	.search-results {
+		display: flex;
+		flex-direction: column;
+		margin: 20px 0px;
+	}
+
+	.signin-button {
+		min-height: 40px;
+		margin: 5px 0px;
 	}
 </style>
