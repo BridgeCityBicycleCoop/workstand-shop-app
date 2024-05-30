@@ -1,57 +1,37 @@
 <script lang="ts">
-	import type { Member } from '$lib/models/member';
+	import { memberCreateSchema, type Member } from '$lib/models/member';
 
-	export let member: Member | null = null;
-
-	function handleClose(event: HTMLElementEventMap['click']) {
-		console.log('close ev', event);
-		member = null;
-	}
+	export let activeMember: Member | null = null;
 </script>
 
-{#if member}<div>Edit {member.name}'s Info</div>
+{#if activeMember}<div>Edit {activeMember.name}'s Info</div>
 	<br />
 	<div class="form-container">
 		<form method="dialog">
 			<label for="name">Name</label>
-			<input type="text" name="name" bind:value={member.name} />
+			<input type="text" name="name" bind:value={activeMember.name} />
 
 			<label for="email">Email</label>
-			<input type="text" name="email" bind:value={member.email} />
+			<input type="text" name="email" bind:value={activeMember.email} />
 
 			<label for="phone">Name</label>
-			<input type="tel" name="phone" bind:value={member.phone} />
+			<input type="tel" name="phone" bind:value={activeMember.phone} />
 
 			<label for="postalCode">Postal Code</label>
-			<input type="text" name="postalCode" bind:value={member.postalCode} />
+			<input type="text" name="postalCode" bind:value={activeMember.postalCode} />
 
 			<label for="notes">Notes</label>
-			<input type="text" name="notes" bind:value={member.notes} />
-			<span class="button-container">
-				<button on:click={handleClose}>Cancel</button>
-				<button on:click={handleClose}>Save and Close</button>
-			</span>
+			<input type="text" name="notes" bind:value={activeMember.notes} />
 		</form>
 	</div>
 {:else}
-	<div>Please select a Member to edit</div>
+	<div>Please select a Member</div>
 {/if}
 
 <style>
 	.form-container {
 		display: flex;
 		justify-content: center;
-		min-width: 50%;
-	}
-
-	button {
-		min-height: 40px;
-		margin: 20px;
-	}
-
-	.button-container {
-		display: flex;
-		justify-content: space-around;
 		min-width: 50%;
 	}
 

@@ -1,8 +1,11 @@
 <script lang="ts">
 	import { type Member } from '$lib/models/member.js';
+	import EditMember from '$lib/ui/EditMember.svelte';
 	import Modal from '$lib/ui/Modal.svelte';
 
 	export let data;
+	let activeMember: Member | null = null;
+	let isOpen: boolean;
 
 	let filterText: string;
 	let memberName: string;
@@ -28,8 +31,13 @@
 
 	const handleClick = (event: MouseEvent, member: Member) => {
 		const element = event.target as HTMLButtonElement;
+		activeMember = member;
+		isOpen = true;
+	};
 
-		console.log('open modal', member);
+	const closeModal = () => {
+		activeMember = null;
+		isOpen = false;
 	};
 </script>
 
@@ -53,6 +61,10 @@
 		{/if}
 	</div>
 </div>
+
+<Modal bind:open={isOpen} closeCallback={closeModal} data={{ activeMember }}>
+	<EditMember bind:activeMember></EditMember>
+</Modal>
 
 <style>
 	.text-column {
