@@ -1,8 +1,10 @@
 <script lang="ts">
 	import { type Member } from '$lib/models/member';
-	// import { add } from '$lib/server/db/pocketbase/members';
+	import Modal from './Modal.svelte';
+	import EditMember from '$lib/ui/EditMember.svelte';
 
 	export let activeMember: Member | null = null;
+	let editingMember: boolean;
 
 	const displayName: string | undefined = activeMember?.preferredName
 		? `${activeMember?.name}  [${activeMember?.preferredName}]`
@@ -22,10 +24,22 @@
 		];
 	};
 
+	const switchToEdit = (event: MouseEvent, member: Member) => {
+		const element = event.target as HTMLButtonElement;
+		activeMember = member;
+		editingMember = true;
+	};
+
+	const closeModal = () => {
+		activeMember = null;
+		editingMember = false;
+	};
+
 	console.log('mem', activeMember);
 </script>
 
-{#if activeMember}
+{#if activeMember && !editingMember}
+	<button on:click={switchToEdit}>Edit Member</button>
 	<div class="activity-title">Select {displayName}'s Activities</div>
 	<div class="activity-container">
 		{#each fetchActivities() as activity}
@@ -38,7 +52,9 @@
 		{/each}
 	</div>
 {:else}
-	<div>Please select a Member</div>
+	<Modal bind:open={editingMember} closeCallback={closeModal} data={{ activeMember }}>
+		<EditMember bind:activeMember></EditMember>
+	</Modal>
 {/if}
 
 <style>
