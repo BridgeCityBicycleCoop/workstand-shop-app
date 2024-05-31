@@ -4,15 +4,16 @@
 	import Modal from '$lib/ui/Modal.svelte';
 
 	export let data;
+
 	let activeMember: Member | null = null;
 	let isOpen: boolean;
 
 	let filterText: string;
-	let memberName: string;
-	let perferredName: string | undefined;
+	let showList: boolean;
 	let filteredMemeberList: Member[];
 
-	let showList: boolean;
+	let memberName: string;
+	let perferredName: string | undefined;
 
 	const handleInput = (event: InputEvent) => {
 		const element = event.target as HTMLInputElement;
@@ -42,12 +43,12 @@
 </script>
 
 <svelte:head>
-	<title>Activity SignIn</title>
-	<meta name="description" content="Member Activity SignIn" />
+	<title>Shop Signin</title>
+	<meta name="description" content="Shop Signin" />
 </svelte:head>
 
 <div class="text-column">
-	<h1>Member Activity SignIn</h1>
+	<h1>Shop Signin</h1>
 	<label for="filter">Search</label>
 	<input on:input={handleInput} name="filter" type="text" />
 

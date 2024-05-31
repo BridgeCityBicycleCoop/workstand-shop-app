@@ -3,7 +3,6 @@
 	import { type Member } from '$lib/models/member';
 	import Modal from './Modal.svelte';
 	import EditMember from './EditMember.svelte';
-	// import ActivitySelect from './ActivitySelect.svelte';
 
 	export let members: Member[];
 
