@@ -5,7 +5,7 @@
 
 	export let activeMember: Member;
 	let isEditingMember: boolean;
-	let selectedActivity: string;
+	let selectedActivity: string = '';
 
 	$: getDisplayName = () => {
 		let displayName = '';
@@ -43,9 +43,8 @@
 
 	const closeModal = () => {
 		isEditingMember = false;
+		setSelectedActivity('');
 	};
-
-	console.log('mem', activeMember);
 </script>
 
 {#if activeMember?.id && !isEditingMember}
