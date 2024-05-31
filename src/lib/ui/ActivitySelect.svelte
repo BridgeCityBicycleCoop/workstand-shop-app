@@ -5,6 +5,7 @@
 
 	export let activeMember: Member;
 	let isEditingMember: boolean;
+	let selectedActivity: string;
 
 	$: getDisplayName = () => {
 		let displayName = '';
@@ -22,6 +23,9 @@
 		console.log('addActivity', activityId, activeMember);
 	}
 
+	const setSelectedActivity = (activityId: string): void => {
+		selectedActivity = activityId;
+	};
 	// TODO: pull from DB or config file
 	const fetchActivities = () => {
 		return [
@@ -46,17 +50,23 @@
 
 {#if activeMember?.id && !isEditingMember}
 	<button on:click={switchToEdit}>Edit Member</button>
-	<div class="activity-title">Select {getDisplayName()}'s Activities</div>
+	<div class="activity-title">Select {getDisplayName()}'s Activity</div>
 	<div class="activity-container">
 		{#each fetchActivities() as activity}
 			<button
 				on:click={(event) => {
-					addActivity(activity.activityId, activeMember);
+					setSelectedActivity(activity.activityId);
 				}}
 				>{activity.activityId}
 			</button>
 		{/each}
 	</div>
+	{#if selectedActivity}
+		<div class="selected-activity">
+			<div>You've selected: <span class="highlight">{selectedActivity}</span></div>
+			<div>for {getDisplayName()}</div>
+		</div>
+	{/if}
 {:else if activeMember?.id && isEditingMember}
 	<Modal bind:open={isEditingMember} closeCallback={closeModal}>
 		<EditMember {activeMember}></EditMember>
@@ -83,5 +93,17 @@
 	button {
 		min-height: 40px;
 		margin: 5px 0px;
+	}
+
+	.selected-activity {
+		display: flex;
+		flex-direction: column;
+		margin: 30px 0px;
+	}
+
+	.highlight {
+		margin-left: 0.5em;
+		font-size: larger;
+		font-weight: bold;
 	}
 </style>
