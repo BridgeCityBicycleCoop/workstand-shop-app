@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { memberCreateSchema, type Member } from '$lib/models/member';
+	import { type Member } from '$lib/models/member';
 
 	export let activeMember: Member | null = null;
 </script>

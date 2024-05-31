@@ -1,11 +1,13 @@
 <script lang="ts">
 	import { type Member } from '$lib/models/member.js';
 	import EditMember from '$lib/ui/EditMember.svelte';
+	import ActivitySelect from '$lib/ui/ActivitySelect.svelte';
 	import Modal from '$lib/ui/Modal.svelte';
 
 	export let data;
 
 	let activeMember: Member | null = null;
+	let editingMember = true;
 	let isOpen: boolean;
 
 	let filterText: string;
@@ -64,7 +66,11 @@
 </div>
 
 <Modal bind:open={isOpen} closeCallback={closeModal} data={{ activeMember }}>
-	<EditMember bind:activeMember></EditMember>
+	{#if editingMember}
+		<ActivitySelect bind:activeMember></ActivitySelect>
+	{:else}
+		<EditMember bind:activeMember></EditMember>
+	{/if}
 </Modal>
 
 <style>
