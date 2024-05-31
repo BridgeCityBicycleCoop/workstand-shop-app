@@ -1,12 +1,24 @@
 <script lang="ts">
 	import { memberSearchFilter } from '$lib/models/member';
+	import { type Member } from '$lib/models/member';
+	import Modal from './Modal.svelte';
+	import EditMember from './EditMember.svelte';
 
-	export let members;
+	export let members: Member[];
 
 	let filter = '';
 	$: filteredMembers = memberSearchFilter(members, filter);
 
 	const searchid = crypto.randomUUID();
+
+	let memberToEdit: Member | undefined;
+	function handleEdit(memberId: string) {
+		memberToEdit = members.find((m) => m.id === memberId);
+	}
+	function addActivity(activityId: string, memberId: string) {
+		const member = members.find((m) => m.id === memberId);
+		console.log('addActivity', activityId, member);
+	}
 </script>
 
 <p>Search for a member, Tap to Select, then choose activities and 'SignIn'</p>
@@ -26,23 +38,42 @@
 	<table>
 		<thead>
 			<tr>
+				<th>Edit</th>
 				<th class="col">Name</th>
 				<th class="col">Email</th>
 				<th class="col">Phone</th>
 				<th class="col">Notes</th>
+				<th>Activities</th>
 			</tr>
 		</thead>
 		<tbody>
 			{#each filteredMembers as { id, name, email, phone, notes } (id)}
 				<tr class="row">
+					<td><button on:click={() => handleEdit(id)}>Edit</button></td>
 					<td class="col">{name}</td>
 					<td class="col">{email}</td>
 					<td class="col">{phone}</td>
 					<td class="col">{@html notes}</td>
+					<td>
+						<select
+							on:change={(e) => {
+								addActivity(e.currentTarget.value, id);
+								e.currentTarget.value = '';
+							}}
+						>
+							<option value="">Select Activity</option>
+							<option value="volunteer">Voluntese should come from the DB</option>
+							<option value="fix">Bike fix</option>
+							<option value="???">These should come from the DB</option>
+						</select>
+					</td>
 				</tr>
 			{/each}
 		</tbody>
 	</table>
+	<Modal bind:member={memberToEdit}>
+		<EditMember bind:member={memberToEdit} />
+	</Modal>
 </div>
 
 <style>

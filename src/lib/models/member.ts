@@ -40,11 +40,3 @@ export const memberSearchFilter = (members: Member[], filter: string) => {
 		(m) => !filter || m.name.toLocaleLowerCase().includes(filter.toLocaleLowerCase())
 	);
 };
-// TODO: move activities and logins to their own tables for reporting
-
-// activities: ['21cd9799b6', '3a5a719017', '0ebb0b5468', '84309225e7', 'c96d389517'],
-// logins: [
-// 	new Date('2018-02-07 02:36:31.766+00'),
-// 	new Date('2018-02-11 02:53:24.334+00'),
-// 	new Date('2018-02-27 04:21:18.658+00')
-// ],

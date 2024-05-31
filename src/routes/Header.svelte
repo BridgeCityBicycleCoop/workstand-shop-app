@@ -14,8 +14,8 @@
 				<a href="/login">LogIn</a>
 			</li>
 
-			<li aria-current={$page.url.pathname === '/activity' ? 'page' : undefined}>
-				<a href="/activity">Activity</a>
+			<li aria-current={$page.url.pathname === '/shop' ? 'page' : undefined}>
+				<a href="/shop">Shop</a>
 			</li>
 
 			<li aria-current={$page.url.pathname === '/register' ? 'page' : undefined}>
