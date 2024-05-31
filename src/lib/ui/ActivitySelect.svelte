@@ -6,9 +6,17 @@
 	export let activeMember: Member;
 	let isEditingMember: boolean;
 
-	const displayName: string | undefined = activeMember?.preferredName
-		? `${activeMember?.name}  [${activeMember?.preferredName}]`
-		: activeMember?.name;
+	$: getDisplayName = () => {
+		let displayName = '';
+
+		if (activeMember.id) {
+			displayName = activeMember?.preferredName
+				? `${activeMember?.name}  [${activeMember?.preferredName}]`
+				: activeMember?.name;
+		}
+
+		return displayName;
+	};
 
 	function addActivity(activityId: string, activeMember: Member) {
 		console.log('addActivity', activityId, activeMember);
@@ -38,7 +46,7 @@
 
 {#if activeMember?.id && !isEditingMember}
 	<button on:click={switchToEdit}>Edit Member</button>
-	<div class="activity-title">Select {displayName}'s Activities</div>
+	<div class="activity-title">Select {getDisplayName()}'s Activities</div>
 	<div class="activity-container">
 		{#each fetchActivities() as activity}
 			<button
