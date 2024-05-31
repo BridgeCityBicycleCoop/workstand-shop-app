@@ -5,7 +5,7 @@
 
 	export let data;
 
-	let activeMember: Member | null = null;
+	let activeMember: Member;
 	let isOpen: boolean;
 
 	let filterText: string;
@@ -37,7 +37,6 @@
 	};
 
 	const closeModal = () => {
-		activeMember = null;
 		isOpen = false;
 	};
 </script>
@@ -64,7 +63,7 @@
 </div>
 
 <Modal bind:open={isOpen} closeCallback={closeModal} data={{ activeMember }}>
-	<ActivitySelect bind:activeMember></ActivitySelect>
+	<ActivitySelect {activeMember}></ActivitySelect>
 </Modal>
 
 <style>

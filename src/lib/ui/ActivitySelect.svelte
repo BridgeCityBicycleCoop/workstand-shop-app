@@ -3,8 +3,8 @@
 	import Modal from './Modal.svelte';
 	import EditMember from '$lib/ui/EditMember.svelte';
 
-	export let activeMember: Member | null = null;
-	let editingMember: boolean;
+	export let activeMember: Member;
+	let isEditingMember: boolean;
 
 	const displayName: string | undefined = activeMember?.preferredName
 		? `${activeMember?.name}  [${activeMember?.preferredName}]`
@@ -24,21 +24,19 @@
 		];
 	};
 
-	const switchToEdit = (event: MouseEvent, member: Member) => {
+	const switchToEdit = (event: MouseEvent) => {
 		const element = event.target as HTMLButtonElement;
-		activeMember = member;
-		editingMember = true;
+		isEditingMember = true;
 	};
 
 	const closeModal = () => {
-		activeMember = null;
-		editingMember = false;
+		isEditingMember = false;
 	};
 
 	console.log('mem', activeMember);
 </script>
 
-{#if activeMember && !editingMember}
+{#if activeMember?.id && !isEditingMember}
 	<button on:click={switchToEdit}>Edit Member</button>
 	<div class="activity-title">Select {displayName}'s Activities</div>
 	<div class="activity-container">
@@ -51,10 +49,12 @@
 			</button>
 		{/each}
 	</div>
-{:else}
-	<Modal bind:open={editingMember} closeCallback={closeModal} data={{ activeMember }}>
-		<EditMember bind:activeMember></EditMember>
+{:else if activeMember?.id && isEditingMember}
+	<Modal bind:open={isEditingMember} closeCallback={closeModal}>
+		<EditMember {activeMember}></EditMember>
 	</Modal>
+{:else}
+	<div>Please select a Member</div>
 {/if}
 
 <style>

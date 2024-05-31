@@ -1,5 +1,5 @@
 <script lang="ts">
-	export let data: any | null = null;
+	export let data = null;
 	export let open = false;
 	export let closeCallback: () => void;
 
@@ -7,7 +7,9 @@
 
 	$: {
 		if (open && !dialog?.open) {
-			dialog.showModal();
+			if (dialog) {
+				dialog.showModal();
+			}
 		}
 	}
 
@@ -21,7 +23,7 @@
 </script>
 
 <div class="modal-container">
-	<dialog bind:this={dialog} id="modalDialog">
+	<dialog bind:this={dialog}>
 		<div class="content">
 			<slot {data} />
 		</div>
