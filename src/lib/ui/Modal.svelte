@@ -1,7 +1,7 @@
 <script lang="ts">
-	export let data = null;
+	export let data: any = null;
 	export let open = false;
-	export let closeCallback: () => void;
+	export let closeCallback: { (): void } | undefined = undefined;
 
 	let dialog: HTMLDialogElement;
 
@@ -15,6 +15,7 @@
 
 	function onClose() {
 		if (closeCallback) {
+			console.log('callback fired');
 			closeCallback();
 		}
 		open = false;

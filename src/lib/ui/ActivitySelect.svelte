@@ -3,14 +3,14 @@
 	import Modal from './Modal.svelte';
 	import EditMember from '$lib/ui/EditMember.svelte';
 
-	export let activeMember: Member;
-	let isEditingMember: boolean;
+	export let activeMember: Member | null;
 	let selectedActivity: string = '';
+	let isEditingMember: boolean;
 
 	$: getDisplayName = () => {
 		let displayName = '';
 
-		if (activeMember.id) {
+		if (activeMember?.id) {
 			displayName = activeMember?.preferredName
 				? `${activeMember?.name}  [${activeMember?.preferredName}]`
 				: activeMember?.name;
@@ -41,7 +41,8 @@
 		isEditingMember = true;
 	};
 
-	const closeModal = () => {
+	export let closeCallback = () => {
+		console.log('closing inside select');
 		isEditingMember = false;
 		setSelectedActivity('');
 	};
@@ -67,7 +68,7 @@
 		</div>
 	{/if}
 {:else if activeMember?.id && isEditingMember}
-	<Modal bind:open={isEditingMember} closeCallback={closeModal}>
+	<Modal bind:open={isEditingMember}>
 		<EditMember {activeMember}></EditMember>
 	</Modal>
 {:else}

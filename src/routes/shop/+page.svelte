@@ -4,8 +4,9 @@
 	import Modal from '$lib/ui/Modal.svelte';
 
 	export let data;
+	let closeCallback: () => void;
 
-	let activeMember: Member;
+	let activeMember: Member | null;
 	let isOpen: boolean;
 
 	let filterText: string;
@@ -36,18 +37,19 @@
 		isOpen = true;
 	};
 
-	const closeModal = () => {
+	const onClose = () => {
 		isOpen = false;
+		activeMember = null;
 	};
 </script>
 
 <svelte:head>
-	<title>Shop Signin</title>
-	<meta name="description" content="Shop Signin" />
+	<title>Shop SignIn</title>
+	<meta name="description" content="Shop SignIn" />
 </svelte:head>
 
 <div class="text-column">
-	<h1>Shop Signin</h1>
+	<h1>Shop SignIn</h1>
 	<label for="filter">Search</label>
 	<input on:input={handleInput} name="filter" type="text" />
 
@@ -62,8 +64,8 @@
 	</div>
 </div>
 
-<Modal bind:open={isOpen} closeCallback={closeModal} data={{ activeMember }}>
-	<ActivitySelect {activeMember}></ActivitySelect>
+<Modal {closeCallback} bind:open={isOpen}>
+	<ActivitySelect bind:closeCallback {activeMember}></ActivitySelect>
 </Modal>
 
 <style>
