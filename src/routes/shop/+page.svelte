@@ -1,20 +1,30 @@
 <script lang="ts">
 	import { type Member } from '$lib/models/member.js';
+	import { type Purpose } from '$lib/models/purpose';
 	import ActivitySelect from '$lib/ui/ActivitySelect.svelte';
+	import EditMember from '$lib/ui/EditMember.svelte';
 	import Modal from '$lib/ui/Modal.svelte';
+	import EditOutline from '~icons/mdi/edit-outline';
 
 	export let data;
-	let closeCallback: () => void;
 
-	let activeMember: Member | null;
+	let selectedPurpose: Purpose;
+	let activeMember: Member | undefined;
+
 	let isOpen: boolean;
+	let isEditingMember: boolean = false;
 
 	let filterText: string;
 	let showList: boolean;
 	let filteredMemeberList: Member[];
 
-	let memberName: string;
-	let perferredName: string | undefined;
+	const getDisplayName = (member: Member | undefined): string => {
+		if (!member) {
+			return '';
+		}
+
+		return member?.preferredName ? `${member.name} [${member.preferredName}]` : `${member?.name}`;
+	};
 
 	const handleInput = (event: InputEvent) => {
 		const element = event.target as HTMLInputElement;
@@ -22,24 +32,31 @@
 		filterText = element?.value.toLocaleLowerCase();
 
 		filteredMemeberList = data.members.filter((member) => {
-			memberName = member.name.toLocaleLowerCase();
-			perferredName = member.preferredName?.toLocaleLowerCase();
+			const memberName = member.name.toLocaleLowerCase();
+			const perferredName = member.preferredName?.toLocaleLowerCase();
 
-			return memberName.match(filterText) || perferredName?.toLocaleLowerCase().match(filterText);
+			return memberName.match(filterText) || perferredName?.match(filterText);
 		});
 
 		showList = filterText.length > 1 && filteredMemeberList.length > 0;
 	};
 
-	const handleClick = (event: MouseEvent, member: Member) => {
+	const handleMemberSelect = (event: MouseEvent, member: Member) => {
 		const element = event.target as HTMLButtonElement;
 		activeMember = member;
 		isOpen = true;
 	};
 
+	const handleEditMember = (event: MouseEvent, member: Member) => {
+		const element = event.target as HTMLButtonElement;
+		activeMember = member;
+		isEditingMember = true;
+	};
+
 	const onClose = () => {
 		isOpen = false;
-		activeMember = null;
+		isEditingMember = false;
+		activeMember = undefined;
 	};
 </script>
 
@@ -56,16 +73,31 @@
 	<div class="search-results">
 		{#if showList}
 			{#each filteredMemeberList as member}
-				<button on:click={(event) => handleClick(event, member)} class="signin-button"
-					>{member.name} [{member.preferredName}]</button
-				>
+				<div class="button-column">
+					<button on:click={(event) => handleMemberSelect(event, member)} class="signin-button"
+						>{getDisplayName(member)}</button
+					>
+
+					<button on:click={(event) => handleEditMember(event, member)} class="edit-button"
+						><EditOutline /> Edit Member</button
+					>
+				</div>
 			{/each}
 		{/if}
 	</div>
 </div>
 
-<Modal {closeCallback} bind:open={isOpen}>
-	<ActivitySelect bind:closeCallback {activeMember}></ActivitySelect>
+<Modal bind:open={isOpen}>
+	<ActivitySelect
+		bind:selectedPurpose
+		purposes={data.purposes}
+		displayName={getDisplayName(activeMember)}
+		{activeMember}
+	></ActivitySelect>
+</Modal>
+
+<Modal bind:open={isEditingMember}>
+	<EditMember {activeMember}></EditMember>
 </Modal>
 
 <style>
@@ -85,8 +117,14 @@
 		margin: 20px 0px;
 	}
 
-	.signin-button {
+	button {
 		min-height: 40px;
 		margin: 5px 0px;
+	}
+
+	.button-column {
+		display: grid;
+		grid-template-columns: 5fr 1fr;
+		grid-gap: 5px;
 	}
 </style>

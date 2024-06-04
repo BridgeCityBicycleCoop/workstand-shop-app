@@ -1,76 +1,32 @@
 <script lang="ts">
 	import { type Member } from '$lib/models/member';
-	import Modal from './Modal.svelte';
-	import EditMember from '$lib/ui/EditMember.svelte';
+	import { type Purpose } from '$lib/models/purpose';
 
-	export let activeMember: Member | null;
-	let selectedActivity: string = '';
-	let isEditingMember: boolean;
-
-	$: getDisplayName = () => {
-		let displayName = '';
-
-		if (activeMember?.id) {
-			displayName = activeMember?.preferredName
-				? `${activeMember?.name}  [${activeMember?.preferredName}]`
-				: activeMember?.name;
-		}
-
-		return displayName;
-	};
-
-	function addActivity(activityId: string, activeMember: Member) {
-		console.log('addActivity', activityId, activeMember);
-	}
-
-	const setSelectedActivity = (activityId: string): void => {
-		selectedActivity = activityId;
-	};
-	// TODO: pull from DB or config file
-	const fetchActivities = () => {
-		return [
-			{ activityId: 'Volunteer' },
-			{ activityId: 'Fix' },
-			{ activityId: 'Cleanup' },
-			{ activityId: 'Build' }
-		];
-	};
-
-	const switchToEdit = (event: MouseEvent) => {
-		const element = event.target as HTMLButtonElement;
-		isEditingMember = true;
-	};
-
-	export let closeCallback = () => {
-		console.log('closing inside select');
-		isEditingMember = false;
-		setSelectedActivity('');
-	};
+	export let activeMember: Member | undefined;
+	export let selectedPurpose: Purpose;
+	export let purposes: Purpose[];
+	export let displayName: string;
 </script>
 
-{#if activeMember?.id && !isEditingMember}
-	<button on:click={switchToEdit}>Edit Member</button>
-	<div class="activity-title">Select {getDisplayName()}'s Activity</div>
+{#if activeMember?.id}
+	<div class="activity-title">Select {displayName}'s Activity</div>
 	<div class="activity-container">
-		{#each fetchActivities() as activity}
+		{#each purposes as purpose}
 			<button
 				on:click={(event) => {
-					setSelectedActivity(activity.activityId);
+					selectedPurpose = purpose;
 				}}
-				>{activity.activityId}
+				>{purpose.name}
 			</button>
 		{/each}
 	</div>
-	{#if selectedActivity}
-		<div class="selected-activity">
-			<div>You've selected: <span class="highlight">{selectedActivity}</span></div>
-			<div>for {getDisplayName()}</div>
+
+	<div class="selected-activity">
+		<div>
+			You've selected: <span class="highlight">{selectedPurpose ? selectedPurpose.name : ''}</span>
 		</div>
-	{/if}
-{:else if activeMember?.id && isEditingMember}
-	<Modal bind:open={isEditingMember}>
-		<EditMember {activeMember}></EditMember>
-	</Modal>
+		<div>for {displayName}</div>
+	</div>
 {:else}
 	<div>Please select a Member</div>
 {/if}

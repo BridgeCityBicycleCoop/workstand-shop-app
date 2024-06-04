@@ -1,4 +1,6 @@
 import type { Member, MemberFilter } from '$lib/models/member';
+import type { Visit, VisitFilter } from '$lib/models/visit';
+import type { Purpose, PurposeFilter } from '$lib/models/purpose';
 
 interface ResourceService<
 	Resource extends { id: unknown },
@@ -12,3 +14,5 @@ interface ResourceService<
 }
 
 export type MembersService = ResourceService<Member, MemberFilter>;
+export type VisitsService = ResourceService<Visit, VisitFilter>;
+export type PurposesService = ResourceService<Purpose, PurposeFilter>;
