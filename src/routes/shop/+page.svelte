@@ -1,10 +1,11 @@
 <script lang="ts">
-	import { type Member } from '$lib/models/member.js';
-	import { type Purpose } from '$lib/models/purpose';
 	import ActivitySelect from '$lib/ui/ActivitySelect.svelte';
 	import EditMember from '$lib/ui/EditMember.svelte';
 	import Modal from '$lib/ui/Modal.svelte';
 	import EditOutline from '~icons/mdi/edit-outline';
+	import type { Member } from '$lib/models/member.js';
+	import type { Purpose } from '$lib/models/purpose';
+	import type { FormEventHandler } from 'svelte/elements';
 
 	export let data;
 
@@ -26,10 +27,8 @@
 		return member?.preferredName ? `${member.name} [${member.preferredName}]` : `${member?.name}`;
 	};
 
-	const handleInput = (event: InputEvent) => {
-		const element = event.target as HTMLInputElement;
-
-		filterText = element?.value.toLocaleLowerCase();
+	const handleInput: FormEventHandler<HTMLInputElement> = (event) => {
+		filterText = event.currentTarget?.value.toLocaleLowerCase();
 
 		filteredMemeberList = data.members.filter((member) => {
 			const memberName = member.name.toLocaleLowerCase();

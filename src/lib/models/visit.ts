@@ -1,11 +1,12 @@
 import z from 'zod';
+import { purposeSchema } from './purpose';
+import { memberSchema } from './member';
 
 export const visitSchema = z.object({
 	id: z.string(),
-	memberId: z.string(),
-	purposeId: z.string(),
-	memberName: z.string(),
-	purpose: z.string()
+	member: memberSchema,
+	purpose: purposeSchema,
+	date: z.coerce.date()
 });
 
 export const visitListSchema = z.array(visitSchema);
