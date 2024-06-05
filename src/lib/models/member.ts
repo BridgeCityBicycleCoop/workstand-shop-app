@@ -1,4 +1,5 @@
 import z from 'zod';
+
 const datelikeToDate = z
 	.union([z.number(), z.string(), z.date()])
 	.transform((value) => (value === '' ? undefined : value))
@@ -19,8 +20,6 @@ export const memberSchema = z.object({
 	suspended: z.boolean().optional(),
 	waiver: datelikeToDate.optional(),
 	notes: z.string().optional()
-	// created: z.date().optional(),
-	// updated: z.date().optional()
 });
 
 export const memberListSchema = z.array(memberSchema);

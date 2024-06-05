@@ -7,7 +7,9 @@ import type { RecordService } from 'pocketbase';
 
 export enum Collections {
 	Members = 'members',
-	Users = 'users'
+	Purposes = 'purposes',
+	Users = 'users',
+	Visits = 'visits'
 }
 
 // Alias types for improved usability
@@ -50,26 +52,43 @@ export type MembersRecord = {
 	waiver?: IsoDateString;
 };
 
+export type PurposesRecord = {
+	name: string;
+};
+
 export type UsersRecord = {
 	avatar?: string;
 	name?: string;
 };
 
+export type VisitsRecord = {
+	date?: IsoDateString;
+	memberId: RecordIdString;
+	purposeId: RecordIdString;
+};
+
 // Response types include system fields and match responses from the PocketBase API
 export type MembersResponse<Texpand = unknown> = Required<MembersRecord> &
 	BaseSystemFields<Texpand>;
+export type PurposesResponse<Texpand = unknown> = Required<PurposesRecord> &
+	BaseSystemFields<Texpand>;
 export type UsersResponse<Texpand = unknown> = Required<UsersRecord> & AuthSystemFields<Texpand>;
+export type VisitsResponse<Texpand = unknown> = Required<VisitsRecord> & BaseSystemFields<Texpand>;
 
 // Types containing all Records and Responses, useful for creating typing helper functions
 
 export type CollectionRecords = {
 	members: MembersRecord;
+	purposes: PurposesRecord;
 	users: UsersRecord;
+	visits: VisitsRecord;
 };
 
 export type CollectionResponses = {
 	members: MembersResponse;
+	purposes: PurposesResponse;
 	users: UsersResponse;
+	visits: VisitsResponse;
 };
 
 // Type for usage with type asserted PocketBase instance
@@ -77,5 +96,7 @@ export type CollectionResponses = {
 
 export type TypedPocketBase = PocketBase & {
 	collection(idOrName: 'members'): RecordService<MembersResponse>;
+	collection(idOrName: 'purposes'): RecordService<PurposesResponse>;
 	collection(idOrName: 'users'): RecordService<UsersResponse>;
+	collection(idOrName: 'visits'): RecordService<VisitsResponse>;
 };
