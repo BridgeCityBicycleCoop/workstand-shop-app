@@ -4,7 +4,7 @@ import { purposes as purposesService } from '$lib/server/db';
 
 export async function load() {
 	const members = await membersService.find();
-	const visits = await visitsService.find();
+	const visits = await visitsService.findTodays();
 	const purposes = await purposesService.find();
 
 	return {
