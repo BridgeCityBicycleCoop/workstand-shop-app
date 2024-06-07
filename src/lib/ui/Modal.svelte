@@ -7,9 +7,10 @@
 
 	$: {
 		if (open && !dialog?.open) {
-			if (dialog) {
-				dialog.showModal();
-			}
+			dialog.showModal();
+		}
+		if (!open && dialog?.open) {
+			dialog.close();
 		}
 	}
 
@@ -26,10 +27,12 @@
 			<slot {data} />
 		</div>
 
-		<span class="button-container">
-			<button value="cancel" on:click={handleClose}>Cancel</button>
-			<button value="confirm" on:click={handleClose}>Confirm</button>
-		</span>
+		<slot name="buttons">
+			<span class="button-container">
+				<button value="cancel" on:click={handleClose}>Cancel</button>
+				<button value="confirm" on:click={handleClose}>Confirm</button>
+			</span>
+		</slot>
 	</dialog>
 </div>
 

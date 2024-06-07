@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { formatDistance } from 'date-fns';
 	import ActivitySelect from '$lib/ui/ActivitySelect.svelte';
 	import EditMember from '$lib/ui/EditMember.svelte';
 	import Modal from '$lib/ui/Modal.svelte';
@@ -6,7 +7,6 @@
 	import type { Member } from '$lib/models/member.js';
 	import type { Purpose } from '$lib/models/purpose';
 	import type { FormEventHandler } from 'svelte/elements';
-	import { formatDistance } from 'date-fns';
 
 	export let data;
 
@@ -16,9 +16,9 @@
 	let isOpen: boolean;
 	let isEditingMember: boolean = false;
 
-	let filterText: string;
 	let showList: boolean;
 	let filteredMemeberList: Member[];
+	let searchElement: HTMLInputElement;
 
 	const getDisplayName = (member: Member | undefined): string => {
 		if (!member) {
@@ -29,7 +29,7 @@
 	};
 
 	const handleInput: FormEventHandler<HTMLInputElement> = (event) => {
-		filterText = event.currentTarget?.value.toLocaleLowerCase();
+		const filterText = event.currentTarget?.value.toLocaleLowerCase();
 
 		filteredMemeberList = data.members.filter((member) => {
 			const memberName = member.name.toLocaleLowerCase();
@@ -40,6 +40,8 @@
 
 		showList = filterText.length > 1 && filteredMemeberList.length > 0;
 	};
+
+	$: signedInMembers = new Set(data.visits.map((visit) => visit.member.id));
 
 	const handleMemberSelect = (event: MouseEvent, member: Member) => {
 		const element = event.target as HTMLButtonElement;
@@ -68,20 +70,24 @@
 <div class="signin">
 	<div class="members-search">
 		<label for="filter">Members: Sign In</label>
-		<input on:input={handleInput} name="filter" type="text" />
+		<input on:input={handleInput} name="filter" type="text" bind:this={searchElement} />
 	</div>
 
 	<div class="search-results">
 		{#if showList}
 			{#each filteredMemeberList as member}
 				<div class="button-column">
-					<button on:click={(event) => handleMemberSelect(event, member)} class="signin-button"
-						>{getDisplayName(member)}</button
+					<button
+						class="signin-button"
+						on:click={(event) => handleMemberSelect(event, member)}
+						disabled={signedInMembers.has(member.id)}
 					>
+						{getDisplayName(member)}
+					</button>
 
-					<button on:click={(event) => handleEditMember(event, member)} class="edit-button"
-						><EditOutline /> Edit Member</button
-					>
+					<button class="edit-button" on:click={(event) => handleEditMember(event, member)}>
+						<EditOutline /> Edit Member
+					</button>
 				</div>
 			{/each}
 		{/if}
@@ -122,11 +128,21 @@
 
 <Modal bind:open={isOpen} onClose={handleClose}>
 	<ActivitySelect
+		formId="log-visit"
+		formData={data.logVisitForm}
 		bind:selectedPurpose
 		purposes={data.purposes}
 		displayName={getDisplayName(activeMember)}
 		{activeMember}
-	></ActivitySelect>
+		onSuccess={() => {
+			handleClose();
+			searchElement.value = '';
+			searchElement.dispatchEvent(new Event('input', { bubbles: true }));
+		}}
+	/>
+	<div slot="buttons" class="log-visit-buttons">
+		<button on:click={handleClose}>Cancel</button>
+	</div>
 </Modal>
 
 <Modal bind:open={isEditingMember} onClose={handleClose}>
@@ -152,6 +168,7 @@
 		min-height: 100%;
 		max-width: 48rem;
 		padding-top: 3rem;
+		margin: 0 auto;
 	}
 
 	.members-search {
@@ -191,5 +208,10 @@
 		border: none;
 		color: var(--color-theme-1);
 		cursor: pointer;
+	}
+
+	.log-visit-buttons {
+		display: flex;
+		justify-content: flex-end;
 	}
 </style>

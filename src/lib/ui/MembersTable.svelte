@@ -17,7 +17,6 @@
 	}
 	function addActivity(activityId: string, memberId: string) {
 		const member = members.find((m) => m.id === memberId);
-		console.log('addActivity', activityId, member);
 	}
 </script>
 
