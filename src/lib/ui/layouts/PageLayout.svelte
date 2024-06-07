@@ -18,5 +18,7 @@
 	main {
 		padding: 1rem 2rem;
 		max-width: 64rem;
+		width: 100%;
+		margin: 0 auto;
 	}
 </style>

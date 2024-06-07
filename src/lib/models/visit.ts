@@ -11,7 +11,11 @@ export const visitSchema = z.object({
 
 export const visitListSchema = z.array(visitSchema);
 export const visitFilterSchema = visitSchema.omit({ id: true });
-export const visitCreateSchema = visitSchema.omit({ id: true });
+export const visitCreateSchema = z.object({
+	memberId: z.string(),
+	purposeId: z.string(),
+	date: z.date()
+});
 export const visitUpdateSchema = visitSchema.partial();
 
 export type Visit = z.infer<typeof visitSchema>;

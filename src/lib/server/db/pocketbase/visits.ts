@@ -11,25 +11,26 @@ import type { MembersResponse, PurposesResponse, VisitsResponse, TypedPocketBase
 
 const pb = new PocketBase(env.POCKETBASE_URL) as TypedPocketBase;
 
+type VisitWithMemberAndPurpose = VisitsResponse<{
+	memberId: MembersResponse;
+	purposeId: PurposesResponse;
+}>;
+
 export const find = async (_filters: Record<string, unknown> = {}) => {
 	const records = await pb
 		.collection('visits')
-		.getFullList<
-			VisitsResponse<{ memberId: MembersResponse; purposeId: PurposesResponse }>
-		>(500, { expand: 'memberId,purposeId' });
-	const visits = records.map((r) => ({
-		id: r.id,
-		member: r.expand?.memberId,
-		purpose: r.expand?.purposeId,
-		date: r.date
-	}));
+		.getFullList<VisitWithMemberAndPurpose>(500, { expand: 'memberId,purposeId' });
+	const visits = records.map(expandMemberAndPurpose);
 	return visitListSchema.parse(visits);
 };
 export const get = async (id: string) => {
 	return visitSchema.parse(await pb.collection('visits').getOne(id));
 };
 export const add = async (data: VisitCreate) => {
-	return visitSchema.parse(await pb.collection('visits').create(data));
+	const result = await pb
+		.collection('visits')
+		.create<VisitWithMemberAndPurpose>(data, { expand: 'memberId,purposeId' });
+	return visitSchema.parse(expandMemberAndPurpose(result));
 };
 export const update = async (id: string, data: VisitUpdate) => {
 	return visitSchema.parse(await pb.collection('visits').update(id, data));
@@ -39,20 +40,25 @@ export const remove = async (id: string) => {
 };
 
 export const findTodays = async () => {
-	const listResult = await pb
-		.collection('visits')
-		.getList<VisitsResponse<{ memberId: MembersResponse; purposeId: PurposesResponse }>>(1, 100, {
-			filter: pb.filter('{:endDateTime} >= date && {:startDateTime} <= date', {
-				startDateTime: startOfToday(),
-				endDateTime: constructNow(new Date())
-			}),
-			expand: 'memberId,purposeId'
-		});
-	const visits = listResult.items.map((r) => ({
-		id: r.id,
-		member: r.expand?.memberId,
-		purpose: r.expand?.purposeId,
-		date: r.date
-	}));
-	return visitListSchema.parse(visits);
+	const listResult = await pb.collection('visits').getList<VisitWithMemberAndPurpose>(1, 100, {
+		filter: pb.filter('{:endDateTime} >= date && {:startDateTime} <= date', {
+			startDateTime: startOfToday(),
+			endDateTime: constructNow(new Date())
+		}),
+		sort: '-date',
+		expand: 'memberId,purposeId'
+	});
+	return visitListSchema.parse(listResult.items.map(expandMemberAndPurpose));
 };
+
+const expandMemberAndPurpose = (
+	r: VisitsResponse<{
+		memberId: MembersResponse;
+		purposeId: PurposesResponse;
+	}>
+) => ({
+	id: r.id,
+	member: r.expand?.memberId,
+	purpose: r.expand?.purposeId,
+	date: r.date
+});

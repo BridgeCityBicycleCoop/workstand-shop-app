@@ -1,32 +1,55 @@
 <script lang="ts">
+	import { superForm, type SuperValidated } from 'sveltekit-superforms';
 	import { type Member } from '$lib/models/member';
 	import { type Purpose } from '$lib/models/purpose';
 
+	export let formId: string;
 	export let activeMember: Member | undefined;
-	export let selectedPurpose: Purpose;
+	export let selectedPurpose: Purpose | undefined;
 	export let purposes: Purpose[];
 	export let displayName: string;
+	export let onSuccess = (result: any) => {};
+	export let formData: SuperValidated<
+		{
+			memberId: string;
+			purposeId: string;
+		},
+		any,
+		{
+			memberId: string;
+			purposeId: string;
+		}
+	>;
+
+	const { enhance } = superForm(formData, {
+		onUpdated: onSuccess
+	});
 </script>
 
 {#if activeMember?.id}
-	<div class="activity-title">Select {displayName}'s Activity</div>
-	<div class="activity-container">
-		{#each purposes as purpose}
-			<button
-				on:click={(event) => {
-					selectedPurpose = purpose;
-				}}
-				>{purpose.name}
-			</button>
-		{/each}
-	</div>
-
-	<div class="selected-activity">
-		<div>
-			You've selected: <span class="highlight">{selectedPurpose ? selectedPurpose.name : ''}</span>
+	<form id={formId} method="post" action="?/logVisit" use:enhance>
+		<div class="activity-title">Select {displayName}'s Activity</div>
+		<div class="activity-container">
+			{#each purposes as purpose}
+				<button
+					on:click={() => {
+						selectedPurpose = purpose;
+					}}
+					>{purpose.name}
+				</button>
+			{/each}
 		</div>
-		<div>for {displayName}</div>
-	</div>
+
+		<div class="selected-activity">
+			<div>
+				You've selected: <span class="highlight">{selectedPurpose ? selectedPurpose.name : ''}</span
+				>
+			</div>
+			<div>for {displayName}</div>
+		</div>
+		<input type="hidden" name="memberId" value={activeMember.id} />
+		<input type="hidden" name="purposeId" value={selectedPurpose ? selectedPurpose.id : ''} />
+	</form>
 {:else}
 	<div>Please select a Member</div>
 {/if}
