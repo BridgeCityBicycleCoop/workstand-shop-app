@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { superForm } from 'sveltekit-superforms/client';
-	import SuperDebug from 'sveltekit-superforms/client/SuperDebug.svelte';
 	import { Field, Control, Label, Description, FieldErrors } from 'formsnap';
 
 	export let data;
@@ -23,11 +22,11 @@
 </script>
 
 <svelte:head>
-	<title>About</title>
-	<meta name="description" content="About this app" />
+	<title>Workstand - Login</title>
+	<meta name="description" content="A shop application for Bicycle Co-ops" />
 </svelte:head>
 
-<div class="text-column">
+<div>
 	{#if data.user}
 		<p>Logged in as {data.user.email}</p>
 		<form method="post" action="?/logout" use:enhance>
@@ -37,7 +36,7 @@
 		<h1>{headingText}</h1>
 
 		{#if !registering}
-			<div class="text-column">Please enter your username and password to log in to Workstand</div>
+			<div>Please enter your username and password to log in to Workstand</div>
 
 			<form method="post" action="?/login" use:enhance>
 				<Field form={loginForm} name="email">
@@ -60,11 +59,9 @@
 				<button>Log In</button>
 			</form>
 		{:else}
-			<div class="text-column">
-				<div class="text-column">Please register for Workstand with and email and password</div>
-				<div class="text-column">
-					(password must contain 8 letters, a number, and a special symbol)
-				</div>
+			<div>
+				<div>Please register for Workstand with and email and password</div>
+				<div>(password must contain 8 letters, a number, and a special symbol)</div>
 				<form method="POST" action="?/register" use:registerEnhance>
 					<Field form={registerForm} name="email">
 						<Control let:attrs>

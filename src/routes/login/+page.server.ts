@@ -40,7 +40,7 @@ export const actions = {
 			}
 			throw error;
 		}
-		redirect(303, '/shop');
+		redirect(303, '/');
 		return { loginForm };
 	},
 

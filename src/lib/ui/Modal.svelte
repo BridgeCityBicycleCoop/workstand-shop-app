@@ -1,7 +1,7 @@
 <script lang="ts">
 	export let data: any = null;
 	export let open = false;
-	export let closeCallback: { (): void } | undefined = undefined;
+	export let onClose: { (): void } | undefined = undefined;
 
 	let dialog: HTMLDialogElement;
 
@@ -13,25 +13,22 @@
 		}
 	}
 
-	function onClose() {
-		if (closeCallback) {
-			console.log('callback fired');
-			closeCallback();
-		}
-		open = false;
+	function handleClose() {
 		dialog.close();
+		open = false;
+		onClose?.();
 	}
 </script>
 
 <div class="modal-container">
-	<dialog bind:this={dialog}>
+	<dialog bind:this={dialog} on:close={handleClose}>
 		<div class="content">
 			<slot {data} />
 		</div>
 
 		<span class="button-container">
-			<button value="cancel" on:click={onClose}>Cancel</button>
-			<button value="confirm" on:click={onClose}>Confirm</button>
+			<button value="cancel" on:click={handleClose}>Cancel</button>
+			<button value="confirm" on:click={handleClose}>Confirm</button>
 		</span>
 	</dialog>
 </div>
