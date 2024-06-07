@@ -9,17 +9,16 @@ export const memberSchema = z.object({
 	id: z.string(),
 	name: z.string().min(1, 'Name is required'),
 	preferredName: z.string().optional(),
+	pronouns: z.string().optional(),
 	email: z.string().email().optional(),
 	emailConsent: z.boolean().optional(),
 	phone: z.string().optional(),
 	requiresGuardian: z.boolean().optional(),
 	guardianName: z.string().optional(),
 	postalCode: z.string().optional(),
-	active: z.boolean().optional(),
-	banned: z.boolean().optional(),
-	suspended: z.boolean().optional(),
-	waiver: datelikeToDate.optional(),
-	notes: z.string().optional()
+	notes: z.string().optional(),
+	status: z.string(), // active, suspended, banned
+	waiver: datelikeToDate.optional()
 });
 
 export const memberListSchema = z.array(memberSchema);
