@@ -8,7 +8,8 @@ import { purposes as purposesService } from '$lib/server/db';
 
 const logVisitFormSchema = z.object({
 	memberId: z.string(),
-	purposeId: z.string()
+	purposeId: z.string(),
+	visitId: z.string().optional()
 });
 
 const updateMemberSchema = z.object({
@@ -38,9 +39,15 @@ export const actions = {
 
 		if (!logVisitForm.valid) return fail(400, { logVisitForm });
 
-		const { memberId, purposeId } = logVisitForm.data;
+		const { memberId, purposeId, visitId } = logVisitForm.data;
 		try {
-			await visitsService.add({ memberId, purposeId, date: new Date() });
+			if (visitId) {
+				await visitsService.update(visitId, {
+					purposeId
+				});
+			} else {
+				await visitsService.add({ memberId, purposeId, date: new Date() });
+			}
 		} catch (error) {
 			if (error instanceof Error) {
 				return message(logVisitForm, error.message, {
@@ -52,15 +59,13 @@ export const actions = {
 		return { logVisitForm };
 	},
 	updateMember: async (event) => {
-		console.log('hitting server updateMember');
 		const memberUpdateForm = await superValidate(event.request, zod(updateMemberSchema));
 
 		if (!memberUpdateForm.valid) return fail(400, { memberUpdateForm });
 
 		const { id } = memberUpdateForm.data;
-		console.log('member id', id);
+
 		try {
-			console.log('update', id, memberUpdateForm.data);
 			await membersService.update(id, memberUpdateForm.data);
 		} catch (error) {
 			if (error instanceof Error) {

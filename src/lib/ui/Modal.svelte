@@ -15,7 +15,6 @@
 	}
 
 	function handleClose() {
-		console.log('return value', dialog.returnValue);
 		dialog.close();
 		open = false;
 		onCloseCallback?.();

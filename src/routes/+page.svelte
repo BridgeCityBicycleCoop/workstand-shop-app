@@ -7,11 +7,13 @@
 	import type { Member } from '$lib/models/member.js';
 	import type { Purpose } from '$lib/models/purpose';
 	import type { FormEventHandler } from 'svelte/elements';
+	import type { Visit } from '$lib/models/visit.js';
 
 	export let data;
 
 	let selectedPurpose: Purpose;
 	let activeMember: Member | undefined;
+	let activeVisit: Visit | undefined;
 
 	let isOpen: boolean;
 	let isEditingMember: boolean = false;
@@ -43,20 +45,23 @@
 
 	$: signedInMembers = new Set(data.visits.map((visit) => visit.member.id));
 
-	const handleMemberSelect = (event: MouseEvent, member: Member) => {
-		const element = event.target as HTMLButtonElement;
+	const handleMemberSelect = (event: MouseEvent, member: Member, visitId?: string) => {
 		activeMember = member;
 		isOpen = true;
 	};
 
+	const handleVisitUpdate = (event: MouseEvent, visit: Visit) => {
+		activeMember = visit.member;
+		activeVisit = visit;
+		isOpen = true;
+	};
+
 	const handleEditMember = (event: MouseEvent, member: Member) => {
-		const element = event.target as HTMLButtonElement;
 		activeMember = member;
 		isEditingMember = true;
 	};
 
 	const handleClose = () => {
-		console.log('shop handleClose firing');
 		isOpen = false;
 		isEditingMember = false;
 		activeMember = undefined;
@@ -109,9 +114,7 @@
 					{#each data.visits as visit}
 						<tr>
 							<td>
-								<button
-									class="edit-profile"
-									on:click={(event) => handleEditMember(event, visit.member)}
+								<button class="edit-profile" on:click={(event) => handleVisitUpdate(event, visit)}
 									>{getDisplayName(visit.member)}
 								</button>
 							</td>
@@ -135,14 +138,14 @@
 		purposes={data.purposes}
 		displayName={getDisplayName(activeMember)}
 		{activeMember}
+		{activeVisit}
 		onSuccess={() => {
-			console.log('onsuccess visit');
 			handleClose();
 			searchElement.value = '';
 			searchElement.dispatchEvent(new Event('input', { bubbles: true }));
 		}}
 	/>
-	<div slot="buttons" class="log-visit-buttons">
+	<div slot="buttons">
 		<button on:click={handleClose}>Cancel</button>
 	</div>
 </Modal>
@@ -154,19 +157,16 @@
 		displayName={getDisplayName(activeMember)}
 		{activeMember}
 		onSuccess={() => {
-			console.log('onsuccess editMember');
 			handleClose();
 			searchElement.value = '';
 			searchElement.dispatchEvent(new Event('input', { bubbles: true }));
 		}}
 	></EditMember>
+	<div slot="buttons" class="log-visit-buttons">
+		<button value="cancel-edit" on:click={handleClose}>Cancel</button>
+		<button value="confirm-edit" on:click={handleClose}>Confirm</button>
+	</div>
 </Modal>
-
-<small class="remove-me this-is-just-for-debuggin">
-	{#if activeMember}
-		<p>Current Member: {getDisplayName(activeMember)}</p>
-	{/if}
-</small>
 
 <style>
 	.signin {
@@ -221,10 +221,5 @@
 		border: none;
 		color: var(--color-theme-1);
 		cursor: pointer;
-	}
-
-	.log-visit-buttons {
-		display: flex;
-		justify-content: flex-end;
 	}
 </style>

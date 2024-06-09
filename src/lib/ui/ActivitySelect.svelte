@@ -1,11 +1,13 @@
 <script lang="ts">
 	import { superForm, type SuperValidated } from 'sveltekit-superforms';
 	import { type Member } from '$lib/models/member';
+	import { type Visit } from '$lib/models/visit';
 	import { type Purpose } from '$lib/models/purpose';
 
 	export let formId: string;
 	export let activeMember: Member | undefined;
 	export let selectedPurpose: Purpose | undefined;
+	export let activeVisit: Visit | undefined;
 	export let purposes: Purpose[];
 	export let displayName: string;
 	export let onSuccess = (result: any) => {};
@@ -42,13 +44,14 @@
 
 		<div class="selected-activity">
 			<div>
-				You've selected: <span class="highlight">{selectedPurpose ? selectedPurpose.name : ''}</span
+				You've selected: <span class="highlight">{activeVisit ? activeVisit.purpose.name : ''}</span
 				>
 			</div>
 			<div>for {displayName}</div>
 		</div>
 		<input type="hidden" name="memberId" value={activeMember.id} />
 		<input type="hidden" name="purposeId" value={selectedPurpose ? selectedPurpose.id : ''} />
+		<input type="hidden" name="visitId" value={activeVisit ? activeVisit.id : ''} />
 	</form>
 {:else}
 	<div>Please select a Member</div>
