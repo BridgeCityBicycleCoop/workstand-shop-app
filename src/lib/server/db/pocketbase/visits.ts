@@ -32,8 +32,11 @@ export const add = async (data: VisitCreate) => {
 		.create<VisitWithMemberAndPurpose>(data, { expand: 'memberId,purposeId' });
 	return visitSchema.parse(expandMemberAndPurpose(result));
 };
-export const update = async (id: string, data: VisitUpdate) => {
-	return visitSchema.parse(await pb.collection('visits').update(id, data));
+export const update = async (data: VisitUpdate) => {
+	const result = await pb
+		.collection('visits')
+		.update<VisitWithMemberAndPurpose>(data.id, data, { expand: 'memberId,purposeId' });
+	return visitSchema.parse(expandMemberAndPurpose(result));
 };
 export const remove = async (id: string) => {
 	return await pb.collection('visits').delete(id);

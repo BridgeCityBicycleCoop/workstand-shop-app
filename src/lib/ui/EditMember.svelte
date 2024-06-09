@@ -1,27 +1,60 @@
 <script lang="ts">
-	import { type Member } from '$lib/models/member';
+	import { superForm, type SuperValidated } from 'sveltekit-superforms';
+	import { type Member, memberUpdateSchema } from '$lib/models/member';
 
-	export let activeMember: Member | null = null;
+	export let formId: string;
+	export let activeMember: Member | undefined;
+	export let displayName: string;
+	export let onSuccess = (result: any) => {};
+	export let formData: SuperValidated<{ id: string }, any, { id: string }>;
+
+	const { enhance } = superForm(formData, {
+		onUpdated: onSuccess
+	});
 </script>
 
-{#if activeMember}<div>Edit {activeMember.name}'s Info</div>
+{#if activeMember?.id}<div>Edit {displayName}'s Info</div>
 	<br />
 	<div class="form-container">
-		<form method="dialog">
+		<form id={formId} method="post" action="?/updateMember" use:enhance>
 			<label for="name">Name</label>
 			<input type="text" name="name" bind:value={activeMember.name} />
 
-			<label for="email">Email</label>
-			<input type="text" name="email" bind:value={activeMember.email} />
+			<label for="preferredName">Preferred Name</label>
+			<input type="text" name="preferredName" bind:value={activeMember.preferredName} />
 
-			<label for="phone">Name</label>
+			<label for="pronouns">Pronouns</label>
+			<input type="text" name="pronouns" bind:value={activeMember.pronouns} />
+
+			<label for="email">Email</label>
+			<input type="email" name="email" bind:value={activeMember.email} />
+
+			<label for="emailConsent"> Email Consent </label>
+			<input type="checkbox" name="emailConsent" bind:checked={activeMember.emailConsent} />
+
+			<label for="phone">Phone</label>
 			<input type="tel" name="phone" bind:value={activeMember.phone} />
+
+			<label for="requiresGuardian"> Requires Guardian </label>
+			<input type="checkbox" name="requiresGuardian" bind:checked={activeMember.requiresGuardian} />
+
+			<label for="guardianName">Guardian Name</label>
+			<input type="text" name="guardianName" bind:value={activeMember.guardianName} />
 
 			<label for="postalCode">Postal Code</label>
 			<input type="text" name="postalCode" bind:value={activeMember.postalCode} />
 
+			<label for="status"> Status </label>
+			<select bind:value={activeMember.status}>
+				<option value="active">Active</option>
+				<option value="suspended">Suspended</option>
+				<option value="banned">Banned</option>
+			</select>
+
 			<label for="notes">Notes</label>
-			<input type="text" name="notes" bind:value={activeMember.notes} />
+			<textarea name="notes" bind:value={activeMember.notes}></textarea>
+
+			<input type="hidden" name="id" value={activeMember.id} />
 		</form>
 	</div>
 {:else}
@@ -29,16 +62,16 @@
 {/if}
 
 <style>
-	.form-container {
-		display: flex;
-		justify-content: center;
-		min-width: 50%;
-	}
-
 	form {
-		display: flex;
-		flex-direction: column;
-		width: 100%;
+		display: grid;
+		grid-template-columns: max-content max-content;
+		grid-gap: 5px;
+	}
+	form label {
+		text-align: left;
+	}
+	form label:after {
+		content: ':';
 	}
 
 	input {

@@ -21,8 +21,8 @@ export const get = async (id: string) => {
 export const add = async (data: MemberCreate) => {
 	return memberSchema.parse(await pb.collection('members').create(data));
 };
-export const update = async (id: string, data: MemberUpdate) => {
-	return memberSchema.parse(await pb.collection('members').update(id, data));
+export const update = async (data: MemberUpdate) => {
+	return memberSchema.parse(await pb.collection('members').update(data.id, data));
 };
 export const remove = async (id: string) => {
 	return await pb.collection('members').delete(id);

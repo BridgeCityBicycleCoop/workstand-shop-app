@@ -8,7 +8,7 @@ export const purposeSchema = z.object({
 export const purposeListSchema = z.array(purposeSchema);
 export const purposeFilterSchema = purposeSchema.omit({ id: true });
 export const purposeCreateSchema = purposeSchema.omit({ id: true });
-export const purposeUpdateSchema = purposeSchema.partial();
+export const purposeUpdateSchema = purposeSchema.partial().required({ id: true });
 
 export type Purpose = z.infer<typeof purposeSchema>;
 export type PurposeList = z.infer<typeof purposeListSchema>;

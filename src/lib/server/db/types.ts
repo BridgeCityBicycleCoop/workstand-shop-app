@@ -9,7 +9,7 @@ interface ResourceService<
 	find(filters: Filters): Promise<Resource[]>;
 	get(id: Resource['id']): Promise<Resource>;
 	add(data: Partial<Resource>): Promise<Resource>;
-	update(id: Resource['id'], data: Omit<Resource, 'id'>): Promise<Resource>;
+	update(data: Partial<Resource>): Promise<Resource>;
 	remove(id: Resource['id']): Promise<boolean>;
 }
 

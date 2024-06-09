@@ -1,7 +1,7 @@
 <script lang="ts">
 	export let data: any = null;
 	export let open = false;
-	export let onClose: { (): void } | undefined = undefined;
+	export let onCloseCallback: { (): void } | undefined = undefined;
 
 	let dialog: HTMLDialogElement;
 
@@ -17,7 +17,7 @@
 	function handleClose() {
 		dialog.close();
 		open = false;
-		onClose?.();
+		onCloseCallback?.();
 	}
 </script>
 
@@ -27,30 +27,30 @@
 			<slot {data} />
 		</div>
 
-		<slot name="buttons">
-			<span class="button-container">
+		<span class="button-container">
+			<slot name="buttons">
 				<button value="cancel" on:click={handleClose}>Cancel</button>
 				<button value="confirm" on:click={handleClose}>Confirm</button>
-			</span>
-		</slot>
+			</slot>
+		</span>
 	</dialog>
 </div>
 
 <style>
 	.content {
 		background-color: white;
-		width: 20em;
+		width: 25em;
 		height: fit-content;
-	}
-
-	button {
-		min-height: 40px;
-		margin: 20px;
 	}
 
 	.button-container {
 		display: flex;
-		justify-content: space-around;
+		justify-content: flex-end;
 		min-width: 50%;
+	}
+
+	.button-container button {
+		min-height: 40px;
+		margin: 20px 10px;
 	}
 </style>
