@@ -1,7 +1,12 @@
 import PocketBase, { type RecordFullListOptions, type RecordOptions } from 'pocketbase';
 import { env } from '$env/dynamic/private';
-import { purposeSchema, purposeListSchema, type PurposeCreate } from '$lib/models/purpose';
-import { type TypedPocketBase, type PurposesRecord } from './types';
+import {
+	purposeSchema,
+	purposeListSchema,
+	type PurposeCreate,
+	type PurposeUpdate
+} from '$lib/models/purpose';
+import { type TypedPocketBase } from './types';
 
 const pb = new PocketBase(env.POCKETBASE_URL) as TypedPocketBase;
 
@@ -18,8 +23,8 @@ export const get = async (id: string, params?: RecordOptions) => {
 export const add = async (data: PurposeCreate, params?: RecordOptions) => {
 	return purposeSchema.parse(await pb.collection('purposes').create(data, params));
 };
-export const update = async (id: string, data: Partial<PurposesRecord>, params?: RecordOptions) => {
-	return await pb.collection('purposes').update(id, data, params);
+export const update = async (data: PurposeUpdate) => {
+	return await pb.collection('purposes').update(data.id, data);
 };
 export const remove = async (id: string, params?: RecordOptions) => {
 	return await pb.collection('purposes').delete(id, params);

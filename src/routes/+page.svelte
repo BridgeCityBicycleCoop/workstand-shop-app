@@ -164,7 +164,7 @@
 	></EditMember>
 	<div slot="buttons" class="log-visit-buttons">
 		<button value="cancel-edit" on:click={handleClose}>Cancel</button>
-		<button value="confirm-edit" on:click={handleClose}>Confirm</button>
+		<button type="submit" form="edit-member" value="confirm-edit">Confirm</button>
 	</div>
 </Modal>
 

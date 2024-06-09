@@ -24,7 +24,7 @@ export const memberSchema = z.object({
 export const memberListSchema = z.array(memberSchema);
 export const memberFilterSchema = memberSchema.omit({ id: true });
 export const memberCreateSchema = memberSchema.omit({ id: true });
-export const memberUpdateSchema = memberSchema.partial();
+export const memberUpdateSchema = memberSchema.partial().required({ id: true });
 
 export type Member = z.infer<typeof memberSchema>;
 export type MemberList = z.infer<typeof memberListSchema>;

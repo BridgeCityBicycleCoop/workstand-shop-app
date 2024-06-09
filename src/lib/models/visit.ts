@@ -16,7 +16,10 @@ export const visitCreateSchema = z.object({
 	purposeId: z.string(),
 	date: z.date()
 });
-export const visitUpdateSchema = visitCreateSchema.partial();
+export const visitUpdateSchema = z.intersection(
+	visitSchema.pick({ id: true }),
+	visitCreateSchema.partial()
+);
 
 export type Visit = z.infer<typeof visitSchema>;
 export type VisitList = z.infer<typeof visitListSchema>;
