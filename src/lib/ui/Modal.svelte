@@ -28,12 +28,12 @@
 			<slot {data} />
 		</div>
 
-		<slot name="buttons">
-			<span class="button-container">
+		<span class="button-container">
+			<slot name="buttons">
 				<button value="cancel" on:click={handleClose}>Cancel</button>
 				<button value="confirm" on:click={handleClose}>Confirm</button>
-			</span>
-		</slot>
+			</slot>
+		</span>
 	</dialog>
 </div>
 
@@ -44,14 +44,14 @@
 		height: fit-content;
 	}
 
-	button {
-		min-height: 40px;
-		margin: 20px;
-	}
-
 	.button-container {
 		display: flex;
-		justify-content: space-around;
+		justify-content: flex-end;
 		min-width: 50%;
+	}
+
+	.button-container button {
+		min-height: 40px;
+		margin: 20px 10px;
 	}
 </style>
