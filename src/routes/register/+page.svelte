@@ -1,10 +1,9 @@
 <script lang="ts">
-	import SuperDebug, { superForm, dateProxy } from 'sveltekit-superforms';
+	import SuperDebug, { superForm } from 'sveltekit-superforms';
 
 	export let data;
 
 	const { form, errors, enhance, message } = superForm(data.form);
-	const proxyDate = dateProxy(form, 'waiver', { format: 'date' });
 </script>
 
 {#if import.meta.env.MODE === 'developmen'}
@@ -48,16 +47,6 @@
 			<label for="postalCode">Postal Code</label>
 			<input type="text" name="postalCode" bind:value={$form.postalCode} />
 
-			<label for="status"> Status </label>
-			<select bind:value={$form.status}>
-				<option selected value="active">Active</option>
-				<option value="suspended">Suspended</option>
-				<option value="banned">Banned</option>
-			</select>
-
-			<label for="waiver">Waiver Date <small>(05/20/2024)</small></label>
-			<input type="date" name="waiver" bind:value={$proxyDate} />
-
 			<label for="notes">Notes</label>
 			<textarea name="notes" bind:value={$form.notes}></textarea>
 
@@ -85,10 +74,6 @@
 		display: flex;
 		flex-direction: column;
 		width: 100%;
-	}
-
-	small {
-		margin: 4px 4px;
 	}
 
 	input {

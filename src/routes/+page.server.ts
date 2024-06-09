@@ -2,9 +2,11 @@ import z from 'zod';
 import { fail } from '@sveltejs/kit';
 import { message, superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
-import { members as membersService } from '$lib/server/db';
-import { visits as visitsService } from '$lib/server/db';
-import { purposes as purposesService } from '$lib/server/db';
+import {
+	members as membersService,
+	purposes as purposesService,
+	visits as visitsService
+} from '$lib/server/db';
 import { memberUpdateSchema } from '$lib/models/member';
 
 export async function load() {
@@ -87,5 +89,6 @@ const memberUpdateFormSchema = memberUpdateSchema.pick({
 	requiresGuardian: true,
 	guardianName: true,
 	postalCode: true,
-	notes: true
+	notes: true,
+	status: true
 });

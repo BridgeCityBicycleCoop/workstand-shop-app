@@ -36,9 +36,12 @@ export type AuthSystemFields<T = never> = {
 
 // Record types for each collection
 
+export enum MembersStatusOptions {
+	'active' = 'active',
+	'suspended' = 'suspended',
+	'banned' = 'banned'
+}
 export type MembersRecord = {
-	active?: boolean;
-	banned?: boolean;
 	email?: string;
 	emailConsent?: boolean;
 	guardianName?: string;
@@ -47,8 +50,9 @@ export type MembersRecord = {
 	phone?: string;
 	postalCode?: string;
 	preferredName?: string;
+	pronouns?: string;
 	requiresGuardian?: boolean;
-	suspended?: boolean;
+	status: MembersStatusOptions;
 	waiver?: IsoDateString;
 };
 
@@ -57,8 +61,18 @@ export type PurposesRecord = {
 };
 
 export type UsersRecord = {
+	active?: boolean;
 	avatar?: string;
+	banned?: boolean;
+	dateOfBirth?: IsoDateString;
+	emailConsent?: boolean;
+	guardianName?: string;
 	name?: string;
+	notes?: HTMLString;
+	phone?: string;
+	preferredName?: string;
+	suspended?: boolean;
+	waiver?: IsoDateString;
 };
 
 export type VisitsRecord = {
