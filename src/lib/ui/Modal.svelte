@@ -1,7 +1,7 @@
 <script lang="ts">
 	export let data: any = null;
 	export let open = false;
-	export let onClose: { (): void } | undefined = undefined;
+	export let onCloseCallback: { (): void } | undefined = undefined;
 
 	let dialog: HTMLDialogElement;
 
@@ -15,9 +15,10 @@
 	}
 
 	function handleClose() {
+		console.log('return value', dialog.returnValue);
 		dialog.close();
 		open = false;
-		onClose?.();
+		onCloseCallback?.();
 	}
 </script>
 
@@ -39,7 +40,7 @@
 <style>
 	.content {
 		background-color: white;
-		width: 20em;
+		width: 25em;
 		height: fit-content;
 	}
 

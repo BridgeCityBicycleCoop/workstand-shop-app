@@ -56,6 +56,7 @@
 	};
 
 	const handleClose = () => {
+		console.log('shop handleClose firing');
 		isOpen = false;
 		isEditingMember = false;
 		activeMember = undefined;
@@ -126,7 +127,7 @@
 	</div>
 </div>
 
-<Modal bind:open={isOpen} onClose={handleClose}>
+<Modal bind:open={isOpen}>
 	<ActivitySelect
 		formId="log-visit"
 		formData={data.logVisitForm}
@@ -135,6 +136,7 @@
 		displayName={getDisplayName(activeMember)}
 		{activeMember}
 		onSuccess={() => {
+			console.log('onsuccess visit');
 			handleClose();
 			searchElement.value = '';
 			searchElement.dispatchEvent(new Event('input', { bubbles: true }));
@@ -145,8 +147,19 @@
 	</div>
 </Modal>
 
-<Modal bind:open={isEditingMember} onClose={handleClose}>
-	<EditMember {activeMember}></EditMember>
+<Modal bind:open={isEditingMember}>
+	<EditMember
+		formId="edit-member"
+		formData={data.memberUpdateForm}
+		displayName={getDisplayName(activeMember)}
+		{activeMember}
+		onSuccess={() => {
+			console.log('onsuccess editMember');
+			handleClose();
+			searchElement.value = '';
+			searchElement.dispatchEvent(new Event('input', { bubbles: true }));
+		}}
+	></EditMember>
 </Modal>
 
 <small class="remove-me this-is-just-for-debuggin">

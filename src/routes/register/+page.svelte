@@ -23,6 +23,9 @@
 			<label for="preferredName">Preferred Name</label>
 			<input type="text" name="preferredName" bind:value={$form.preferredName} />
 
+			<label for="pronouns">Pronouns</label>
+			<input type="text" name="pronouns" bind:value={$form.pronouns} />
+
 			<label for="email">Email</label>
 			<input type="email" name="email" bind:value={$form.email} />
 
@@ -45,20 +48,12 @@
 			<label for="postalCode">Postal Code</label>
 			<input type="text" name="postalCode" bind:value={$form.postalCode} />
 
-			<label for="active">
-				Active
-				<input type="checkbox" name="active" bind:checked={$form.active} />
-			</label>
-
-			<label for="banned">
-				Banned
-				<input type="checkbox" name="banned" bind:checked={$form.banned} />
-			</label>
-
-			<label for="suspended">
-				Suspended
-				<input type="checkbox" name="suspended" bind:checked={$form.suspended} />
-			</label>
+			<label for="status"> Status </label>
+			<select bind:value={$form.status}>
+				<option selected value="active">Active</option>
+				<option value="suspended">Suspended</option>
+				<option value="banned">Banned</option>
+			</select>
 
 			<label for="waiver">Waiver Date <small>(05/20/2024)</small></label>
 			<input type="date" name="waiver" bind:value={$proxyDate} />
