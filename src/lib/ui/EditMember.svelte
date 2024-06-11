@@ -52,7 +52,7 @@
 			</select>
 
 			<label for="notes">Notes</label>
-			<textarea name="notes" bind:value={activeMember.notes}></textarea>
+			<textarea rows="8" name="notes" bind:value={activeMember.notes}></textarea>
 
 			<input type="hidden" name="id" value={activeMember.id} />
 		</form>
