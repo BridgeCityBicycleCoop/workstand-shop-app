@@ -101,32 +101,34 @@
 
 	<div class="currently-signed-in">
 		<h3>Signed in today</h3>
-		{#if data.visits.length > 0}
-			<table>
-				<thead>
-					<tr>
-						<th>Name</th>
-						<th>Purpose</th>
-						<th>Signed-in At</th>
-					</tr>
-				</thead>
-				<tbody>
-					{#each data.visits as visit}
+		<div class="tableWrap">
+			{#if data.visits.length > 0}
+				<table>
+					<thead>
 						<tr>
-							<td>
-								<button class="edit-profile" on:click={(event) => handleVisitUpdate(event, visit)}
-									>{getDisplayName(visit.member)}
-								</button>
-							</td>
-							<td>{visit.purpose.name}</td>
-							<td>{formatDistance(visit.date, Date.now(), { addSuffix: true })}</td>
+							<th class="sticky-header">Name</th>
+							<th class="sticky-header">Purpose</th>
+							<th class="sticky-header">Signed-in At</th>
 						</tr>
-					{/each}
-				</tbody>
-			</table>
-		{:else}
-			<p>No members signed in</p>
-		{/if}
+					</thead>
+					<tbody>
+						{#each data.visits as visit}
+							<tr>
+								<td>
+									<button class="edit-profile" on:click={(event) => handleVisitUpdate(event, visit)}
+										>{getDisplayName(visit.member)}
+									</button>
+								</td>
+								<td>{visit.purpose.name}</td>
+								<td>{formatDistance(visit.date, Date.now(), { addSuffix: true })}</td>
+							</tr>
+						{/each}
+					</tbody>
+				</table>
+			{:else}
+				<p>No members signed in</p>
+			{/if}
+		</div>
 	</div>
 </div>
 
@@ -213,6 +215,26 @@
 
 	.currently-signed-in {
 		grid-area: activity;
+	}
+
+	/* If we use border,
+	we must use table-collapse to avoid
+	a slight movement of the header row */
+	table {
+		border-collapse: collapse;
+	}
+
+	/* Set a fixed scrollable wrapper */
+	.tableWrap {
+		height: 9em;
+		border: 2px solid black;
+		overflow: auto;
+	}
+
+	/* Set header to stick to the top of the container. */
+	thead tr th {
+		position: sticky;
+		top: 0;
 	}
 
 	.edit-profile {
