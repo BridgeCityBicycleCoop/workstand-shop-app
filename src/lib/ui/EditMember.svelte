@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { superForm, type SuperValidated } from 'sveltekit-superforms';
-	import { type Member, memberUpdateSchema } from '$lib/models/member';
+	import { type Member, memberSchema } from '$lib/models/member';
 
 	export let formId: string;
 	export let activeMember: Member | undefined;
@@ -45,10 +45,10 @@
 			<input type="text" name="postalCode" bind:value={activeMember.postalCode} />
 
 			<label for="status"> Status </label>
-			<select bind:value={activeMember.status}>
-				<option value="active">Active</option>
-				<option value="suspended">Suspended</option>
-				<option value="banned">Banned</option>
+			<select name="status" bind:value={activeMember.status}>
+				{#each Object.entries(memberSchema.shape.status.enum) as [label, value]}
+					<option {value}>{label}</option>
+				{/each}
 			</select>
 
 			<label for="notes">Notes</label>
