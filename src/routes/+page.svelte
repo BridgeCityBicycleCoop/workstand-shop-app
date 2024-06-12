@@ -3,11 +3,13 @@
 	import ActivitySelect from '$lib/ui/ActivitySelect.svelte';
 	import EditMember from '$lib/ui/EditMember.svelte';
 	import Modal from '$lib/ui/Modal.svelte';
-	import EditOutline from '~icons/mdi/edit-outline';
 	import type { Member } from '$lib/models/member.js';
 	import type { Purpose } from '$lib/models/purpose';
 	import type { FormEventHandler } from 'svelte/elements';
 	import type { Visit } from '$lib/models/visit.js';
+	import EditOutline from '~icons/mdi/edit-outline';
+	import QuestionMark from '~icons/mdi/question-mark';
+	import Exclamation from '~icons/mdi/exclamation';
 
 	export let data;
 
@@ -83,6 +85,13 @@
 		{#if showList}
 			{#each filteredMemeberList as member}
 				<div class="button-column">
+					<button class="status-button" disabled={signedInMembers.has(member.id)}>
+						{#if member.status === 'suspended'}
+							<QuestionMark />
+						{:else if member.status === 'banned'}
+							<Exclamation />
+						{/if}
+					</button>
 					<button
 						class="signin-button"
 						on:click={(event) => handleMemberSelect(event, member)}
@@ -91,8 +100,13 @@
 						{getDisplayName(member)}
 					</button>
 
-					<button class="edit-button" on:click={(event) => handleEditMember(event, member)}>
-						<EditOutline /> Edit Member
+					<button
+						class="edit-button"
+						class:button-greyed-out={signedInMembers.has(member.id)}
+						on:click={(event) => handleEditMember(event, member)}
+					>
+						Edit Member
+						<EditOutline />
 					</button>
 				</div>
 			{/each}
@@ -209,8 +223,33 @@
 
 	.button-column {
 		display: grid;
-		grid-template-columns: 5fr 1fr;
-		grid-gap: 5px;
+		grid-template-columns: 0.5fr 10fr 2.5fr;
+	}
+
+	.button-column button:not(:last-child) {
+		border-right: none; /* Prevent double borders */
+	}
+
+	.button-column button:not(:first-child) {
+		border-left: none; /* Prevent double borders */
+	}
+
+	/* Clear floats (clearfix hack) */
+	.button-column:after {
+		content: '';
+		clear: both;
+		display: table;
+	}
+
+	/* Add a background color on hover */
+	.button-column button:hover {
+		background-color: #c4c4c4;
+	}
+
+	.button-greyed-out {
+		background-color: light-dark(rgba(239, 239, 239, 0.3), rgba(19, 1, 1, 0.3));
+		color: light-dark(rgba(16, 16, 16, 0.3), rgba(255, 255, 255, 0.3));
+		border-color: light-dark(rgba(118, 118, 118, 0.3), rgba(195, 195, 195, 0.3));
 	}
 
 	.currently-signed-in {
