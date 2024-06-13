@@ -28,18 +28,14 @@
 			<label for="email">Email</label>
 			<input type="email" name="email" bind:value={$form.email} />
 
-			<label for="emailConsent">
-				Email Consent
-				<input type="checkbox" name="emailConsent" bind:checked={$form.emailConsent} />
-			</label>
+			<label for="emailConsent"> Email Consent </label>
+			<input type="checkbox" name="emailConsent" bind:checked={$form.emailConsent} />
 
 			<label for="phone">Phone</label>
 			<input type="tel" name="phone" bind:value={$form.phone} />
 
-			<label for="requiresGuardian">
-				Requires Guardian
-				<input type="checkbox" name="requiresGuardian" bind:checked={$form.requiresGuardian} />
-			</label>
+			<label for="requiresGuardian"> Requires Guardian </label>
+			<input type="checkbox" name="requiresGuardian" bind:checked={$form.requiresGuardian} />
 
 			<label for="guardianName">Guardian Name</label>
 			<input type="text" name="guardianName" bind:value={$form.guardianName} />
@@ -48,7 +44,7 @@
 			<input type="text" name="postalCode" bind:value={$form.postalCode} />
 
 			<label for="notes">Notes</label>
-			<textarea name="notes" bind:value={$form.notes}></textarea>
+			<textarea rows="8" name="notes" bind:value={$form.notes}></textarea>
 
 			{#if $message}
 				<div class="message">{$message}</div>
@@ -71,9 +67,15 @@
 	}
 
 	form {
-		display: flex;
-		flex-direction: column;
-		width: 100%;
+		display: grid;
+		grid-template-columns: max-content max-content;
+		grid-gap: 5px;
+	}
+	form label {
+		text-align: left;
+	}
+	form label:after {
+		content: ':';
 	}
 
 	input {
@@ -82,5 +84,18 @@
 		border: 1px solid #ccc;
 		border-radius: 4px;
 		box-sizing: border-box;
+	}
+
+	textarea {
+		padding: 12px 20px;
+		margin: 4px 0px;
+		border: 1px solid #ccc;
+		border-radius: 4px;
+		box-sizing: border-box;
+	}
+
+	button {
+		min-height: 40px;
+		margin: 25px 0px;
 	}
 </style>
