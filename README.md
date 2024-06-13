@@ -1,9 +1,13 @@
 # Workstand - Open Source management, tracking and reporting tool for non-profit memberhips, inventory, and activities.
 
+This app is developed using [Sveltekit](https://kit.svelte.dev/), [Typescript](https://www.typescriptlang.org/), [Superforms](https://superforms.rocks/), and [Pocketbase](https://pocketbase.io/).
+
 ## Setup Local Pocketbase DB on MacOS
 
 Create your own local .env file - see `.env.example`
 open your terminal
+
+On MacOS it's easiest to use [Homebrew](https://brew.sh/) to install and manage packages.
 
 ```bash
 brew install pocketbase
