@@ -43,24 +43,27 @@
 			<input type="text" name="postalCode" bind:value={$form.postalCode} />
 
 			<label for="notes">Notes</label>
-			<textarea rows="8" name="notes" bind:value={$form.notes}></textarea>
-
-			<input type="hidden" name="wavier" value={Date.now()} />
+			<textarea rows="4" name="notes" bind:value={$form.notes}></textarea>
 
 			{#if $message}
 				<div class="message">{$message}</div>
 			{/if}
+			{#if $errors.name}
+				<div class="errors">{$errors.name}</div>
+			{/if}
 		</form>
 	</div>
 
+	<br />
 	<LiabilityWaiver
 		name={$form.name}
 		requiresGuardian={$form.requiresGuardian}
 		guardianName={$form.guardianName}
 	></LiabilityWaiver>
-
-	<button type="submit" form="register-member">Click to Agree to Waiver</button>
-	<button>Cancel Member Registration</button>
+	<div class="register-member-buttons">
+		<button type="submit" form="register-member">Click to Agree to Waiver</button>
+		<button>Cancel Member Registration</button>
+	</div>
 </div>
 
 <style>
