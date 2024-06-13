@@ -81,4 +81,12 @@
 		border-radius: 4px;
 		box-sizing: border-box;
 	}
+
+	textarea {
+		padding: 12px 20px;
+		margin: 4px 0px;
+		border: 1px solid #ccc;
+		border-radius: 4px;
+		box-sizing: border-box;
+	}
 </style>
