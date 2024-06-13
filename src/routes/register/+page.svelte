@@ -1,21 +1,17 @@
 <script lang="ts">
-	import SuperDebug, { superForm } from 'sveltekit-superforms';
+	import { superForm } from 'sveltekit-superforms';
 
 	export let data;
 
 	const { form, errors, enhance, message } = superForm(data.form);
 </script>
 
-{#if import.meta.env.MODE === 'developmen'}
-	<SuperDebug data={$form} />
-{/if}
-
 <div>
 	<div>
 		<h1>Register New Member</h1>
 	</div>
 	<div class="form-container">
-		<form method="POST">
+		<form method="POST" use:enhance>
 			<label for="name">Name</label>
 			<input type="text" name="name" bind:value={$form.name} />
 
