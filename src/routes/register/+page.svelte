@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { superForm } from 'sveltekit-superforms';
+	import LiabilityWaiver from '$lib/ui/LiabilityWaiver.svelte';
 
 	export let data;
 
@@ -11,7 +12,7 @@
 		<h1>Register New Member</h1>
 	</div>
 	<div class="form-container">
-		<form method="POST" use:enhance>
+		<form id="register-member" method="POST" use:enhance>
 			<label for="name">Name</label>
 			<input type="text" name="name" bind:value={$form.name} />
 
@@ -30,11 +31,13 @@
 			<label for="phone">Phone</label>
 			<input type="tel" name="phone" bind:value={$form.phone} />
 
-			<label for="requiresGuardian"> Requires Guardian </label>
+			<label for="requiresGuardian">Under 18 ?</label>
 			<input type="checkbox" name="requiresGuardian" bind:checked={$form.requiresGuardian} />
 
-			<label for="guardianName">Guardian Name</label>
-			<input type="text" name="guardianName" bind:value={$form.guardianName} />
+			{#if $form.requiresGuardian}
+				<label for="guardianName">Guardian Name</label>
+				<input type="text" name="guardianName" bind:value={$form.guardianName} />
+			{/if}
 
 			<label for="postalCode">Postal Code</label>
 			<input type="text" name="postalCode" bind:value={$form.postalCode} />
@@ -42,12 +45,22 @@
 			<label for="notes">Notes</label>
 			<textarea rows="8" name="notes" bind:value={$form.notes}></textarea>
 
+			<input type="hidden" name="wavier" value={Date.now()} />
+
 			{#if $message}
 				<div class="message">{$message}</div>
 			{/if}
-			<button>Register</button>
 		</form>
 	</div>
+
+	<LiabilityWaiver
+		name={$form.name}
+		requiresGuardian={$form.requiresGuardian}
+		guardianName={$form.guardianName}
+	></LiabilityWaiver>
+
+	<button type="submit" form="register-member">Click to Agree to Waiver</button>
+	<button>Cancel Member Registration</button>
 </div>
 
 <style>
@@ -67,9 +80,11 @@
 		grid-template-columns: max-content max-content;
 		grid-gap: 5px;
 	}
+
 	form label {
 		text-align: left;
 	}
+
 	form label:after {
 		content: ':';
 	}
@@ -92,6 +107,6 @@
 
 	button {
 		min-height: 40px;
-		margin: 25px 0px;
+		margin: 25px 10px;
 	}
 </style>
