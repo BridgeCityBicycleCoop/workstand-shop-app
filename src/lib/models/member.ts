@@ -1,9 +1,18 @@
 import z from 'zod';
 
-const datelikeToDate = z
-	.union([z.number(), z.string(), z.date()])
+export const datelikeToDate = z
+	.union([z.date(), z.string(), z.number()])
 	.transform((value) => (value === '' ? undefined : value))
 	.pipe(z.coerce.date().nullish());
+
+export const requireEmailOrPhone = z.union(
+	[
+		z.object({ email: z.undefined(), phone: z.string() }),
+		z.object({ email: z.string(), phone: z.undefined() }),
+		z.object({ email: z.string(), phone: z.string() })
+	],
+	{ errorMap: (issue, ctx) => ({ message: 'Either email or phone must be filled in' }) }
+);
 
 enum MemberStatus {
 	Active = 'active',
@@ -23,13 +32,15 @@ export const memberSchema = z.object({
 	guardianName: z.string().optional(),
 	postalCode: z.string().optional(),
 	notes: z.string().optional(),
-	status: z.nativeEnum(MemberStatus),
-	waiver: datelikeToDate.optional()
+	status: z.string().optional(), // active, suspended, banned
+	waiver: z.string().optional()
 });
 
 export const memberListSchema = z.array(memberSchema);
 export const memberFilterSchema = memberSchema.omit({ id: true });
-export const memberCreateSchema = memberSchema.omit({ id: true, waiver: true });
+export const memberCreateSchema = memberSchema
+	.omit({ id: true, status: true })
+	.required({ email: true }); // currently require email
 export const memberUpdateSchema = memberSchema.partial().required({ id: true });
 
 export type Member = z.infer<typeof memberSchema>;

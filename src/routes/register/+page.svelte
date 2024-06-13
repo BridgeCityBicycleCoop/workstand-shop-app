@@ -7,10 +7,11 @@
 	const { form, errors, enhance, message } = superForm(data.form);
 </script>
 
-<div>
+<div class="register-page">
 	<div>
 		<h1>Register New Member</h1>
 	</div>
+
 	<div class="form-container">
 		<form id="register-member" method="POST" use:enhance>
 			<label for="name">Name</label>
@@ -24,6 +25,10 @@
 
 			<label for="email">Email</label>
 			<input type="email" name="email" bind:value={$form.email} />
+
+			{#if $errors.email}
+				<div class="errors">{$errors.email}</div>
+			{/if}
 
 			<label for="emailConsent"> Email Consent </label>
 			<input type="checkbox" name="emailConsent" bind:checked={$form.emailConsent} />
@@ -44,15 +49,21 @@
 
 			<label for="notes">Notes</label>
 			<textarea rows="4" name="notes" bind:value={$form.notes}></textarea>
-
-			{#if $message}
-				<div class="message">{$message}</div>
-			{/if}
-			{#if $errors.name}
-				<div class="errors">{$errors.name}</div>
-			{/if}
 		</form>
 	</div>
+
+	<br />
+	{#if $message}
+		<div class="message-container">
+			{#if typeof $message === 'string'}
+				<div class="message">{$message}</div>
+			{:else}
+				{#each Object.entries($message) as [key, val]}
+					<div class="message">ERROR: {val}</div>
+				{/each}
+			{/if}
+		</div>
+	{/if}
 
 	<br />
 	<LiabilityWaiver
@@ -67,21 +78,34 @@
 </div>
 
 <style>
-	.form-container {
+	.register-page {
 		display: flex;
+		flex-direction: column;
 		justify-content: center;
 		min-width: 50%;
 	}
 
-	.message {
-		font-weight: bold;
-		color: rebeccapurple;
+	form {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
 	}
 
 	form {
 		display: grid;
 		grid-template-columns: max-content max-content;
 		grid-gap: 5px;
+	}
+
+	.message-container {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+	}
+
+	.message {
+		font-weight: bold;
+		color: rebeccapurple;
 	}
 
 	form label {

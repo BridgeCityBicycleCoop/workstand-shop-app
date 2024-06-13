@@ -5,11 +5,13 @@ import { memberCreateSchema } from '$lib/models/member';
 import { members as membersService } from '$lib/server/db';
 
 export async function load() {
-	const form = superValidate(zod(memberCreateSchema));
-	const members = membersService.find();
+	const form = await superValidate(zod(memberCreateSchema));
+	form.data.waiver = new Date().toISOString();
+
+	const members = await membersService.find();
 	return {
-		form: await form,
-		members: await members
+		form: form,
+		members: members
 	};
 }
 
@@ -17,7 +19,7 @@ export const actions = {
 	async default({ request }) {
 		const form = await superValidate(request, zod(memberCreateSchema));
 		if (!form.valid) {
-			return fail(400, { form });
+			return message(form, form.errors);
 		}
 		try {
 			await membersService.add(form.data);
