@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { superForm, type SuperValidated } from 'sveltekit-superforms';
-	import { type Member, memberSchema } from '$lib/models/member';
+	import { type Member } from '$lib/models/member';
 
 	export let formId: string;
 	export let activeMember: Member | undefined;
@@ -52,7 +52,7 @@
 			</select>
 
 			<label for="notes">Notes</label>
-			<textarea name="notes" bind:value={activeMember.notes}></textarea>
+			<textarea rows="4" name="notes" bind:value={activeMember.notes}></textarea>
 
 			<input type="hidden" name="id" value={activeMember.id} />
 		</form>
@@ -75,6 +75,14 @@
 	}
 
 	input {
+		padding: 12px 20px;
+		margin: 4px 0px;
+		border: 1px solid #ccc;
+		border-radius: 4px;
+		box-sizing: border-box;
+	}
+
+	textarea {
 		padding: 12px 20px;
 		margin: 4px 0px;
 		border: 1px solid #ccc;

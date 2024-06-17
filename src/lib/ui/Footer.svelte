@@ -1,5 +1,5 @@
 <footer>
-	<p>visit <a href="https://bcbc.bike/">bcbc.bike</a> for more info</p>
+	<p>© Bridge City Bycycle Co-Op, All Rights Reserved 2024</p>
 </footer>
 
 <style>
@@ -11,13 +11,9 @@
 		padding: 12px;
 	}
 
-	footer a {
-		font-weight: bold;
-	}
-
 	@media (min-width: 480px) {
 		footer {
-			padding: 12px 0;
+			padding: 10px 0;
 		}
 	}
 </style>

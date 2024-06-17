@@ -1,21 +1,19 @@
 <script lang="ts">
-	import SuperDebug, { superForm } from 'sveltekit-superforms';
+	import { superForm } from 'sveltekit-superforms';
+	import LiabilityWaiver from '$lib/ui/LiabilityWaiver.svelte';
 
 	export let data;
 
 	const { form, errors, enhance, message } = superForm(data.form);
 </script>
 
-{#if import.meta.env.MODE === 'developmen'}
-	<SuperDebug data={$form} />
-{/if}
-
-<div>
+<div class="register-page">
 	<div>
 		<h1>Register New Member</h1>
 	</div>
+
 	<div class="form-container">
-		<form method="POST">
+		<form id="register-member" method="POST" use:enhance>
 			<label for="name">Name</label>
 			<input type="text" name="name" bind:value={$form.name} />
 
@@ -28,41 +26,81 @@
 			<label for="email">Email</label>
 			<input type="email" name="email" bind:value={$form.email} />
 
-			<label for="emailConsent">
-				Email Consent
-				<input type="checkbox" name="emailConsent" bind:checked={$form.emailConsent} />
-			</label>
+			{#if $errors.email}
+				<div class="errors">{$errors.email}</div>
+			{/if}
+
+			<label for="emailConsent"> Email Consent </label>
+			<input type="checkbox" name="emailConsent" bind:checked={$form.emailConsent} />
 
 			<label for="phone">Phone</label>
 			<input type="tel" name="phone" bind:value={$form.phone} />
 
-			<label for="requiresGuardian">
-				Requires Guardian
-				<input type="checkbox" name="requiresGuardian" bind:checked={$form.requiresGuardian} />
-			</label>
+			<label for="requiresGuardian">Under 18 ?</label>
+			<input type="checkbox" name="requiresGuardian" bind:checked={$form.requiresGuardian} />
 
-			<label for="guardianName">Guardian Name</label>
-			<input type="text" name="guardianName" bind:value={$form.guardianName} />
+			{#if $form.requiresGuardian}
+				<label for="guardianName">Guardian Name</label>
+				<input type="text" name="guardianName" bind:value={$form.guardianName} />
+			{/if}
 
 			<label for="postalCode">Postal Code</label>
 			<input type="text" name="postalCode" bind:value={$form.postalCode} />
 
 			<label for="notes">Notes</label>
-			<textarea name="notes" bind:value={$form.notes}></textarea>
-
-			{#if $message}
-				<div class="message">{$message}</div>
-			{/if}
-			<button>Register</button>
+			<textarea rows="4" name="notes" bind:value={$form.notes}></textarea>
 		</form>
+	</div>
+
+	<br />
+	{#if $message}
+		<div class="message-container">
+			{#if typeof $message === 'string'}
+				<div class="message">{$message}</div>
+			{:else}
+				{#each Object.entries($message) as [key, val]}
+					<div class="message">ERROR: {val}</div>
+				{/each}
+			{/if}
+		</div>
+	{/if}
+
+	<br />
+	<LiabilityWaiver
+		name={$form.name}
+		requiresGuardian={$form.requiresGuardian}
+		guardianName={$form.guardianName}
+	></LiabilityWaiver>
+	<div class="register-member-buttons">
+		<button type="submit" form="register-member">Click to Agree to Waiver</button>
+		<button>Cancel Member Registration</button>
 	</div>
 </div>
 
 <style>
-	.form-container {
+	.register-page {
 		display: flex;
+		flex-direction: column;
 		justify-content: center;
 		min-width: 50%;
+	}
+
+	form {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+	}
+
+	form {
+		display: grid;
+		grid-template-columns: max-content max-content;
+		grid-gap: 5px;
+	}
+
+	.message-container {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
 	}
 
 	.message {
@@ -70,10 +108,12 @@
 		color: rebeccapurple;
 	}
 
-	form {
-		display: flex;
-		flex-direction: column;
-		width: 100%;
+	form label {
+		text-align: left;
+	}
+
+	form label:after {
+		content: ':';
 	}
 
 	input {
@@ -82,5 +122,18 @@
 		border: 1px solid #ccc;
 		border-radius: 4px;
 		box-sizing: border-box;
+	}
+
+	textarea {
+		padding: 12px 20px;
+		margin: 4px 0px;
+		border: 1px solid #ccc;
+		border-radius: 4px;
+		box-sizing: border-box;
+	}
+
+	button {
+		min-height: 40px;
+		margin: 25px 10px;
 	}
 </style>

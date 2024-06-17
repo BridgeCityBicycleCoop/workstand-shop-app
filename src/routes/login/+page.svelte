@@ -15,10 +15,6 @@
 
 	let registering = false;
 	$: headingText = registering ? 'BCBC Workstand Registration' : 'BCBC Workstand Login';
-
-	const toggleRegistered = () => {
-		registering = !registering;
-	};
 </script>
 
 <svelte:head>
@@ -37,6 +33,7 @@
 
 		{#if !registering}
 			<div>Please enter your username and password to log in to Workstand</div>
+			<br />
 
 			<form method="post" action="?/login" use:enhance>
 				<Field form={loginForm} name="email">
@@ -44,7 +41,6 @@
 						<Label>Email</Label>
 						<input {...attrs} type="email" bind:value={$form.email} />
 					</Control>
-					<Description>You will be emailed a confirmation email to this address</Description>
 					<FieldErrors />
 				</Field>
 				<Field form={loginForm} name="password">
@@ -52,7 +48,6 @@
 						<Label>Password</Label>
 						<input {...attrs} type="password" bind:value={$form.password} />
 					</Control>
-					<Description>password must contain 8 letters, a number, and a special symbol</Description>
 					<FieldErrors />
 				</Field>
 				{#if $message}<h3>{$message}</h3>{/if}
@@ -101,8 +96,6 @@
 				</form>
 			</div>
 		{/if}
-
-		<button on:click={toggleRegistered}>Toggle Registered Status</button>
 	{/if}
 </div>
 
@@ -117,6 +110,7 @@
 		gap: 1rem;
 		flex: 1;
 	}
+
 	[data-fs-error] {
 		border: 3px solid red;
 	}

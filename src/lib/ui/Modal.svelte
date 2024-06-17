@@ -23,20 +23,30 @@
 
 <div class="modal-container">
 	<dialog bind:this={dialog} on:close={handleClose}>
+		<div class="close-x"><button on:click={handleClose}> X </button></div>
 		<div class="content">
 			<slot {data} />
 		</div>
 
 		<span class="button-container">
 			<slot name="buttons">
-				<button value="cancel" on:click={handleClose}>Cancel</button>
-				<button value="confirm" on:click={handleClose}>Confirm</button>
+				<button>Cancel</button>
+				<button on:click={handleClose}>Confirm</button>
 			</slot>
 		</span>
 	</dialog>
 </div>
 
 <style>
+	.close-x {
+		display: flex;
+		justify-content: flex-end;
+	}
+
+	.close-x button {
+		padding: 6px 12px;
+		min-height: 40px;
+	}
 	.content {
 		background-color: white;
 		width: 25em;
@@ -47,10 +57,12 @@
 		display: flex;
 		justify-content: flex-end;
 		min-width: 50%;
+		margin-top: 30px;
 	}
 
 	.button-container button {
 		min-height: 40px;
 		margin: 20px 10px;
+		padding: 5px;
 	}
 </style>
