@@ -54,6 +54,8 @@
 
 			<label for="notes">Notes</label>
 			<textarea rows="4" name="notes" bind:value={$form.notes}></textarea>
+
+			<input type="hidden" name="status" value="active" />
 		</form>
 	</div>
 
@@ -77,8 +79,8 @@
 		guardianName={$form.guardianName}
 	></LiabilityWaiver>
 	<div class="register-member-buttons">
+		<button type="reset" form="register-member">Cancel Registration</button>
 		<button type="submit" form="register-member">Click to Agree to Waiver</button>
-		<button type="reset" form="register-member">Cancel Member Registration</button>
 	</div>
 </div>
 
@@ -140,5 +142,6 @@
 	button {
 		min-height: 40px;
 		margin: 25px 10px;
+		padding: 10px 30px;
 	}
 </style>

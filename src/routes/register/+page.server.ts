@@ -18,6 +18,7 @@ export async function load() {
 export const actions = {
 	async default({ request }) {
 		const form = await superValidate(request, zod(memberCreateSchema));
+
 		if (!form.valid) {
 			return message(form, form.errors);
 		}

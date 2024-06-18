@@ -7,7 +7,7 @@
 	import type { Purpose } from '$lib/models/purpose';
 	import type { FormEventHandler } from 'svelte/elements';
 	import type { Visit } from '$lib/models/visit.js';
-	import EditOutline from '~icons/mdi/edit-outline';
+	import ClipboardEditOutline from '~icons/mdi/clipboard-edit-outline';
 	import QuestionMark from '~icons/mdi/question-mark';
 	import Exclamation from '~icons/mdi/exclamation';
 
@@ -105,8 +105,8 @@
 						class:button-greyed-out={signedInMembers.has(member.id)}
 						on:click={(event) => handleEditMember(event, member)}
 					>
+						<ClipboardEditOutline />
 						Edit Member
-						<EditOutline />
 					</button>
 				</div>
 			{/each}
@@ -205,6 +205,7 @@
 	}
 	.members-search label {
 		display: block;
+		margin: 30px 0px;
 	}
 	.members-search input {
 		width: 100%;

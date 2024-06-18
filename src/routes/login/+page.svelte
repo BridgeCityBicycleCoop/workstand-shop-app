@@ -22,9 +22,9 @@
 	<meta name="description" content="A shop application for Bicycle Co-ops" />
 </svelte:head>
 
-<div>
+<div class="login-container">
 	{#if data.user}
-		<p>Logged in as {data.user.email}</p>
+		<p class="logged-in">Logged in as {data.user.email}</p>
 		<form method="post" action="?/logout" use:enhance>
 			<button>Log Out</button>
 		</form>
@@ -109,6 +109,12 @@
 		justify-content: center;
 		gap: 1rem;
 		flex: 1;
+	}
+
+	.logged-in {
+		display: flex;
+		justify-content: center;
+		margin: 80px 0px;
 	}
 
 	[data-fs-error] {

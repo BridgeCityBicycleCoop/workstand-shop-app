@@ -80,7 +80,8 @@ pre {
 
 input,
 button,
-textarea {
+textarea,
+select {
 	font-size: inherit;
 	font-family: inherit;
 	padding: 0;
