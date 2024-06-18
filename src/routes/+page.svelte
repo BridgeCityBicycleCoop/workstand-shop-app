@@ -1,15 +1,9 @@
 <script lang="ts">
 	import { formatDistance } from 'date-fns';
-	import ActivitySelect from '$lib/ui/ActivitySelect.svelte';
-	import EditMember from '$lib/ui/EditMember.svelte';
-	import Modal from '$lib/ui/Modal.svelte';
-	import type { Member } from '$lib/models/member.js';
-	import type { Purpose } from '$lib/models/purpose';
-	import type { FormEventHandler } from 'svelte/elements';
-	import type { Visit } from '$lib/models/visit.js';
+	import { ActivitySelect, EditMember, Modal, Badge } from '$lib/ui';
 	import EditOutline from '~icons/mdi/edit-outline';
-	import QuestionMark from '~icons/mdi/question-mark';
-	import Exclamation from '~icons/mdi/exclamation';
+	import type { FormEventHandler } from 'svelte/elements';
+	import type { Member, Purpose, Visit } from '$lib/models';
 
 	export let data;
 
@@ -29,7 +23,7 @@
 			return '';
 		}
 
-		return member?.preferredName ? `${member.name} [${member.preferredName}]` : `${member?.name}`;
+		return member?.preferredName ? `${member.name} [ ${member.preferredName} ]` : `${member?.name}`;
 	};
 
 	const handleInput: FormEventHandler<HTMLInputElement> = (event) => {
@@ -78,24 +72,28 @@
 <div class="signin">
 	<div class="members-search">
 		<label for="filter">Members: Sign In</label>
-		<input on:input={handleInput} name="filter" type="text" bind:this={searchElement} />
+		<input type="search" on:input={handleInput} name="filter" bind:this={searchElement} />
 	</div>
 
 	<div class="search-results">
 		{#if showList}
 			{#each filteredMemeberList as member}
-				<div class="button-column">
-					<button class="status-button" disabled={signedInMembers.has(member.id)}>
-						{#if member.status === 'suspended'}
-							<QuestionMark />
-						{:else if member.status === 'banned'}
-							<Exclamation />
-						{/if}
-					</button>
+				<div role="group">
+					{#if member.status === 'suspended'}
+						<button class="badge-button">
+							<Badge type="suspended" />
+						</button>
+					{:else if member.status === 'banned'}
+						<button class="badge-button">
+							<Badge type="banned" />
+						</button>
+					{/if}
 					<button
-						class="signin-button"
-						on:click={(event) => handleMemberSelect(event, member)}
+						class="member-sign-in-button"
+						class:suspended={member.status === 'suspended'}
+						class:banned={member.status === 'banned'}
 						disabled={signedInMembers.has(member.id)}
+						on:click={(event) => handleMemberSelect(event, member)}
 					>
 						{getDisplayName(member)}
 					</button>
@@ -105,7 +103,7 @@
 						class:button-greyed-out={signedInMembers.has(member.id)}
 						on:click={(event) => handleEditMember(event, member)}
 					>
-						Edit Member
+						<span class="visually-hidden">Edit Member</span>
 						<EditOutline />
 					</button>
 				</div>
@@ -147,12 +145,12 @@
 </div>
 
 <Modal bind:open={isOpen}>
+	<div slot="title">Select <b>{getDisplayName(activeMember)}'s</b> Activity</div>
 	<ActivitySelect
 		formId="log-visit"
 		formData={data.logVisitForm}
 		bind:selectedPurpose
 		purposes={data.purposes}
-		displayName={getDisplayName(activeMember)}
 		{activeMember}
 		{activeVisit}
 		onSuccess={() => {
@@ -162,15 +160,15 @@
 		}}
 	/>
 	<div slot="buttons">
-		<button on:click={handleClose}>Cancel</button>
+		<button class="secondary" on:click={handleClose}>Cancel</button>
 	</div>
 </Modal>
 
 <Modal bind:open={isEditingMember}>
+	<div slot="title">Edit <b>{getDisplayName(activeMember)}'s</b> Info</div>
 	<EditMember
 		formId="edit-member"
 		formData={data.memberUpdateForm}
-		displayName={getDisplayName(activeMember)}
 		{activeMember}
 		onSuccess={() => {
 			handleClose();
@@ -179,8 +177,8 @@
 		}}
 	/>
 	<div slot="buttons" class="log-visit-buttons">
-		<button value="cancel-edit" on:click={handleClose}>Cancel</button>
-		<button type="submit" form="edit-member" value="confirm-edit">Confirm</button>
+		<button class="secondary" on:click={handleClose} value="cancel-edit">Cancel</button>
+		<button form="edit-member" value="confirm-edit">Confirm</button>
 	</div>
 </Modal>
 
@@ -188,14 +186,13 @@
 	.signin {
 		display: grid;
 		grid-template-areas:
-			'members-search members-search members-search'
-			'. search-results .'
-			'activity activity activity';
-		grid-template-columns: min-content auto min-content;
+			'members-search'
+			'search-results'
+			'activity';
+		grid-template-columns: auto;
 		grid-template-rows: auto 1fr auto;
 		row-gap: 1rem;
 		min-height: 100%;
-		max-width: 48rem;
 		padding-top: 3rem;
 		margin: 0 auto;
 	}
@@ -203,53 +200,11 @@
 	.members-search {
 		grid-area: members-search;
 	}
-	.members-search label {
-		display: block;
-	}
-	.members-search input {
-		width: 100%;
-	}
 
 	.search-results {
 		grid-area: search-results;
 		display: flex;
 		flex-direction: column;
-	}
-
-	button {
-		min-height: 40px;
-		margin: 5px 0px;
-	}
-
-	.button-column {
-		display: grid;
-		grid-template-columns: 0.5fr 10fr 2.5fr;
-	}
-
-	.button-column button:not(:last-child) {
-		border-right: none; /* Prevent double borders */
-	}
-
-	.button-column button:not(:first-child) {
-		border-left: none; /* Prevent double borders */
-	}
-
-	/* Clear floats (clearfix hack) */
-	.button-column:after {
-		content: '';
-		clear: both;
-		display: table;
-	}
-
-	/* Add a background color on hover */
-	.button-column button:hover {
-		background-color: #c4c4c4;
-	}
-
-	.button-greyed-out {
-		background-color: light-dark(rgba(239, 239, 239, 0.3), rgba(19, 1, 1, 0.3));
-		color: light-dark(rgba(16, 16, 16, 0.3), rgba(255, 255, 255, 0.3));
-		border-color: light-dark(rgba(118, 118, 118, 0.3), rgba(195, 195, 195, 0.3));
 	}
 
 	.currently-signed-in {
@@ -266,7 +221,6 @@
 	/* Set a fixed scrollable wrapper */
 	.tableWrap {
 		height: 9em;
-		border: 2px solid black;
 		overflow: auto;
 	}
 
@@ -282,5 +236,22 @@
 		border: none;
 		color: var(--color-theme-1);
 		cursor: pointer;
+	}
+
+	.edit-button,
+	.badge-button {
+		display: flex;
+		align-items: center;
+		max-width: fit-content;
+		--pico-form-element-spacing-horizontal: 1rem;
+	}
+
+	.member-sign-in-button {
+		text-align: left;
+		padding-left: 3.2rem;
+	}
+
+	.badge-button + .member-sign-in-button {
+		padding-left: 0;
 	}
 </style>

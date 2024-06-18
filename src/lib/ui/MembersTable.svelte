@@ -70,9 +70,6 @@
 			{/each}
 		</tbody>
 	</table>
-	<Modal bind:member={memberToEdit}>
-		<EditMember bind:member={memberToEdit} />
-	</Modal>
 </div>
 
 <style>
