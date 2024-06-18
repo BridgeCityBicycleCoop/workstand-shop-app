@@ -10,3 +10,4 @@ export { default as Modal } from './Modal.svelte';
 export { default as PageLayout } from './layouts/PageLayout.svelte';
 
 export { default as GithubLink } from './GithubLink.svelte';
+export { default as Badge } from './Badge.svelte';

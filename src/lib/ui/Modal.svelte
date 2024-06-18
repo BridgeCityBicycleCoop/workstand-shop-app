@@ -21,48 +21,22 @@
 	}
 </script>
 
-<div class="modal-container">
-	<dialog bind:this={dialog} on:close={handleClose}>
-		<div class="close-x"><button on:click={handleClose}> X </button></div>
-		<div class="content">
-			<slot {data} />
-		</div>
+<dialog bind:this={dialog} on:close={handleClose}>
+	<article>
+		{#if $$slots.title}
+			<header>
+				<button class="close" aria-label="Close" on:click={handleClose}></button>
+				<slot name="title">&nbsp;</slot>
+			</header>
+		{/if}
 
-		<span class="button-container">
+		<slot {data} />
+
+		<footer>
 			<slot name="buttons">
-				<button>Cancel</button>
-				<button on:click={handleClose}>Confirm</button>
+				<button class="secondary">Cancel</button>
+				<button>Confirm</button>
 			</slot>
-		</span>
-	</dialog>
-</div>
-
-<style>
-	.close-x {
-		display: flex;
-		justify-content: flex-end;
-	}
-
-	.close-x button {
-		padding: 6px 12px;
-		min-height: 40px;
-	}
-	.content {
-		background-color: white;
-		width: 25em;
-		height: fit-content;
-	}
-
-	.button-container {
-		display: flex;
-		justify-content: flex-end;
-		min-width: 50%;
-		margin-top: 30px;
-	}
-
-	.button-container button {
-		min-height: 40px;
-		margin: 20px 10px;
-		padding: 5px;
-	}
-</style>
+		</footer>
+	</article>
+</dialog>
