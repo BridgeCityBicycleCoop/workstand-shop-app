@@ -21,7 +21,12 @@
 			<input type="text" name="preferredName" bind:value={$form.preferredName} />
 
 			<label for="pronouns">Pronouns</label>
-			<input type="text" name="pronouns" bind:value={$form.pronouns} />
+			<input type="text" name="pronouns" list="common-pronouns" bind:value={$form.pronouns} />
+			<datalist id="common-pronouns">
+				<option value="he/him/his" />
+				<option value="she/her/hers" />
+				<option value="they/them/theirs" />
+			</datalist>
 
 			<label for="email">Email</label>
 			<input type="email" name="email" bind:value={$form.email} />
@@ -73,7 +78,7 @@
 	></LiabilityWaiver>
 	<div class="register-member-buttons">
 		<button type="submit" form="register-member">Click to Agree to Waiver</button>
-		<button>Cancel Member Registration</button>
+		<button type="reset" form="register-member">Cancel Member Registration</button>
 	</div>
 </div>
 
