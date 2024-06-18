@@ -205,6 +205,7 @@
 	}
 	.members-search label {
 		display: block;
+		margin: 30px 0px;
 	}
 	.members-search input {
 		width: 100%;
