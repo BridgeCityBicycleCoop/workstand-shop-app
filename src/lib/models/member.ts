@@ -11,7 +11,7 @@ export const requireEmailOrPhone = z.union(
 		z.object({ email: z.string(), phone: z.undefined() }),
 		z.object({ email: z.string(), phone: z.string() })
 	],
-	{ errorMap: (issue, ctx) => ({ message: 'Either email or phone must be filled in' }) }
+	{ errorMap: (_issue, _ctx) => ({ message: 'Either email or phone must be filled in' }) }
 );
 
 enum MemberStatus {
@@ -32,7 +32,7 @@ export const memberSchema = z.object({
 	guardianName: z.string().optional(),
 	postalCode: z.string().optional(),
 	notes: z.string().optional(),
-	status: z.string().optional(), // active, suspended, banned
+	status: z.nativeEnum(MemberStatus), // active, suspended, banned
 	waiver: z.string().optional()
 });
 
