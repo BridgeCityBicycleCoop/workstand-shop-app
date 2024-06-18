@@ -12,4 +12,12 @@ services:
       - /app/node_modules
     environment:
       - NODE_ENV=development
+      - HTTPS=true
     command: yarn dev --host
+  pocketbase:
+    image: elestio/pocketbase:latest
+    ports:
+      - '8090:8090'
+    volumes:
+      - ./pb_data:/pb_data
+    command: ['serve', '--http', '0.0.0.0:8090']
