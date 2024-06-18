@@ -16,6 +16,9 @@ export default defineConfig({
 		include: ['src/**/*.{test,spec}.{js,ts}']
 	},
 	server: {
+		https: true,
+		host: '0.0.0.0',
+
 		proxy: {}
 	}
 });
