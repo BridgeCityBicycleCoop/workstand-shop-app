@@ -4,6 +4,7 @@
 
 	export let formId: string;
 	export let activeMember: Member | undefined;
+	export let displayName: string;
 	export let onSuccess = (result: any) => {};
 	export let formData: SuperValidated<{ id: string }, any, { id: string }>;
 
@@ -12,7 +13,8 @@
 	});
 </script>
 
-{#if activeMember?.id}
+{#if activeMember?.id}<div>Edit {displayName}'s Info</div>
+	<br />
 	<div class="form-container">
 		<form id={formId} method="post" action="?/updateMember" use:enhance>
 			<label for="name">Name</label>
@@ -60,4 +62,31 @@
 {/if}
 
 <style>
+	form {
+		display: grid;
+		grid-template-columns: max-content max-content;
+		grid-gap: 5px;
+	}
+	form label {
+		text-align: left;
+	}
+	form label:after {
+		content: ':';
+	}
+
+	input {
+		padding: 12px 20px;
+		margin: 4px 0px;
+		border: 1px solid #ccc;
+		border-radius: 4px;
+		box-sizing: border-box;
+	}
+
+	textarea {
+		padding: 12px 20px;
+		margin: 4px 0px;
+		border: 1px solid #ccc;
+		border-radius: 4px;
+		box-sizing: border-box;
+	}
 </style>

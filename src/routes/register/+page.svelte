@@ -83,6 +83,25 @@
 </div>
 
 <style>
+	.register-page {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		min-width: 50%;
+	}
+
+	form {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+	}
+
+	form {
+		display: grid;
+		grid-template-columns: max-content max-content;
+		grid-gap: 5px;
+	}
+
 	.message-container {
 		display: flex;
 		flex-direction: column;
@@ -92,5 +111,34 @@
 	.message {
 		font-weight: bold;
 		color: rebeccapurple;
+	}
+
+	form label {
+		text-align: left;
+	}
+
+	form label:after {
+		content: ':';
+	}
+
+	input {
+		padding: 12px 20px;
+		margin: 4px 0px;
+		border: 1px solid #ccc;
+		border-radius: 4px;
+		box-sizing: border-box;
+	}
+
+	textarea {
+		padding: 12px 20px;
+		margin: 4px 0px;
+		border: 1px solid #ccc;
+		border-radius: 4px;
+		box-sizing: border-box;
+	}
+
+	button {
+		min-height: 40px;
+		margin: 25px 10px;
 	}
 </style>
