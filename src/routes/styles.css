@@ -38,10 +38,103 @@ body {
 	background-size: 100vw 100vh;
 }
 
+h1,
+h2,
+p {
+	font-weight: 400;
+}
+
+p,
+label {
+	line-height: 1.5;
+}
+
+a {
+	color: var(--color-theme-1);
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+h1 {
+	font-size: 2rem;
+	text-align: center;
+}
+
+h2 {
+	font-size: 1rem;
+}
+
+pre {
+	font-size: 16px;
+	font-family: var(--font-mono);
+	background-color: rgba(255, 255, 255, 0.45);
+	border-radius: 3px;
+	box-shadow: 2px 2px 6px rgb(255 255 255 / 25%);
+	padding: 0.5em;
+	overflow-x: auto;
+	color: var(--color-text);
+}
+
+input,
+button,
+textarea {
+	font-size: inherit;
+	font-family: inherit;
+	padding: 0;
+	margin: 0;
+}
+
+input {
+	display: inline-block;
+	border: var(--color-accent-subtle) 1px solid;
+	border-radius: 3px;
+	padding: 0.5em 1em;
+	margin: 0;
+}
+
+input:focus-visible {
+	outline: var(--color-accent) solid 1px;
+	outline: -webkit-focus-ring-color solid 1px;
+}
+
 @supports not selector(:focus-visible) {
 	input:focus {
 		outline: var(--color-accent) solid 1px;
 		outline: -webkit-focus-ring-color solid 1px;
+	}
+}
+
+button:focus:not(:focus-visible) {
+	outline: none;
+}
+
+table {
+	border-collapse: collapse;
+	width: 100%;
+	font-size: 0.8em;
+}
+
+th,
+td {
+	border: 1px solid var(--color-bg-0);
+	padding: 0.5em;
+}
+
+th {
+	background-color: var(--color-bg-1);
+	text-align: left;
+}
+
+td {
+	background-color: var(--color-bg-light);
+}
+
+@media (min-width: 720px) {
+	h1 {
+		font-size: 2.4rem;
 	}
 }
 
