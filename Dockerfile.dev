@@ -1,6 +1,9 @@
 # Use an official Node.js runtime as a parent image
 FROM node:18-alpine
 
+
+ARG PB_VERSION=0.22.14
+
 # Set the working directory in the container
 WORKDIR /app
 
@@ -18,3 +21,5 @@ EXPOSE 3000
 
 # Define the command to run the app
 CMD ["yarn", "dev", "--host"]
+
+

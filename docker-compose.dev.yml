@@ -13,11 +13,16 @@ services:
     environment:
       - NODE_ENV=development
       - HTTPS=true
-    command: yarn dev --host
+    depends_on:
+      - pocketbase
+    command: sh -c "yarn install && yarn run dev"
+
   pocketbase:
-    image: elestio/pocketbase:latest
+    # image: elestio/pocketbase:latest
+    build:
+      dockerfile: Dockerfile.pb
     ports:
       - '8090:8090'
     volumes:
       - ./pb_data:/pb_data
-    command: ['serve', '--http', '0.0.0.0:8090']
+    command: ['/pb/pocketbase', 'serve', '0.0.0.0:8090']
