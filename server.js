@@ -1,5 +1,6 @@
  import 'dotenv/config'
 console.log('PB TARGET', process.env.POCKETBASE_URL)
+console.log('ORIGIN', process.env.ORIGIN)
  import { handler } from './build/handler.js';
  import express from 'express';
  import helmet from "helmet";
