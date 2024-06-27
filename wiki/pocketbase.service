@@ -8,9 +8,9 @@ Group          = root
 LimitNOFILE    = 4096
 Restart        = always
 RestartSec     = 5s
-StandardOutput = append:/mitch/projects/workstand/pb/errors.log
-StandardError  = append:/mitch/projects/workstand/pb/errors.log
-ExecStart      = /mitch/projects/workstand/pb/pocketbase serve
+StandardOutput = append:/home/mitch/projects/workstand/pb/logs/access.log
+StandardError  = append:/home/mitch/projects/workstand/pb/logs/errors.log
+ExecStart      = /home/mitch/projects/workstand/pb/pocketbase serve
 
 [Install]
 WantedBy = multi-user.target

@@ -39,3 +39,14 @@ systemctl is-active pocketbase
   Restart the firewall to apply changes
   $ sudo ufw reload
   $ sudo ufw status
+
+## pocketbase service
+
+see the sample service file
+if you have issues with the pb service being stuck 'activating' then make sure all 3 of these paths are correct and directories or files exist
+
+```sh
+StandardOutput = append:/home/mitch/projects/workstand/pb/logs/access.log
+StandardError  = append:/home/mitch/projects/workstand/pb/logs/errors.log
+ExecStart      = /home/mitch/projects/workstand/pb/pocketbase serve
+```
