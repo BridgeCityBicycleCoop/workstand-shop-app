@@ -6,6 +6,7 @@ import type PocketBase from 'pocketbase'
 import type { RecordService } from 'pocketbase'
 
 export enum Collections {
+	Bikes = "bikes",
 	Members = "members",
 	Purposes = "purposes",
 	Users = "users",
@@ -36,44 +37,51 @@ export type AuthSystemFields<T = never> = {
 
 // Record types for each collection
 
+export enum BikesFieldOptions {
+	"active" = "active",
+	"sold" = "sold",
+	"stolen" = "stolen",
+}
+export type BikesRecord = {
+	brand?: string
+	color?: string
+	field?: BikesFieldOptions
+	model?: string
+	notes?: string
+	price?: number
+	style?: string
+	type?: string
+}
+
 export enum MembersStatusOptions {
-	'active' = 'active',
-	'suspended' = 'suspended',
-	'banned' = 'banned'
+	"active" = "active",
+	"suspended" = "suspended",
+	"banned" = "banned",
 }
 export type MembersRecord = {
-	email?: string;
-	emailConsent?: boolean;
-	guardianName?: string;
-	name?: string;
-	notes?: HTMLString;
-	phone?: string;
-	postalCode?: string;
-	preferredName?: string;
-	pronouns?: string;
-	requiresGuardian?: boolean;
-	status: MembersStatusOptions;
-	waiver?: IsoDateString;
-};
+	email?: string
+	emailConsent?: boolean
+	guardianName?: string
+	name?: string
+	notes?: HTMLString
+	phone?: string
+	postalCode?: string
+	preferredName?: string
+	pronouns?: string
+	requiresGuardian?: boolean
+	status?: MembersStatusOptions
+	waiver?: IsoDateString
+}
 
 export type PurposesRecord = {
 	name: string
 }
 
 export type UsersRecord = {
-	active?: boolean;
-	avatar?: string;
-	banned?: boolean;
-	dateOfBirth?: IsoDateString;
-	emailConsent?: boolean;
-	guardianName?: string;
-	name?: string;
-	notes?: HTMLString;
-	phone?: string;
-	preferredName?: string;
-	suspended?: boolean;
-	waiver?: IsoDateString;
-};
+	avatar?: string
+	name?: string
+	phone?: string
+}
 
 export type VisitsRecord = {
 	date?: IsoDateString
@@ -82,6 +90,7 @@ export type VisitsRecord = {
 }
 
 // Response types include system fields and match responses from the PocketBase API
+export type BikesResponse<Texpand = unknown> = Required<BikesRecord> & BaseSystemFields<Texpand>
 export type MembersResponse<Texpand = unknown> = Required<MembersRecord> & BaseSystemFields<Texpand>
 export type PurposesResponse<Texpand = unknown> = Required<PurposesRecord> & BaseSystemFields<Texpand>
 export type UsersResponse<Texpand = unknown> = Required<UsersRecord> & AuthSystemFields<Texpand>
@@ -90,6 +99,7 @@ export type VisitsResponse<Texpand = unknown> = Required<VisitsRecord> & BaseSys
 // Types containing all Records and Responses, useful for creating typing helper functions
 
 export type CollectionRecords = {
+	bikes: BikesRecord
 	members: MembersRecord
 	purposes: PurposesRecord
 	users: UsersRecord
@@ -97,6 +107,7 @@ export type CollectionRecords = {
 }
 
 export type CollectionResponses = {
+	bikes: BikesResponse
 	members: MembersResponse
 	purposes: PurposesResponse
 	users: UsersResponse
@@ -107,6 +118,7 @@ export type CollectionResponses = {
 // https://github.com/pocketbase/js-sdk#specify-typescript-definitions
 
 export type TypedPocketBase = PocketBase & {
+	collection(idOrName: 'bikes'): RecordService<BikesResponse>
 	collection(idOrName: 'members'): RecordService<MembersResponse>
 	collection(idOrName: 'purposes'): RecordService<PurposesResponse>
 	collection(idOrName: 'users'): RecordService<UsersResponse>
