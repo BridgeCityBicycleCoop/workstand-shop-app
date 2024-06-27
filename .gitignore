@@ -1,12 +1,24 @@
-.DS_Store
+# node
 node_modules
+
+#svelte
 /build
 /.svelte-kit
 /package
+
+# environment
 .env
 .env.*
 !.env.example
+
+# deploy
 .vercel
 .output
+
+# vite
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+# Mac OS
+.DS_Store
+__MACOSX
