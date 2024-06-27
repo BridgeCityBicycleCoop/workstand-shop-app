@@ -8,9 +8,10 @@ Group          = root
 LimitNOFILE    = 4096
 Restart        = always
 RestartSec     = 5s
-StandardOutput = append:/home/mitch/projects/workstand/pb/logs/access.log
-StandardError  = append:/home/mitch/projects/workstand/pb/logs/errors.log
-ExecStart      = /home/mitch/projects/workstand/pb/pocketbase serve
+# replace /home/<username>/projects/workstand/ with your path to /pb
+StandardOutput = append:/home/<username>/projects/workstand/pb/logs/access.log
+StandardError  = append:/home/<username>/projects/workstand/pb/logs/errors.log
+ExecStart      = /home/<username>/projects/workstand/pb/pocketbase serve
 
 [Install]
 WantedBy = multi-user.target
