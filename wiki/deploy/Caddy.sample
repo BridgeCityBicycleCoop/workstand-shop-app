@@ -1,0 +1,6 @@
+workstand.yourdomain.com {
+    reverse_proxy localhost:3000
+    request_body {
+        max_size 10MB
+    }
+}
