@@ -9,12 +9,17 @@
 <div class="bike-page">
 	<div>
 		<h1>Register New Bike</h1>
+		<div class="serial-search">
+			<a href="https://www.cpic-cipc.ca/sbi-rve-eng.htm" target="_blank"
+				>Search Bike Serial Number</a
+			>
+		</div>
 	</div>
 
 	<div class="form-container">
 		<form id="register-bike" method="POST" use:enhance>
-			<label for="type">Type</label>
-			<input type="text" name="type" bind:value={$form.type} />
+			<label for="serialNumber">Serial #</label>
+			<input type="text" name="serialNumber" bind:value={$form.serialNumber} />
 
 			<label for="brand">Brand</label>
 			<input type="text" name="brand" bind:value={$form.brand} />
@@ -64,6 +69,12 @@
 		flex-direction: column;
 		justify-content: center;
 		min-width: 50%;
+	}
+
+	.serial-search {
+		display: flex;
+		justify-content: center;
+		margin: 20px 0px;
 	}
 
 	form {

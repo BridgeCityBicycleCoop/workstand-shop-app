@@ -13,7 +13,7 @@ enum BikeStatus {
 
 export const bikeSchema = z.object({
 	id: z.string(),
-	type: z.string().min(1, 'Bike type is required'), // 10-speed, fixed-gear, mountain, dirt, street
+	serialNumber: z.string().min(1, 'Bike type is required'),
 	brand: z.string().optional(),
 	model: z.string().optional(),
 	style: z.string().optional(),
@@ -37,6 +37,6 @@ export type BikeFilter = z.infer<typeof bikeFilterSchema>; // Todo: use this in 
 
 export const bikeSearchFilter = (bikes: Bike[], filter: string) => {
 	return bikes.filter(
-		(m) => !filter || m.type.toLocaleLowerCase().includes(filter.toLocaleLowerCase())
+		(m) => !filter || m.serialNumber.toLocaleLowerCase().includes(filter.toLocaleLowerCase())
 	);
 };
