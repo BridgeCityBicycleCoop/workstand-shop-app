@@ -12,7 +12,7 @@
 	</div>
 
 	<div class="form-container">
-		<form id="register-member" method="POST" use:enhance>
+		<form id="register-bike" method="POST" use:enhance>
 			<label for="type">Type</label>
 			<input type="text" name="type" bind:value={$form.type} />
 
@@ -53,8 +53,8 @@
 
 	<br />
 	<div class="register-bike-buttons">
-		<button type="reset" form="register-member">Cancel Registration</button>
-		<button type="submit" form="register-member">Click to Register New Bike</button>
+		<button type="reset" form="register-bike">Cancel Registration</button>
+		<button type="submit" form="register-bike">Click to Register New Bike</button>
 	</div>
 </div>
 

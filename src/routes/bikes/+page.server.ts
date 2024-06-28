@@ -23,7 +23,7 @@ export const actions = {
 		}
 		try {
 			await bikesService.add(form.data);
-			return message(form, 'Member added successfully!');
+			return message(form, 'Bike added successfully!');
 		} catch (errors) {
 			if (
 				typeof errors === 'object' &&

@@ -19,8 +19,5 @@ export type VisitsService = ResourceService<Visit, VisitFilter> & {
 	findTodays(): Promise<Visit[]>;
 	add(data: { memberId: string; purposeId: string }): Promise<Visit>;
 };
-export type BikesService = ResourceService<Bike, BikeFilter> & {
-	findTodays(): Promise<Bike[]>;
-	add(data: { memberId: string }): Promise<Bike>;
-};
 export type PurposesService = ResourceService<Purpose, PurposeFilter>;
+export type BikesService = ResourceService<Bike, BikeFilter>;
