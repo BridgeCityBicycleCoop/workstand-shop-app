@@ -4,24 +4,45 @@
 	box-sizing: border-box;
 }
 
+/* These styles are changed to change the theme */
 :root {
 	--font-body: Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
 		Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 	--font-mono: 'Fira Mono', monospace;
-	--color-bg-light: rgb(250, 250, 250);
+	--column-width: 42rem;
+	--column-margin-top: 4rem;
+	--color-primary: 64, 117, 166; /* #4075a6; */
+	--color-secondary: 64, 117, 166; /* #40A6A4; */
+	--color-neutral: 250, 250, 250;
+	--color-bg-light: rgb(202, 216, 228);
+	--color-bg-med: rgb(132, 165, 197);
 	--color-bg-dark: gray;
-	--color-bg-0: rgb(202, 216, 228);
-	--color-bg-1: #f4f4ed;
-	--color-bg-2: #d3d3ba;
-	--color-theme-1: #a348e9;
-	--color-theme-2: #4075a6;
 	--color-text: #323336;
 	--color-accent: #a348e9;
 	--color-accent-subtle: #e9ecef;
-	--column-width: 42rem;
-	--column-margin-top: 4rem;
 	font-family: var(--font-body);
 	font-size: 16px;
+	color: var(--color-text);
+}
+
+.btn {
+	border-radius: 4px;
+	padding: 0px 10px;
+	margin: 0px 5px;
+}
+
+.btn-primary {
+	background-color: rgb(var(--color-primary), 0.8);
+	color: var(--color-accent-subtle);
+}
+
+.btn-secondary {
+	background-color: rgb(var(--color-secondary), 0.6);
+	color: var(--color-accent);
+}
+
+.btn-neutral {
+	background-color: rgb(var(--color-neutral));
 	color: var(--color-text);
 }
 
@@ -120,12 +141,12 @@ table {
 
 th,
 td {
-	border: 1px solid var(--color-bg-0);
+	border: 1px solid var(--color-bg-light);
 	padding: 0.5em;
 }
 
 th {
-	background-color: var(--color-bg-1);
+	background-color: var(--color-bg-med);
 	text-align: left;
 }
 

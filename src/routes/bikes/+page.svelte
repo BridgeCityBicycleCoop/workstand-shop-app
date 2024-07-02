@@ -58,8 +58,10 @@
 
 	<br />
 	<div class="register-bike-buttons">
-		<button type="reset" form="register-bike">Cancel Registration</button>
-		<button type="submit" form="register-bike">Click to Register New Bike</button>
+		<button class="btn btn-primary" type="reset" form="register-bike">Cancel Registration</button>
+		<button class="btn btn-primary" type="submit" form="register-bike"
+			>Click to Register New Bike</button
+		>
 	</div>
 </div>
 
@@ -122,6 +124,11 @@
 		border: 1px solid #ccc;
 		border-radius: 4px;
 		box-sizing: border-box;
+	}
+
+	.register-bike-buttons {
+		display: flex;
+		justify-content: center;
 	}
 
 	button {

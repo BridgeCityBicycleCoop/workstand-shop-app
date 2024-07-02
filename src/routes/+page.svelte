@@ -179,8 +179,8 @@
 		}}
 	/>
 	<div slot="buttons" class="log-visit-buttons">
-		<button value="cancel-edit" on:click={handleClose}>Cancel</button>
-		<button type="submit" form="edit-member" value="confirm-edit">Confirm</button>
+		<button class="btn btn-primary" on:click={handleClose}>Cancel</button>
+		<button class="btn btn-primary" type="submit" form="edit-member">Confirm</button>
 	</div>
 </Modal>
 

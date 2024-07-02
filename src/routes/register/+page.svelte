@@ -79,8 +79,10 @@
 		guardianName={$form.guardianName}
 	></LiabilityWaiver>
 	<div class="register-member-buttons">
-		<button type="reset" form="register-member">Cancel Registration</button>
-		<button type="submit" form="register-member">Click to Agree to Waiver</button>
+		<button class="btn btn-primary" type="reset" form="register-member">Cancel Registration</button>
+		<button class="btn btn-primary" type="submit" form="register-member"
+			>Click to Agree to Waiver</button
+		>
 	</div>
 </div>
 

@@ -30,8 +30,8 @@
 
 		<span class="button-container">
 			<slot name="buttons">
-				<button>Cancel</button>
-				<button on:click={handleClose}>Confirm</button>
+				<button class="btn btn-primary">Cancel</button>
+				<button class="btn btn-primary" on:click={handleClose}>Confirm</button>
 			</slot>
 		</span>
 	</dialog>
