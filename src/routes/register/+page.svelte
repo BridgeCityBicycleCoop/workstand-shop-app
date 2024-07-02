@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { superForm } from 'sveltekit-superforms';
 	import LiabilityWaiver from '$lib/ui/LiabilityWaiver.svelte';
+	import ToggleSwitch from '$lib/ui/ToggleSwitch.svelte';
 
 	export let data;
 
@@ -35,14 +36,20 @@
 				<div class="errors">{$errors.email}</div>
 			{/if}
 
-			<label for="emailConsent"> Email Consent </label>
-			<input type="checkbox" name="emailConsent" bind:checked={$form.emailConsent} />
+			<ToggleSwitch
+				labelText="Email Consent"
+				inputName="emailConsent"
+				bind:checked={$form.emailConsent}
+			/>
 
 			<label for="phone">Phone</label>
 			<input type="tel" name="phone" bind:value={$form.phone} />
 
-			<label for="requiresGuardian">Under 18 ?</label>
-			<input type="checkbox" name="requiresGuardian" bind:checked={$form.requiresGuardian} />
+			<ToggleSwitch
+				labelText="Requires Guardian"
+				inputName="requiresGuardian"
+				bind:checked={$form.requiresGuardian}
+			/>
 
 			{#if $form.requiresGuardian}
 				<label for="guardianName">Guardian Name</label>

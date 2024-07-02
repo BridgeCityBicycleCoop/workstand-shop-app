@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { superForm, type SuperValidated } from 'sveltekit-superforms';
 	import { type Member, memberSchema } from '$lib/models/member';
+	import ToggleSwitch from './ToggleSwitch.svelte';
 
 	export let formId: string;
 	export let activeMember: Member | undefined;
@@ -29,14 +30,20 @@
 			<label for="email">Email</label>
 			<input type="email" name="email" bind:value={activeMember.email} />
 
-			<label for="emailConsent"> Email Consent </label>
-			<input type="checkbox" name="emailConsent" bind:checked={activeMember.emailConsent} />
+			<ToggleSwitch
+				labelText="Email Consent"
+				inputName="emailConsent"
+				bind:checked={activeMember.emailConsent}
+			/>
 
 			<label for="phone">Phone</label>
 			<input type="tel" name="phone" bind:value={activeMember.phone} />
 
-			<label for="requiresGuardian"> Requires Guardian </label>
-			<input type="checkbox" name="requiresGuardian" bind:checked={activeMember.requiresGuardian} />
+			<ToggleSwitch
+				labelText="Requires Guardian"
+				inputName="requiresGuardian"
+				bind:checked={activeMember.requiresGuardian}
+			/>
 
 			<label for="guardianName">Guardian Name</label>
 			<input type="text" name="guardianName" bind:value={activeMember.guardianName} />
