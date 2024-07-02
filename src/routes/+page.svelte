@@ -85,7 +85,11 @@
 		{#if showList}
 			{#each filteredMemeberList as member}
 				<div class="button-column">
-					<button class="status-button" disabled={signedInMembers.has(member.id)}>
+					<button
+						class="btn btn-primary"
+						class:button-greyed-out={signedInMembers.has(member.id)}
+						disabled={signedInMembers.has(member.id)}
+					>
 						{#if member.status === 'suspended'}
 							<QuestionMark />
 						{:else if member.status === 'banned'}
@@ -93,7 +97,8 @@
 						{/if}
 					</button>
 					<button
-						class="signin-button"
+						class="btn btn-primary"
+						class:button-greyed-out={signedInMembers.has(member.id)}
 						on:click={(event) => handleMemberSelect(event, member)}
 						disabled={signedInMembers.has(member.id)}
 					>
@@ -101,7 +106,7 @@
 					</button>
 
 					<button
-						class="edit-button"
+						class="btn btn-primary"
 						class:button-greyed-out={signedInMembers.has(member.id)}
 						on:click={(event) => handleEditMember(event, member)}
 					>
@@ -162,7 +167,7 @@
 		}}
 	/>
 	<div slot="buttons">
-		<button on:click={handleClose}>Cancel</button>
+		<button class="btn btn-primary" on:click={handleClose}>Cancel</button>
 	</div>
 </Modal>
 

@@ -38,6 +38,10 @@
 </div>
 
 <style>
+	dialog {
+		background: var(--color-bg-light);
+	}
+
 	.close-x {
 		display: flex;
 		justify-content: flex-end;
@@ -47,8 +51,9 @@
 		padding: 6px 12px;
 		min-height: 40px;
 	}
+
 	.content {
-		background-color: white;
+		background-color: var(--color-bg-light);
 		width: 25em;
 		height: fit-content;
 	}

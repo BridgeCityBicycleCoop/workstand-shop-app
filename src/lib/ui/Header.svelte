@@ -27,7 +27,7 @@
 
 	.logo {
 		grid-area: logo;
-		height: 5em;
+		height: 3em;
 	}
 
 	.menu {

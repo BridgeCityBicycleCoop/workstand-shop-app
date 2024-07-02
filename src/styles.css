@@ -146,6 +146,7 @@ td {
 }
 
 th {
+	color: var(--color-accent-subtle);
 	background-color: var(--color-bg-med);
 	text-align: left;
 }
