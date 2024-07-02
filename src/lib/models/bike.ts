@@ -13,7 +13,7 @@ enum BikeStatus {
 
 export const bikeSchema = z.object({
 	id: z.string(),
-	serialNumber: z.string().min(1, 'Bike type is required'),
+	serialNumber: z.string().min(1, 'Bike Serial# is required'),
 	brand: z.string().optional(),
 	model: z.string().optional(),
 	style: z.string().optional(),
