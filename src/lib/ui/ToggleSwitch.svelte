@@ -1,72 +1,42 @@
-<script lang="ts">
-	export let labelText;
-	export let inputName;
-	export let checked;
-</script>
-
-<div class="container">
-	<label class="switch" for={inputName}
-		>{labelText}
-		<input type="checkbox" name={inputName} {checked} />
-		<div class="slider round"></div>
-	</label>
-</div>
+<label>
+	<input {...$$props} type="checkbox" />
+</label>
 
 <style>
-	label {
-		text-align: left;
-	}
-
-	label:after {
-		content: ':';
-	}
-
-	.switch {
-		display: inline-block;
-		height: 34px;
-		position: relative;
-		width: 60px;
-	}
-
-	.switch input {
+	input {
 		display: none;
 	}
-
-	.slider {
-		background-color: #ccc;
-		bottom: 0;
+	label {
+		position: relative;
+		display: inline-block;
+		height: 1.5em;
+		width: 3em;
+		border-radius: 0.8em;
 		cursor: pointer;
-		left: 0;
-		position: absolute;
-		right: 0;
-		top: 0;
-		transition: 0.4s;
+
+		background-color: var(--color-accent-subtle, #ccc);
+		transition: background-color 0.2s;
 	}
 
-	.slider:before {
-		background-color: #fff;
-		bottom: 4px;
+	label:has(:checked) {
+		background-color: var(--color-accent, #66bb6a);
+	}
+
+	label::after {
 		content: '';
-		height: 26px;
-		left: 4px;
 		position: absolute;
-		transition: 0.4s;
-		width: 26px;
-	}
-
-	input:checked + .slider {
-		background-color: #66bb6a;
-	}
-
-	input:checked + .slider:before {
-		transform: translateX(26px);
-	}
-
-	.slider.round {
-		border-radius: 34px;
-	}
-
-	.slider.round:before {
+		display: inline-block;
+		bottom: 0.2em;
+		left: 0.2em;
+		width: 1.2em;
+		height: 1.1em;
 		border-radius: 50%;
+		background-color: #fff;
+		vertical-align: middle;
+
+		transition: transform 0.2s;
+	}
+	label:has(:checked)::after {
+		transform: translateX(1.4em);
 	}
 </style>

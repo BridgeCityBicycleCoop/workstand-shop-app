@@ -30,20 +30,19 @@
 			<label for="email">Email</label>
 			<input type="email" name="email" bind:value={activeMember.email} />
 
+			<label for="emailConsent">Email Consent</label>
 			<ToggleSwitch
-				labelText="Email Consent"
-				inputName="emailConsent"
+				id="emailConsent"
+				name="emailConsent"
 				bind:checked={activeMember.emailConsent}
+				type="radio"
 			/>
 
 			<label for="phone">Phone</label>
 			<input type="tel" name="phone" bind:value={activeMember.phone} />
 
-			<ToggleSwitch
-				labelText="Requires Guardian"
-				inputName="requiresGuardian"
-				bind:checked={activeMember.requiresGuardian}
-			/>
+			<label for="requiresGuardian">Requires Guardian</label>
+			<ToggleSwitch name="requiresGuardian" bind:checked={activeMember.requiresGuardian} />
 
 			<label for="guardianName">Guardian Name</label>
 			<input type="text" name="guardianName" bind:value={activeMember.guardianName} />

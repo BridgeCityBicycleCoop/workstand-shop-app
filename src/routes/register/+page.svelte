@@ -36,20 +36,14 @@
 				<div class="errors">{$errors.email}</div>
 			{/if}
 
-			<ToggleSwitch
-				labelText="Email Consent"
-				inputName="emailConsent"
-				bind:checked={$form.emailConsent}
-			/>
+			<label for="emailConsent">Email Consent</label>
+			<ToggleSwitch name="emailConsent" type="radio" bind:checked={$form.emailConsent} />
 
 			<label for="phone">Phone</label>
 			<input type="tel" name="phone" bind:value={$form.phone} />
 
-			<ToggleSwitch
-				labelText="Requires Guardian"
-				inputName="requiresGuardian"
-				bind:checked={$form.requiresGuardian}
-			/>
+			<label for="requiresGuardian">Requires Guardian</label>
+			<ToggleSwitch name="requiresGuardian" bind:checked={$form.requiresGuardian} />
 
 			{#if $form.requiresGuardian}
 				<label for="guardianName">Guardian Name</label>
