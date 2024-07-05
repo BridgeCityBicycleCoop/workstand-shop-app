@@ -1,6 +1,6 @@
 <script>
 	import { PageLayout, Header, Footer, TopNav, Logo, GithubLink } from '$lib/ui';
-	import './styles.css';
+	import '../styles.css';
 </script>
 
 <PageLayout>

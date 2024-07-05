@@ -1,15 +1,17 @@
 <script lang="ts">
 	import { formatDistance } from 'date-fns';
+	import { goto } from '$app/navigation';
 	import ActivitySelect from '$lib/ui/ActivitySelect.svelte';
-	import EditMember from '$lib/ui/EditMember.svelte';
 	import Modal from '$lib/ui/Modal.svelte';
-	import type { Member } from '$lib/models/member.js';
-	import type { Purpose } from '$lib/models/purpose';
-	import type { FormEventHandler } from 'svelte/elements';
-	import type { Visit } from '$lib/models/visit.js';
 	import ClipboardEditOutline from '~icons/mdi/clipboard-edit-outline';
 	import QuestionMark from '~icons/mdi/question-mark';
 	import Exclamation from '~icons/mdi/exclamation';
+	import { getDisplayName } from '$lib/ui/utils';
+
+	import type { Member } from '$lib/models/member';
+	import type { Purpose } from '$lib/models/purpose';
+	import type { FormEventHandler } from 'svelte/elements';
+	import type { Visit } from '$lib/models/visit';
 
 	export let data;
 
@@ -18,19 +20,10 @@
 	let activeVisit: Visit | undefined;
 
 	let isOpen: boolean;
-	let isEditingMember: boolean = false;
 
 	let showList: boolean;
 	let filteredMemeberList: Member[];
 	let searchElement: HTMLInputElement;
-
-	const getDisplayName = (member: Member | undefined): string => {
-		if (!member) {
-			return '';
-		}
-
-		return member?.preferredName ? `${member.name} [${member.preferredName}]` : `${member?.name}`;
-	};
 
 	const handleInput: FormEventHandler<HTMLInputElement> = (event) => {
 		const filterText = event.currentTarget?.value.toLocaleLowerCase();
@@ -58,14 +51,12 @@
 		isOpen = true;
 	};
 
-	const handleEditMember = (event: MouseEvent, member: Member) => {
-		activeMember = member;
-		isEditingMember = true;
+	const handleEditMember = (_event: MouseEvent, member: Member) => {
+		goto(`/members/${member.id}`);
 	};
 
 	const handleClose = () => {
 		isOpen = false;
-		isEditingMember = false;
 		activeMember = undefined;
 	};
 </script>
@@ -85,7 +76,11 @@
 		{#if showList}
 			{#each filteredMemeberList as member}
 				<div class="button-column">
-					<button class="status-button" disabled={signedInMembers.has(member.id)}>
+					<button
+						class="btn btn-primary"
+						class:button-greyed-out={signedInMembers.has(member.id)}
+						disabled={signedInMembers.has(member.id)}
+					>
 						{#if member.status === 'suspended'}
 							<QuestionMark />
 						{:else if member.status === 'banned'}
@@ -93,7 +88,8 @@
 						{/if}
 					</button>
 					<button
-						class="signin-button"
+						class="btn btn-primary"
+						class:button-greyed-out={signedInMembers.has(member.id)}
 						on:click={(event) => handleMemberSelect(event, member)}
 						disabled={signedInMembers.has(member.id)}
 					>
@@ -101,7 +97,7 @@
 					</button>
 
 					<button
-						class="edit-button"
+						class="btn btn-primary"
 						class:button-greyed-out={signedInMembers.has(member.id)}
 						on:click={(event) => handleEditMember(event, member)}
 					>
@@ -113,7 +109,7 @@
 		{/if}
 	</div>
 
-	<div class="currently-signed-in">
+	<section class="currently-signed-in">
 		<h3>Signed in today</h3>
 		<div class="tableWrap">
 			{#if data.visits.length > 0}
@@ -143,7 +139,7 @@
 				<p>No members signed in</p>
 			{/if}
 		</div>
-	</div>
+	</section>
 </div>
 
 <Modal bind:open={isOpen}>
@@ -162,25 +158,7 @@
 		}}
 	/>
 	<div slot="buttons">
-		<button on:click={handleClose}>Cancel</button>
-	</div>
-</Modal>
-
-<Modal bind:open={isEditingMember}>
-	<EditMember
-		formId="edit-member"
-		formData={data.memberUpdateForm}
-		displayName={getDisplayName(activeMember)}
-		{activeMember}
-		onSuccess={() => {
-			handleClose();
-			searchElement.value = '';
-			searchElement.dispatchEvent(new Event('input', { bubbles: true }));
-		}}
-	/>
-	<div slot="buttons" class="log-visit-buttons">
-		<button value="cancel-edit" on:click={handleClose}>Cancel</button>
-		<button type="submit" form="edit-member" value="confirm-edit">Confirm</button>
+		<button class="btn btn-primary" on:click={handleClose}>Cancel</button>
 	</div>
 </Modal>
 
@@ -189,10 +167,10 @@
 		display: grid;
 		grid-template-areas:
 			'members-search members-search members-search'
-			'. search-results .'
+			'search-results search-results search-results'
 			'activity activity activity';
 		grid-template-columns: min-content auto min-content;
-		grid-template-rows: auto 1fr auto;
+		grid-template-rows: auto minmax(35dvh, max-content) auto;
 		row-gap: 1rem;
 		min-height: 100%;
 		max-width: 48rem;
@@ -264,24 +242,11 @@
 		border-collapse: collapse;
 	}
 
-	/* Set a fixed scrollable wrapper */
-	.tableWrap {
-		height: 9em;
-		border: 2px solid black;
-		overflow: auto;
-	}
-
-	/* Set header to stick to the top of the container. */
-	thead tr th {
-		position: sticky;
-		top: 0;
-	}
-
 	.edit-profile {
 		appearance: unset;
 		background-color: transparent;
 		border: none;
-		color: var(--color-theme-1);
+		color: rgb(var(--color-primary));
 		cursor: pointer;
 	}
 </style>

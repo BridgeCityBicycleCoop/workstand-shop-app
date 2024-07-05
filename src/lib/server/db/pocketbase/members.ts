@@ -12,18 +12,18 @@ const pb = new PocketBase(env.POCKETBASE_URL) as TypedPocketBase;
 
 export const find = async (_filters: Record<string, unknown> = {}) => {
 	const records = await pb.collection('members').getFullList();
-	const members = memberListSchema.parse(records);
-	return members;
+	return memberListSchema.parse(records);
 };
-export const get = async (id: string) => {
-	return memberSchema.parse(await pb.collection('members').getOne(id));
-};
-export const add = async (data: MemberCreate) => {
-	return memberSchema.parse(await pb.collection('members').create(data));
-};
-export const update = async (data: MemberUpdate) => {
-	return memberSchema.parse(await pb.collection('members').update(data.id, data));
-};
+
+export const get = async (id: string) =>
+	memberSchema.parse(await pb.collection('members').getOne(id));
+
+export const add = async (data: MemberCreate) =>
+	memberSchema.parse(await pb.collection('members').create(data));
+
+export const update = async (data: MemberUpdate) =>
+	memberSchema.parse(await pb.collection('members').update(data.id, data));
+
 export const remove = async (id: string) => {
 	return await pb.collection('members').delete(id);
 };

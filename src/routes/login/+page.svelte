@@ -26,7 +26,7 @@
 	{#if data.user}
 		<p class="logged-in">Logged in as {data.user.email}</p>
 		<form method="post" action="?/logout" use:enhance>
-			<button>Log Out</button>
+			<button class="btn btn-primary">Log Out</button>
 		</form>
 	{:else}
 		<h1>{headingText}</h1>
@@ -51,7 +51,7 @@
 					<FieldErrors />
 				</Field>
 				{#if $message}<h3>{$message}</h3>{/if}
-				<button>Log In</button>
+				<button class="btn btn-primary">Log In</button>
 			</form>
 		{:else}
 			<div>
@@ -92,7 +92,7 @@
 					</Field>
 
 					{#if $registerMessage}<h3>{$registerMessage}</h3>{/if}
-					<button>Register</button>
+					<button class="btn btn-primary">Register</button>
 				</form>
 			</div>
 		{/if}

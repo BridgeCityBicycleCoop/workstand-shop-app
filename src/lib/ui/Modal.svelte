@@ -30,14 +30,18 @@
 
 		<span class="button-container">
 			<slot name="buttons">
-				<button>Cancel</button>
-				<button on:click={handleClose}>Confirm</button>
+				<button class="btn btn-primary">Cancel</button>
+				<button class="btn btn-primary" on:click={handleClose}>Confirm</button>
 			</slot>
 		</span>
 	</dialog>
 </div>
 
 <style>
+	dialog {
+		background: var(--color-bg-light);
+	}
+
 	.close-x {
 		display: flex;
 		justify-content: flex-end;
@@ -47,8 +51,9 @@
 		padding: 6px 12px;
 		min-height: 40px;
 	}
+
 	.content {
-		background-color: white;
+		background-color: var(--color-bg-light);
 		width: 25em;
 		height: fit-content;
 	}

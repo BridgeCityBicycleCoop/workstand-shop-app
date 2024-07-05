@@ -34,6 +34,7 @@
 		<div class="activity-container">
 			{#each purposes as purpose}
 				<button
+					class="btn btn-primary"
 					on:click={() => {
 						selectedPurpose = purpose;
 					}}

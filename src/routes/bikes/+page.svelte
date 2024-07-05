@@ -1,5 +1,7 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import { superForm } from 'sveltekit-superforms';
+	import BikeEditFields from '$lib/ui/forms/BikeEditFields.svelte';
 
 	export let data;
 
@@ -18,28 +20,7 @@
 
 	<div class="form-container">
 		<form id="register-bike" method="POST" use:enhance>
-			<label for="serialNumber">Serial #</label>
-			<input type="text" name="serialNumber" bind:value={$form.serialNumber} />
-
-			<label for="brand">Brand</label>
-			<input type="text" name="brand" bind:value={$form.brand} />
-
-			<label for="model">Model</label>
-			<input type="text" name="model" bind:value={$form.model} />
-
-			<label for="style">Style</label>
-			<input type="text" name="style" bind:value={$form.style} />
-
-			<label for="color">Color</label>
-			<input type="text" name="color" bind:value={$form.color} />
-
-			<label for="price">Price</label>
-			<input type="number" step="0.01" name="price" bind:value={$form.price} />
-
-			<label for="notes">Notes</label>
-			<textarea rows="4" name="notes" bind:value={$form.notes}></textarea>
-
-			<input type="hidden" name="status" value="active" />
+			<BikeEditFields bikeForm={form} {errors} />
 		</form>
 	</div>
 
@@ -58,8 +39,10 @@
 
 	<br />
 	<div class="register-bike-buttons">
-		<button type="reset" form="register-bike">Cancel Registration</button>
-		<button type="submit" form="register-bike">Click to Register New Bike</button>
+		<button class="btn btn-primary" type="reset" form="register-bike">Cancel Registration</button>
+		<button class="btn btn-primary" type="submit" form="register-bike"
+			>Click to Register New Bike</button
+		>
 	</div>
 </div>
 
@@ -122,6 +105,11 @@
 		border: 1px solid #ccc;
 		border-radius: 4px;
 		box-sizing: border-box;
+	}
+
+	.register-bike-buttons {
+		display: flex;
+		justify-content: center;
 	}
 
 	button {
