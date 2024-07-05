@@ -1,46 +1,51 @@
 <script lang="ts">
-	import { type Member, memberSchema } from '$lib/models/member';
+	import { type MemberUpdate, type MemberCreate, memberSchema } from '$lib/models/member';
+	import type { SuperForm } from 'sveltekit-superforms';
 	import Field from './Field.svelte';
 
-	export let member: Omit<Member, 'id'> & { id?: Member['id'] };
-	export let errors: Record<string, unknown> | undefined = undefined;
+	type MemberForm = MemberUpdate | (MemberCreate & { id?: string });
+
+	export let memberForm: SuperForm<MemberForm>['form'];
+	export let errors: SuperForm<MemberForm>['errors'];
 </script>
 
 <fieldset>
-	<Field name="name" bind:value={member.name}>Name</Field>
-	<Field name="preferredName" bind:value={member.preferredName}>Preferred Name</Field>
-	<Field name="pronouns" list="common-pronouns" bind:value={member.pronouns}>Pronouns</Field>
+	<Field name="name" bind:value={$memberForm.name}>Name</Field>
+	<Field name="preferredName" bind:value={$memberForm.preferredName}>Preferred Name</Field>
+	<Field name="pronouns" list="common-pronouns" bind:value={$memberForm.pronouns}>Pronouns</Field>
 	<datalist id="common-pronouns">
 		<option value="he/him/his" />
 		<option value="she/her/hers" />
 		<option value="they/them/theirs" />
 	</datalist>
-	<Field name="email" type="email" bind:value={member.email}>Email</Field>
-	{#if errors?.email}
-		<div class="errors">{errors?.email}</div>
+	<Field name="email" type="email" bind:value={$memberForm.email}>Email</Field>
+	{#if $errors?.email}
+		<div class="errors">{$errors?.email}</div>
 	{/if}
-	<Field name="emailConsent" type="toggle" bind:checked={member.emailConsent}>Email Consent</Field>
-	<Field name="phone" bind:value={member.phone}>Phone</Field>
-	<Field name="requiresGuardian" type="toggle" bind:checked={member.requiresGuardian}>
+	<Field name="emailConsent" type="toggle" bind:checked={$memberForm.emailConsent}>
+		Email Consent
+	</Field>
+	<Field name="phone" bind:value={$memberForm.phone}>Phone</Field>
+	<Field name="requiresGuardian" type="toggle" bind:checked={$memberForm.requiresGuardian}>
 		Requires Guardian
 	</Field>
-	{#if member.requiresGuardian}
-		<Field name="guardianName" bind:value={member.guardianName}>Guardian Name</Field>
+	{#if $memberForm.requiresGuardian}
+		<Field name="guardianName" bind:value={$memberForm.guardianName}>Guardian Name</Field>
 	{/if}
-	<Field name="postalCode" bind:value={member.postalCode}>Postal Code</Field>
-	{#if member.id}
+	<Field name="postalCode" bind:value={$memberForm.postalCode}>Postal Code</Field>
+	{#if $memberForm.id}
 		<Field
 			name="status"
 			type="select"
 			options={Object.entries(memberSchema.shape.status.enum)}
-			bind:value={member.status}
+			bind:value={$memberForm.status}
 		>
 			Status
 		</Field>
 	{/if}
-	<Field name="notes" type="textarea" rows="4" bind:value={member.notes}>Notes</Field>
-	{#if member.id}
-		<input type="hidden" name="id" value={member.id} />
+	<Field name="notes" type="textarea" rows="4" bind:value={$memberForm.notes}>Notes</Field>
+	{#if $memberForm.id}
+		<input type="hidden" name="id" bind:value={$memberForm.id} />
 	{/if}
 </fieldset>
 

@@ -2,20 +2,21 @@
 	import { superForm } from 'sveltekit-superforms';
 	import LiabilityWaiver from '$lib/ui/LiabilityWaiver.svelte';
 	import MemberEditFields from '$lib/ui/forms/MemberEditFields.svelte';
+	import { goto } from '$app/navigation';
 
 	export let data;
 
 	const { form, errors, enhance, message } = superForm(data.form);
 </script>
 
-<div class="register-page">
+<section class="register-member">
 	<div>
 		<h1>Register New Member</h1>
 	</div>
 
 	<div class="form-container">
 		<form id="register-member" method="POST" use:enhance>
-			<MemberEditFields member={$form} errors={$errors} />
+			<MemberEditFields memberForm={form} {errors} />
 		</form>
 	</div>
 
@@ -39,15 +40,15 @@
 		guardianName={$form.guardianName}
 	></LiabilityWaiver>
 	<div class="register-member-buttons">
-		<button class="btn btn-primary" type="reset" form="register-member">Cancel Registration</button>
+		<button class="btn btn-primary" on:click={() => goto('/')}>Cancel Registration</button>
 		<button class="btn btn-primary" type="submit" form="register-member"
 			>Click to Agree to Waiver</button
 		>
 	</div>
-</div>
+</section>
 
 <style>
-	.register-page {
+	.register-member {
 		display: flex;
 		flex-direction: column;
 		justify-content: center;

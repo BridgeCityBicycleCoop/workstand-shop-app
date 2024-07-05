@@ -1,5 +1,9 @@
+<script lang="ts">
+	export let checked = false;
+</script>
+
 <label>
-	<input {...$$props} type="checkbox" />
+	<input {...$$props} type="checkbox" bind:checked />
 </label>
 
 <style>

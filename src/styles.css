@@ -141,7 +141,7 @@ table {
 
 th,
 td {
-	border: 1px solid var(--color-bg-light);
+	border: 1px solid var(--color-accent-subtle);
 	padding: 0.5em;
 }
 
@@ -149,10 +149,6 @@ th {
 	color: var(--color-accent-subtle);
 	background-color: var(--color-bg-med);
 	text-align: left;
-}
-
-td {
-	background-color: var(--color-bg-light);
 }
 
 @media (min-width: 720px) {

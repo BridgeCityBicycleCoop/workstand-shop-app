@@ -28,15 +28,17 @@
 		| 'url' = 'text';
 	export let id: string = $$props.name;
 	export let options: [key: string, value: string][] = [];
+	export let value: string | undefined = undefined;
+	export let checked = false;
 </script>
 
 <label for={id}><slot /></label>
 {#if type === 'toggle'}
-	<ToggleSwitch {id} {...$$props} />
+	<ToggleSwitch {id} {...$$props} bind:checked />
 {:else if type === 'textarea'}
-	<textarea {id} {...$$props}></textarea>
+	<textarea {id} {...$$props} bind:value></textarea>
 {:else if type === 'select'}
-	<select {id} {...$$props}>
+	<select {id} {...$$props} bind:value>
 		{#if $$slots.option}
 			{#each options as entry}
 				<slot name="option" {entry} />
@@ -48,7 +50,7 @@
 		{/if}
 	</select>
 {:else}
-	<input {type} {id} {...$$props} />
+	<input {id} {...$$props} bind:value />
 {/if}
 
 <style>
