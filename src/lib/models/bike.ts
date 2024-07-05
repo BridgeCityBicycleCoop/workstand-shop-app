@@ -5,22 +5,24 @@ export const datelikeToDate = z
 	.transform((value) => (value === '' ? undefined : value))
 	.pipe(z.coerce.date().nullish());
 
-enum BikeStatus {
-	Active = 'active',
-	Sold = 'sold',
-	Stolen = 'stolen'
-}
-
 export const bikeSchema = z.object({
 	id: z.string(),
-	serialNumber: z.string().min(1, 'Bike Serial# is required'),
-	brand: z.string().optional(),
-	model: z.string().optional(),
-	style: z.string().optional(),
-	color: z.string().optional(),
-	price: z.number().optional(),
-	notes: z.string().optional(),
-	status: z.nativeEnum(BikeStatus) // active, sold, stolen
+	serialNumber: z.string(),
+	make: z.string().optional(),
+	colour: z.string().optional(),
+	donatedBy: z.string().optional(),
+	email: z.string().optional(),
+	donationDate: datelikeToDate.optional(),
+	suggestedDonation: z.number().optional(),
+	cpicDate: datelikeToDate.optional(),
+	recipientName: z.string().optional(),
+	recipientAge: z.string().optional(),
+	recipientPhoneNumber: z.string().optional(),
+	outOfShopDate: datelikeToDate.optional(),
+	pricePaid: z.number().optional(),
+	bikeDestiny: z.string().optional(),
+	bcbcProgram: z.string().optional(),
+	notes: z.string().optional()
 });
 
 export const bikeListSchema = z.array(bikeSchema);

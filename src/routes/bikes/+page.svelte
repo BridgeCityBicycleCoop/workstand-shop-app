@@ -1,5 +1,7 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import { superForm } from 'sveltekit-superforms';
+	import BikeEditFields from '$lib/ui/forms/BikeEditFields.svelte';
 
 	export let data;
 
@@ -17,29 +19,8 @@
 	</div>
 
 	<div class="form-container">
-		<form id="register-bike" method="POST" use:enhance>
-			<label for="serialNumber">Serial #</label>
-			<input type="text" name="serialNumber" bind:value={$form.serialNumber} />
-
-			<label for="brand">Brand</label>
-			<input type="text" name="brand" bind:value={$form.brand} />
-
-			<label for="model">Model</label>
-			<input type="text" name="model" bind:value={$form.model} />
-
-			<label for="style">Style</label>
-			<input type="text" name="style" bind:value={$form.style} />
-
-			<label for="color">Color</label>
-			<input type="text" name="color" bind:value={$form.color} />
-
-			<label for="price">Price</label>
-			<input type="number" step="0.01" name="price" bind:value={$form.price} />
-
-			<label for="notes">Notes</label>
-			<textarea rows="4" name="notes" bind:value={$form.notes}></textarea>
-
-			<input type="hidden" name="status" value="active" />
+		<form id="register-member" method="POST" use:enhance>
+			<BikeEditFields bikeForm={form} {errors} />
 		</form>
 	</div>
 
