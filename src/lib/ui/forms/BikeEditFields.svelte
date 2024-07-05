@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { type BikeUpdate, type BikeCreate, bikeSchema } from '$lib/models/bike';
+	import type { BikeUpdate, BikeCreate } from '$lib/models/bike';
 	import type { SuperForm } from 'sveltekit-superforms';
 	import Field from './Field.svelte';
 

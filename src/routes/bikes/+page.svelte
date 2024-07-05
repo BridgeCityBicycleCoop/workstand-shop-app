@@ -19,7 +19,7 @@
 	</div>
 
 	<div class="form-container">
-		<form id="register-member" method="POST" use:enhance>
+		<form id="register-bike" method="POST" use:enhance>
 			<BikeEditFields bikeForm={form} {errors} />
 		</form>
 	</div>

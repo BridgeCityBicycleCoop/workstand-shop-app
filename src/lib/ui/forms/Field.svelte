@@ -28,7 +28,7 @@
 		| 'url' = 'text';
 	export let id: string = $$props.name;
 	export let options: [key: string, value: string][] = [];
-	export let value: string | undefined = undefined;
+	export let value: string | Date | null | number | undefined = undefined;
 	export let checked = false;
 </script>
 

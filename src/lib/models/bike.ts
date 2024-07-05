@@ -1,9 +1,9 @@
 import z from 'zod';
 
 export const datelikeToDate = z
-	.union([z.date(), z.string(), z.number()])
-	.transform((value) => (value === '' ? undefined : value))
-	.pipe(z.coerce.date().nullish());
+	.union([z.date(), z.string(), z.number(), z.null()])
+	.transform((value) => (value === '' || value === null ? undefined : value))
+	.pipe(z.coerce.date().optional());
 
 export const bikeSchema = z.object({
 	id: z.string(),
