@@ -1,3 +1,5 @@
+import type { User } from '$lib/models/users';
+
 // See https://kit.svelte.dev/docs/types#app
 // for information about these interfaces
 declare global {
@@ -5,7 +7,7 @@ declare global {
 		// interface Error {}
 		interface Locals {
 			pb: import('$lib/server/db/pocketbase/types').TypedPocketBase;
-			user?: Record<string, unknown> | null;
+			user?: User | null;
 		}
 		// interface PageData {}
 		// interface PageState {}
