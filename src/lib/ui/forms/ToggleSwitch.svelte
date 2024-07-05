@@ -4,7 +4,10 @@
 
 <style>
 	input {
-		display: none;
+		opacity: 0;
+		pointer-events: none;
+		position: absolute;
+		z-index: -1;
 	}
 	label {
 		position: relative;
@@ -38,5 +41,9 @@
 	}
 	label:has(:checked)::after {
 		transform: translateX(1.4em);
+	}
+	label:has(input:focus-visible) {
+		outline: var(--color-accent) solid 1px;
+		outline: -webkit-focus-ring-color solid 1px;
 	}
 </style>
