@@ -37,20 +37,23 @@ export type AuthSystemFields<T = never> = {
 
 // Record types for each collection
 
-export enum BikesFieldOptions {
-	'active' = 'active',
-	'sold' = 'sold',
-	'stolen' = 'stolen'
-}
 export type BikesRecord = {
-	brand?: string;
-	color?: string;
-	field?: BikesFieldOptions;
-	model?: string;
+	bcbcProgram?: string;
+	bikeDestiny?: string;
+	colour?: string;
+	cpicDate?: IsoDateString;
+	donatedBy?: string;
+	donationDate?: IsoDateString;
+	emailAddress?: string;
+	make?: string;
 	notes?: string;
-	price?: number;
-	style?: string;
-	type?: string;
+	outOfShopDate?: IsoDateString;
+	pricePaid?: number;
+	recipientAge?: string;
+	recipientName?: string;
+	recipientPhoneNumber?: string;
+	serialNumber?: string;
+	suggestedDonation?: number;
 };
 
 export enum MembersStatusOptions {
@@ -77,10 +80,15 @@ export type PurposesRecord = {
 	name: string;
 };
 
+export enum UsersRoleOptions {
+	'admin' = 'admin',
+	'staff' = 'staff'
+}
 export type UsersRecord = {
 	avatar?: string;
 	name?: string;
 	phone?: string;
+	role?: UsersRoleOptions[];
 };
 
 export type VisitsRecord = {

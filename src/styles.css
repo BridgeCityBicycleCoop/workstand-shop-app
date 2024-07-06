@@ -14,19 +14,23 @@
 	--color-primary: 64, 117, 166; /* #4075a6; */
 	--color-secondary: 64, 117, 166; /* #40A6A4; */
 	--color-neutral: 250, 250, 250;
+	--color-bg-lighter: rgb(240, 241, 246);
 	--color-bg-light: rgb(202, 216, 228);
 	--color-bg-med: rgb(132, 165, 197);
-	--color-bg-dark: gray;
+	--color-bg-dark: rgb(36, 46, 66);
 	--color-text: #323336;
+	--color-text-light: #dde9f8;
 	--color-accent: #a348e9;
 	--color-accent-subtle: #e9ecef;
+	--color-accent-med: rgb(132, 165, 197);
+	--border-radius: 4px;
 	font-family: var(--font-body);
 	font-size: 16px;
 	color: var(--color-text);
 }
 
 .btn {
-	border-radius: 4px;
+	border-radius: var(--border-radius, 4px);
 	padding: 0px 10px;
 	margin: 0px 5px;
 }
@@ -71,7 +75,7 @@ label {
 }
 
 a {
-	color: var(--color-theme-1);
+	color: rgb(var(--color-primary));
 	text-decoration: none;
 }
 
@@ -92,7 +96,7 @@ pre {
 	font-size: 16px;
 	font-family: var(--font-mono);
 	background-color: rgba(255, 255, 255, 0.45);
-	border-radius: 3px;
+	border-radius: var(--border-radius, 4px);
 	box-shadow: 2px 2px 6px rgb(255 255 255 / 25%);
 	padding: 0.5em;
 	overflow-x: auto;
@@ -112,7 +116,7 @@ select {
 input {
 	display: inline-block;
 	border: var(--color-accent-subtle) 1px solid;
-	border-radius: 3px;
+	border-radius: var(--border-radius, 3px);
 	padding: 0.5em 1em;
 	margin: 0;
 }
@@ -131,6 +135,16 @@ input:focus-visible {
 
 button:focus:not(:focus-visible) {
 	outline: none;
+}
+
+button {
+	color: inherit;
+}
+
+ul {
+	padding: 0;
+	margin: 0;
+	list-style: none;
 }
 
 table {

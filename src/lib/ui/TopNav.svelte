@@ -1,5 +1,7 @@
-<script>
+<script lang="ts">
 	import { page } from '$app/stores';
+
+	export let navItems: { name: string; href: string }[];
 </script>
 
 <nav>
@@ -7,21 +9,11 @@
 		<path d="M0,0 L1,2 C1.5,3 1.5,3 2,3 L2,0 Z" />
 	</svg>
 	<ul>
-		<li aria-current={$page.url.pathname === '/login' ? 'page' : undefined}>
-			<a href="/login">LogIn</a>
-		</li>
-
-		<li aria-current={$page.url.pathname === '/' ? 'page' : undefined}>
-			<a href="/">Shop</a>
-		</li>
-
-		<li aria-current={$page.url.pathname === '/members' ? 'page' : undefined}>
-			<a href="/members">Register</a>
-		</li>
-
-		<li aria-current={$page.url.pathname === '/bikes' ? 'page' : undefined}>
-			<a href="/bikes">Bikes</a>
-		</li>
+		{#each navItems as { name, href }}
+			<li aria-current={$page.url.pathname === href ? 'page' : undefined}>
+				<a {href}>{name}</a>
+			</li>
+		{/each}
 	</ul>
 	<svg viewBox="0 0 2 3" aria-hidden="true">
 		<path d="M0,0 L0,3 C0.5,3 0.5,3 1,2 L2,0 Z" />
