@@ -10,6 +10,7 @@ export { default as PageLayout } from './layouts/PageLayout.svelte';
 
 export { default as Field } from './forms/Field.svelte';
 export { default as MemberEditFields } from './forms/MemberEditFields.svelte';
+export { default as BikeEditFields } from './forms/BikeEditFields.svelte';
 export { default as ToggleSwitch } from './forms/ToggleSwitch.svelte';
 
 export { default as GithubLink } from './GithubLink.svelte';
