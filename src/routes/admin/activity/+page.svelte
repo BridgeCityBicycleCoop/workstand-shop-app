@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { formatDistance } from 'date-fns';
-	import { getDisplayName } from '$lib/ui/utils';
+	import { formatDistance, formatDate } from 'date-fns';
+	import { getDisplayName, convertAndDownloadCsv } from '$lib/ui/utils';
 
 	import type { Visit } from '$lib/models/visit';
 	import type { Member } from '$lib/models/member';
@@ -26,6 +26,19 @@
 		isOpen = false;
 		activeMember = undefined;
 	};
+
+	const handleCsvDownload = () => {
+		const headings = ['Date', 'Member Name', 'Visit Purpose'];
+		const scrubbedData = [headings];
+
+		data.visits.forEach((visit) => {
+			const row = [formatDate(visit.date, 'yyyy-mm-dd'), visit.member.name, visit.purpose.name];
+
+			scrubbedData.push(row);
+		});
+
+		convertAndDownloadCsv(scrubbedData);
+	};
 </script>
 
 <pre>[Under Construction]</pre>
@@ -33,7 +46,9 @@
 
 <p>Not sure about this one, but 🤷 some charts and such here</p>
 
-<section class="currently-signed-in">
+<button class="btn btn-primary" on:click={handleCsvDownload}>Download Visits as CSV</button>
+
+<section class="visits-list">
 	<h3>Member Visits</h3>
 	<div class="tableWrap">
 		{#if data.visits.length > 0}
@@ -88,7 +103,7 @@
 		font-weight: bold;
 	}
 
-	.currently-signed-in {
+	.visits-list {
 		grid-area: activity;
 	}
 
