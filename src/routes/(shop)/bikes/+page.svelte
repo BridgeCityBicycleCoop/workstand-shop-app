@@ -40,12 +40,7 @@
 </script>
 
 <div class="bike-page">
-	<div>
-		<h1>Register New Bike</h1>
-		<div class="serial-search">
-			<a href={BIKE_THEFT_URL} target="_blank">Search Bike Serial Number</a>
-		</div>
-	</div>
+	<h1>Register New Bike</h1>
 
 	<div class="form-container">
 		<form id="register-bike" method="POST" use:enhance>
