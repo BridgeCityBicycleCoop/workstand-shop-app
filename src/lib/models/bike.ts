@@ -1,9 +1,10 @@
 import z from 'zod';
+import { isValid, toDate } from 'date-fns';
 
-export const datelikeToDate = z
-	.union([z.date(), z.string(), z.number(), z.null()])
-	.transform((value) => (value === '' || value === null ? undefined : value))
-	.pipe(z.coerce.date().optional());
+const isValidIsoStringDate = (stringDate: string): boolean => {
+	const isEmptyString = stringDate === '';
+	return isEmptyString || isValid(toDate(stringDate));
+};
 
 export const bikeSchema = z.object({
 	id: z.string(),
@@ -12,13 +13,13 @@ export const bikeSchema = z.object({
 	colour: z.string().optional(),
 	donatedBy: z.string().optional(),
 	email: z.string().optional(),
-	donationDate: datelikeToDate.optional(),
+	donationDate: z.string().refine(isValidIsoStringDate, 'Not a valid ISO String Date'),
 	suggestedDonation: z.number().optional(),
-	cpicDate: datelikeToDate.optional(),
+	cpicDate: z.string().refine(isValidIsoStringDate, 'Not a valid ISO String Date'),
 	recipientName: z.string().optional(),
 	recipientAge: z.string().optional(),
 	recipientPhoneNumber: z.string().optional(),
-	outOfShopDate: datelikeToDate.optional(),
+	outOfShopDate: z.string().refine(isValidIsoStringDate, 'Not a valid ISO String Date'),
 	pricePaid: z.number().optional(),
 	bikeDestiny: z.string().optional(),
 	bcbcProgram: z.string().optional(),
