@@ -1,15 +1,40 @@
 <script lang="ts">
-	import { formatDistance } from 'date-fns';
+	import { formatDate } from 'date-fns';
 	import { goto } from '$app/navigation';
 	import { superForm } from 'sveltekit-superforms';
 	import BikeEditFields from '$lib/ui/forms/BikeEditFields.svelte';
 	import type { Bike } from '$lib/models/bike.js';
+	import type { IsoDateString } from '$lib/server/db/pocketbase/types.js';
 
 	export let data;
+	const BIKE_THEFT_URL = 'https://www.cpic-cipc.ca/sbi-rve-eng.htm';
 
 	const handleBikeUpdate = (_event: MouseEvent, bike: Bike) => {
 		goto(`/bikes/${bike.id}`);
 	};
+
+	const handleCheckSerialNumber = (_event: MouseEvent, bike: Bike) => {
+		updateClipboard(bike.serialNumber);
+
+		window.open(BIKE_THEFT_URL, '_blank') || window.location.replace(BIKE_THEFT_URL);
+	};
+
+	const formatStringDate = (stringDate: IsoDateString): string => {
+		return stringDate === '' ? 'date not set' : formatDate(stringDate, 'yyyy-mm-dd');
+	};
+
+	function updateClipboard(newClip: string) {
+		navigator.clipboard.writeText(newClip).then(
+			() => {
+				console.log('succesfully copied to clipboard');
+				/* clipboard successfully set */
+			},
+			() => {
+				console.log('failed to copy to clipboard');
+				/* clipboard write failed */
+			}
+		);
+	}
 
 	const { form, errors, enhance, message } = superForm(data.form);
 </script>
@@ -18,9 +43,7 @@
 	<div>
 		<h1>Register New Bike</h1>
 		<div class="serial-search">
-			<a href="https://www.cpic-cipc.ca/sbi-rve-eng.htm" target="_blank"
-				>Search Bike Serial Number</a
-			>
+			<a href={BIKE_THEFT_URL} target="_blank">Search Bike Serial Number</a>
 		</div>
 	</div>
 
@@ -59,21 +82,46 @@
 			<table>
 				<thead>
 					<tr>
+						<th class="sticky-header">Colour/Make</th>
 						<th class="sticky-header">Serial Number</th>
-						<th class="sticky-header">Colour</th>
-						<th class="sticky-header">Make</th>
+						<th class="sticky-header">Suggested Donation</th>
+						<th class="sticky-header">Price Paid</th>
+						<th class="sticky-header">Recipient Name</th>
+						<th class="sticky-header">Recipient Phone</th>
+						<th class="sticky-header">Recipient Age</th>
+						<th class="sticky-header">Bike Destiny</th>
+						<th class="sticky-header">Donation Date</th>
+						<th class="sticky-header">CPIC Date</th>
+						<th class="sticky-header">Out of Shop Date</th>
+						<th class="sticky-header">BCBC Program</th>
 					</tr>
 				</thead>
 				<tbody>
 					{#each data.bikes as bike}
 						<tr>
 							<td>
-								<button class="edit-profile" on:click={(event) => handleBikeUpdate(event, bike)}
-									>{bike.serialNumber}
+								<button class="flatten-button" on:click={(event) => handleBikeUpdate(event, bike)}>
+									{bike.colour} / {bike.make}
 								</button>
 							</td>
-							<td>{bike.colour}</td>
-							<td>{bike.make}</td>
+							<td>
+								<button
+									class="flatten-button"
+									on:click={(event) => handleCheckSerialNumber(event, bike)}
+								>
+									{bike.serialNumber}
+								</button>
+							</td>
+							<td>{bike.suggestedDonation}</td>
+							<td>{bike.pricePaid}</td>
+							<td>{bike.recipientName}</td>
+							<td>{bike.recipientPhoneNumber}</td>
+							<td>{bike.recipientAge}</td>
+							<td>{bike.bikeDestiny}</td>
+							<td>{formatStringDate(bike.donationDate)}</td>
+							<td>{formatStringDate(bike.cpicDate)}</td>
+							<td>{formatStringDate(bike.outOfShopDate)}</td>
+							<td>{bike.bcbcProgram}</td>
 						</tr>
 					{/each}
 				</tbody>
@@ -121,34 +169,33 @@
 		color: rebeccapurple;
 	}
 
-	form label {
-		text-align: left;
-	}
-
-	form label:after {
-		content: ':';
-	}
-
-	input {
-		padding: 12px 20px;
-		margin: 4px 0px;
-		border: 1px solid #ccc;
-		border-radius: 4px;
-		box-sizing: border-box;
-	}
-
 	.register-bike-buttons {
 		display: flex;
 		justify-content: center;
 	}
 
-	button {
+	/* button {
 		min-height: 40px;
 		margin: 25px 10px;
 		padding: 10px 30px;
-	}
+	} */
 
 	.bike-list {
 		grid-area: activity;
+	}
+
+	/* If we use border,
+	we must use table-collapse to avoid
+	a slight movement of the header row */
+	table {
+		border-collapse: collapse;
+	}
+
+	.flatten-button {
+		appearance: unset;
+		background-color: transparent;
+		border: none;
+		color: rgb(var(--color-primary));
+		cursor: pointer;
 	}
 </style>
