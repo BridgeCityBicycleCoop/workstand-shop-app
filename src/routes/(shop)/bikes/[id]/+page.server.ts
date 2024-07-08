@@ -46,6 +46,7 @@ export const actions = {
 
 		try {
 			await bikesService.update(bikeUpdateForm.data);
+			return message(bikeUpdateForm, 'Bike updated successfully!');
 		} catch (error) {
 			if (error instanceof Error) {
 				return message(bikeUpdateForm, error.message, {

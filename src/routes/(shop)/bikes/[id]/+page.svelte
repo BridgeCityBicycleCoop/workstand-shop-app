@@ -17,6 +17,7 @@
 		<BikeEditFields bikeForm={form} {errors} />
 	</form>
 
+	<br />
 	{#if $message}
 		<div class="message-container">
 			{#if typeof $message === 'string'}
@@ -28,6 +29,7 @@
 			{/if}
 		</div>
 	{/if}
+	<br />
 
 	<div class="buttons">
 		<button class="btn btn-neutral" on:click={() => history.back()}>Back</button>
