@@ -16,7 +16,7 @@
 	let activeVisit: Visit | undefined;
 	let isOpen: boolean;
 
-	const handleVisitUpdate = (event: MouseEvent, visit: Visit) => {
+	const handleVisitUpdate = (_event: MouseEvent, visit: Visit) => {
 		activeMember = visit.member;
 		activeVisit = visit;
 		isOpen = true;

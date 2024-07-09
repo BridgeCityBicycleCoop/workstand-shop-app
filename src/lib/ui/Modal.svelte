@@ -1,6 +1,5 @@
 <script lang="ts">
-	export let data: any = null;
-	export let open = false;
+	export let open: boolean = false;
 	export let onCloseCallback: { (): void } | undefined = undefined;
 
 	let dialog: HTMLDialogElement;
@@ -25,7 +24,7 @@
 	<dialog bind:this={dialog} on:close={handleClose}>
 		<div class="close-x"><button on:click={handleClose}> X </button></div>
 		<div class="content">
-			<slot {data} />
+			<slot />
 		</div>
 
 		<span class="button-container">

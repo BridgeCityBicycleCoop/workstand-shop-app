@@ -40,12 +40,12 @@
 
 	$: signedInMembers = new Set(data.visits.map((visit) => visit.member.id));
 
-	const handleMemberSelect = (event: MouseEvent, member: Member, visitId?: string) => {
+	const handleMemberSelect = (_event: MouseEvent, member: Member) => {
 		activeMember = member;
 		isOpen = true;
 	};
 
-	const handleVisitUpdate = (event: MouseEvent, visit: Visit) => {
+	const handleVisitUpdate = (_event: MouseEvent, visit: Visit) => {
 		activeMember = visit.member;
 		activeVisit = visit;
 		isOpen = true;
