@@ -1,10 +1,10 @@
-import { fail, error } from '@sveltejs/kit';
+import { fail } from '@sveltejs/kit';
 import { superValidate, message } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import { bikeCreateSchema } from '$lib/models/bike.js';
 import { bikes as bikesService } from '$lib/server/db';
 
-export async function load({ params }) {
+export async function load() {
 	const form = await superValidate(zod(bikeCreateSchema));
 
 	const bikes = await bikesService.find();

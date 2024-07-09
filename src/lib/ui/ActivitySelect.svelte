@@ -10,13 +10,13 @@
 	export let activeVisit: Visit | undefined;
 	export let purposes: Purpose[];
 	export let displayName: string;
-	export let onSuccess = (result: any) => {};
+	export let onSuccess = () => {};
 	export let formData: SuperValidated<
 		{
 			memberId: string;
 			purposeId: string;
 		},
-		any,
+		unknown,
 		{
 			memberId: string;
 			purposeId: string;

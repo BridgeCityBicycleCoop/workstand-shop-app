@@ -54,7 +54,7 @@
 			{#if typeof $message === 'string'}
 				<div class="message">{$message}</div>
 			{:else}
-				{#each Object.entries($message) as [key, val]}
+				{#each Object.entries($message) as [_key, val]}
 					<div class="message">ERROR: {val}</div>
 				{/each}
 			{/if}
@@ -133,12 +133,6 @@
 		flex-direction: column;
 		justify-content: center;
 		min-width: 50%;
-	}
-
-	.serial-search {
-		display: flex;
-		justify-content: center;
-		margin: 20px 0px;
 	}
 
 	form {

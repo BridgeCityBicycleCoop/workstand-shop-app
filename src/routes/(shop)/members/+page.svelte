@@ -26,7 +26,7 @@
 			{#if typeof $message === 'string'}
 				<div class="message">{$message}</div>
 			{:else}
-				{#each Object.entries($message) as [key, val]}
+				{#each Object.entries($message) as [_key, val]}
 					<div class="message">ERROR: {val}</div>
 				{/each}
 			{/if}
