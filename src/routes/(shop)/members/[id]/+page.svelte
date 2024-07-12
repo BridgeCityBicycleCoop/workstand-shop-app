@@ -35,17 +35,6 @@
 		margin: auto;
 	}
 
-	.message-container {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-	}
-
-	.message {
-		font-weight: bold;
-		color: rebeccapurple;
-	}
-
 	.buttons {
 		display: flex;
 		justify-content: space-between;

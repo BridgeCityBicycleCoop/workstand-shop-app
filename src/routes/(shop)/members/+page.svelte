@@ -46,17 +46,6 @@
 		margin: auto;
 	}
 
-	.message-container {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-	}
-
-	.message {
-		font-weight: bold;
-		color: rebeccapurple;
-	}
-
 	button {
 		min-height: 40px;
 		margin: 25px 10px;
