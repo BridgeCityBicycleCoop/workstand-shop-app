@@ -2,7 +2,7 @@
 	import { goto } from '$app/navigation';
 	import { superForm } from 'sveltekit-superforms';
 	import LiabilityWaiver from '$lib/ui/LiabilityWaiver.svelte';
-	import MemberEditFields from '$lib/ui/forms/MemberEditFields.svelte';
+	import { MemberEditFields, Message } from '$lib/ui';
 
 	export let data;
 
@@ -21,17 +21,7 @@
 	</div>
 
 	<br />
-	{#if $message}
-		<div class="message-container">
-			{#if typeof $message === 'string'}
-				<div class="message">{$message}</div>
-			{:else}
-				{#each Object.entries($message) as [_key, val]}
-					<div class="message">ERROR: {val}</div>
-				{/each}
-			{/if}
-		</div>
-	{/if}
+	<Message message={$message} />
 
 	<br />
 	<LiabilityWaiver

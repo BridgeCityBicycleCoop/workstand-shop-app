@@ -5,6 +5,7 @@ export { default as Footer } from './Footer.svelte';
 export { default as Logo } from './Logo.svelte';
 export { default as TopNav } from './TopNav.svelte';
 export { default as Modal } from './Modal.svelte';
+export { default as Message } from './Message.svelte';
 
 export { default as PageLayout } from './layouts/PageLayout.svelte';
 

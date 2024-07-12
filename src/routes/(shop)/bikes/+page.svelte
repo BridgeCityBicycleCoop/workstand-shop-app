@@ -2,7 +2,7 @@
 	import { formatDate } from 'date-fns';
 	import { goto } from '$app/navigation';
 	import { superForm } from 'sveltekit-superforms';
-	import BikeEditFields from '$lib/ui/forms/BikeEditFields.svelte';
+	import { BikeEditFields, Message } from '$lib/ui';
 	import type { Bike } from '$lib/models/bike.js';
 	import type { IsoDateString } from '$lib/server/db/pocketbase/types.js';
 
@@ -49,17 +49,8 @@
 	</div>
 
 	<br />
-	{#if $message}
-		<div class="message-container">
-			{#if typeof $message === 'string'}
-				<div class="message">{$message}</div>
-			{:else}
-				{#each Object.entries($message) as [_key, val]}
-					<div class="message">ERROR: {val}</div>
-				{/each}
-			{/if}
-		</div>
-	{/if}
+
+	<Message message={$message} />
 
 	<br />
 	<div class="register-bike-buttons">
@@ -147,27 +138,10 @@
 		grid-gap: 5px;
 	}
 
-	.message-container {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-	}
-
-	.message {
-		font-weight: bold;
-		color: rebeccapurple;
-	}
-
 	.register-bike-buttons {
 		display: flex;
 		justify-content: center;
 	}
-
-	/* button {
-		min-height: 40px;
-		margin: 25px 10px;
-		padding: 10px 30px;
-	} */
 
 	.bike-list {
 		grid-area: activity;

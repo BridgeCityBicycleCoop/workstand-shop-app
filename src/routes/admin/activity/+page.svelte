@@ -56,13 +56,13 @@
 	<h3>Member Visits</h3>
 
 	<form id="filter-visits">
-		<label for="startDate">Start Date</label>
+		<label for="startDate">Start (optional)</label>
 		<input type="date" name="startDate" max={$form.startDate} bind:value={$form.startDate} />
 
-		<label for="endDate">End Date</label>
+		<label for="endDate">End (optional)</label>
 		<input type="date" name="endDate" min={$form.startDate} bind:value={$form.endDate} />
 
-		<button class="btn btn-primary" type="submit">GET DEM VISITS</button>
+		<button class="btn btn-primary" type="submit">Filter Visits</button>
 	</form>
 
 	<br />
