@@ -16,14 +16,10 @@ export const load = async ({ locals, url }) => {
 	// create the options obj
 	const filterOptions = { startDate, endDate };
 
-	// make small form with start,end date, get will go to the same url with params
-	console.log('url data', startDate, endDate, filterOptions);
-
 	const filterVisitsForm = await superValidate(zod(filterVisitFormSchema));
 	const logVisitForm = await superValidate(zod(logVisitFormSchema));
 	const purposes = await purposesService.find();
 	const visits = await visitsService.findByDate(filterOptions);
-	console.log('should redo visits here!!!!', visits.length);
 
 	return { filterVisitsForm, logVisitForm, purposes, visits };
 };

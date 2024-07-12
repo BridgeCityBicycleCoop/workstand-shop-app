@@ -57,7 +57,6 @@ export const findByDate = async (options: { startDate: string; endDate: string }
 			endDateTime
 		});
 	}
-	console.log('options by date', options);
 
 	const listResult = await pb.collection('visits').getList<VisitWithMemberAndPurpose>(1, 100, {
 		filter,
