@@ -1,13 +1,10 @@
 <script lang="ts">
 	import { formatDistance, formatDate } from 'date-fns';
-	import { getDisplayName, convertAndDownloadCsv, Message } from '$lib/ui';
+	import { getDisplayName, convertAndDownloadCsv, Modal, ActivitySelect, Message } from '$lib/ui';
 
 	import type { Visit } from '$lib/models/visit';
 	import type { Member } from '$lib/models/member';
 	import type { Purpose } from '$lib/models/purpose';
-
-	import Modal from '$lib/ui/Modal.svelte';
-	import ActivitySelect from '$lib/ui/ActivitySelect.svelte';
 
 	export let data;
 

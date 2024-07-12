@@ -1,8 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { superForm } from 'sveltekit-superforms';
-	import LiabilityWaiver from '$lib/ui/LiabilityWaiver.svelte';
-	import { MemberEditFields, Message } from '$lib/ui';
+	import { LiabilityWaiver, MemberEditFields, Message } from '$lib/ui';
 
 	export let data;
 
