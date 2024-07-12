@@ -16,7 +16,7 @@ interface ResourceService<
 
 export type MembersService = ResourceService<Member, MemberFilter>;
 export type VisitsService = ResourceService<Visit, VisitFilter> & {
-	findByDate(): Promise<Visit[]>;
+	findByDate(options: unknown): Promise<Visit[]>;
 	add(data: { memberId: string; purposeId: string }): Promise<Visit>;
 };
 export type PurposesService = ResourceService<Purpose, PurposeFilter>;

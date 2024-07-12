@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { formatDistance, formatDate } from 'date-fns';
 	import { getDisplayName, convertAndDownloadCsv } from '$lib/ui/utils';
+	import SuperDebug, { superForm } from 'sveltekit-superforms';
 
 	import type { Visit } from '$lib/models/visit';
 	import type { Member } from '$lib/models/member';
@@ -39,17 +40,37 @@
 
 		convertAndDownloadCsv(scrubbedData);
 	};
+
+	const { form, errors, enhance, message } = superForm(data.filterVisitsForm);
 </script>
 
+<SuperDebug data={$form} />
+
 <pre>[Under Construction]</pre>
+
 <h2>Activity Reporting</h2>
 
 <p>Not sure about this one, but 🤷 some charts and such here</p>
 
-<button class="btn btn-primary" on:click={handleCsvDownload}>Download Visits as CSV</button>
-
 <section class="visits-list">
 	<h3>Member Visits</h3>
+
+	<form id="filter-visits">
+		<label for="startDate">Start Date</label>
+		<input type="date" name="startDate" max={$form.startDate} bind:value={$form.startDate} />
+
+		<label for="endDate">End Date</label>
+		<input type="date" name="endDate" min={$form.startDate} bind:value={$form.endDate} />
+
+		<button class="btn btn-primary" type="submit">GET DEM VISITS</button>
+	</form>
+
+	<br />
+	<button class="btn btn-primary" on:click={handleCsvDownload}>Download Visits as CSV</button>
+
+	<br />
+	<br />
+
 	<div class="tableWrap">
 		{#if data.visits.length > 0}
 			<table>
