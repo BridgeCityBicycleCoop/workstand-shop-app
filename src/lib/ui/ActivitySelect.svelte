@@ -1,8 +1,6 @@
 <script lang="ts">
 	import { superForm, type SuperValidated } from 'sveltekit-superforms';
-	import { type Member } from '$lib/models/member';
-	import { type Visit } from '$lib/models/visit';
-	import { type Purpose } from '$lib/models/purpose';
+	import type { Member, Visit, Purpose } from '$lib/models';
 
 	export let formId: string;
 	export let activeMember: Member | undefined;

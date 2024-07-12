@@ -1,12 +1,7 @@
 import PocketBase from 'pocketbase';
 import { constructNow, startOfToday } from 'date-fns';
 import { env } from '$env/dynamic/private';
-import {
-	visitSchema,
-	visitListSchema,
-	type VisitCreate,
-	type VisitUpdate
-} from '$lib/models/visit';
+import { visitSchema, visitListSchema, type VisitCreate, type VisitUpdate } from '$lib/models';
 import type { MembersResponse, PurposesResponse, VisitsResponse, TypedPocketBase } from './types';
 
 const pb = new PocketBase(env.POCKETBASE_URL) as TypedPocketBase;

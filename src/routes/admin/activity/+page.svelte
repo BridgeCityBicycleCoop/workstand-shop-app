@@ -1,10 +1,8 @@
 <script lang="ts">
 	import { formatDistance, formatDate } from 'date-fns';
 	import { getDisplayName, convertAndDownloadCsv, Modal, ActivitySelect, Message } from '$lib/ui';
-
-	import type { Visit } from '$lib/models/visit';
-	import type { Member } from '$lib/models/member';
-	import type { Purpose } from '$lib/models/purpose';
+	import { superForm } from 'sveltekit-superforms';
+	import type { Visit, Member, Purpose } from '$lib/models';
 
 	export let data;
 

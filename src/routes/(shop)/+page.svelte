@@ -6,10 +6,8 @@
 	import QuestionMark from '~icons/mdi/question-mark';
 	import Exclamation from '~icons/mdi/exclamation';
 
-	import type { Member } from '$lib/models/member';
-	import type { Purpose } from '$lib/models/purpose';
 	import type { FormEventHandler } from 'svelte/elements';
-	import type { Visit } from '$lib/models/visit';
+	import type { Member, Purpose, Visit } from '$lib/models';
 
 	export let data;
 

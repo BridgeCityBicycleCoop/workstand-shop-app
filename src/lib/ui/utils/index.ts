@@ -1,4 +1,4 @@
-import type { Member } from '$lib/models/member';
+import type { Member } from '$lib/models';
 import { formatDate } from 'date-fns/format';
 
 export const getDisplayName = (member: Member | undefined): string => {

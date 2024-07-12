@@ -3,7 +3,7 @@
 	import { goto } from '$app/navigation';
 	import { superForm } from 'sveltekit-superforms';
 	import { BikeEditFields, Message } from '$lib/ui';
-	import type { Bike } from '$lib/models/bike.js';
+	import type { Bike } from '$lib/models';
 	import type { IsoDateString } from '$lib/server/db/pocketbase/types.js';
 
 	export let data;
