@@ -3,6 +3,7 @@
 	import { getDisplayName, convertAndDownloadCsv, Modal, ActivitySelect, Message } from '$lib/ui';
 	import { superForm } from 'sveltekit-superforms';
 	import type { Visit, Member, Purpose } from '$lib/models';
+	import SuperDebug from 'sveltekit-superforms';
 
 	export let data;
 
@@ -35,9 +36,10 @@
 		convertAndDownloadCsv(scrubbedData);
 	};
 
-	const { form, message } = superForm(data.filterVisitsForm);
+	const { form, message } = superForm(data.filterVisitsForm, { resetForm: false });
 </script>
 
+<SuperDebug data={form} />
 <pre>[Under Construction]</pre>
 
 <h2>Activity Reporting</h2>
