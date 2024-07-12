@@ -7,7 +7,13 @@ import {
 	type VisitCreate,
 	type VisitUpdate
 } from '$lib/models/visit';
-import type { MembersResponse, PurposesResponse, VisitsResponse, TypedPocketBase } from './types';
+import type {
+	MembersResponse,
+	PurposesResponse,
+	VisitsResponse,
+	TypedPocketBase,
+	IsoDateString
+} from './types';
 
 const pb = new PocketBase(env.POCKETBASE_URL) as TypedPocketBase;
 
@@ -42,11 +48,15 @@ export const remove = async (id: string) => {
 	return await pb.collection('visits').delete(id);
 };
 
-export const findTodays = async () => {
+// defaults to today/recent list
+export const findByDate = async (startDate?: IsoDateString, endDate?: IsoDateString) => {
+	const startDateTime = startDate ? new Date(startDate) : startOfToday();
+	const endDateTime = endDate ? new Date(endDate) : constructNow(new Date());
+
 	const listResult = await pb.collection('visits').getList<VisitWithMemberAndPurpose>(1, 100, {
 		filter: pb.filter('{:endDateTime} >= date && {:startDateTime} <= date', {
-			startDateTime: startOfToday(),
-			endDateTime: constructNow(new Date())
+			startDateTime,
+			endDateTime
 		}),
 		sort: '-date',
 		expand: 'memberId,purposeId'
