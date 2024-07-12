@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { formatDistance, formatDate } from 'date-fns';
-	import { getDisplayName, convertAndDownloadCsv } from '$lib/ui/utils';
-	import SuperDebug, { superForm } from 'sveltekit-superforms';
+	import { getDisplayName, convertAndDownloadCsv, Message } from '$lib/ui';
 
 	import type { Visit } from '$lib/models/visit';
 	import type { Member } from '$lib/models/member';
@@ -41,10 +40,8 @@
 		convertAndDownloadCsv(scrubbedData);
 	};
 
-	const { form, errors, enhance, message } = superForm(data.filterVisitsForm);
+	const { form, message } = superForm(data.filterVisitsForm);
 </script>
-
-<SuperDebug data={$form} />
 
 <pre>[Under Construction]</pre>
 
@@ -64,6 +61,8 @@
 
 		<button class="btn btn-primary" type="submit">Filter Visits</button>
 	</form>
+
+	<Message message={$message} />
 
 	<br />
 	<button class="btn btn-primary" on:click={handleCsvDownload}>Download Visits as CSV</button>
