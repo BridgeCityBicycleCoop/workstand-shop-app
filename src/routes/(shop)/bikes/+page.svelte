@@ -50,7 +50,7 @@
 
 	<br />
 
-	<Message message={$message} />
+	<Message {message} />
 
 	<br />
 	<div class="register-bike-buttons">

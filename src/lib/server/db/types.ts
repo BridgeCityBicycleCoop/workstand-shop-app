@@ -1,4 +1,13 @@
-import type { Member, MemberFilter, Visit, VisitFilter, Purpose, PurposeFilter } from '$lib/models';
+import type {
+	Member,
+	MemberFilter,
+	Visit,
+	VisitFilter,
+	Purpose,
+	PurposeFilter,
+	Bike,
+	BikeFilter
+} from '$lib/models';
 
 interface ResourceService<
 	Resource extends { id: unknown },
@@ -13,7 +22,7 @@ interface ResourceService<
 
 export type MembersService = ResourceService<Member, MemberFilter>;
 export type VisitsService = ResourceService<Visit, VisitFilter> & {
-	findByDate(options: unknown): Promise<Visit[]>;
+	findByDate(options?: { startDate?: string; endDate?: string }): Promise<Visit[]>;
 	add(data: { memberId: string; purposeId: string }): Promise<Visit>;
 };
 export type PurposesService = ResourceService<Purpose, PurposeFilter>;

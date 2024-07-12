@@ -40,9 +40,10 @@ export const remove = async (id: string) => {
 // no startDate or endDate, all visits,
 // startDate only, should end with the latest visit
 // endDate only, should start from the very first visit
-export const findByDate = async (options: { startDate: string; endDate: string }) => {
+export const findByDate = async (options: { startDate?: string; endDate?: string } = {}) => {
 	let filter;
-	if (options.startDate === '' && options.endDate === '') {
+
+	if (!options.startDate && !options.endDate) {
 		filter = pb.filter('');
 	} else {
 		const startDateTime = options.startDate ? new Date(options.startDate) : startOfToday();
