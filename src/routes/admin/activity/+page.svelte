@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { formatDistance, formatDate } from 'date-fns';
-	import { getDisplayName, convertAndDownloadCsv, Modal, ActivitySelect } from '$lib/ui';
+	import { getDisplayName, Modal, ActivitySelect } from '$lib/ui';
+	import { handleCsvDownload } from '$lib/utils';
 	import type { Visit, Member, Purpose } from '$lib/models';
 
 	export let data;
@@ -21,17 +22,17 @@
 		activeMember = undefined;
 	};
 
-	const handleCsvDownload = () => {
+	const formatCsvData = (_event: MouseEvent) => {
 		const headings = ['Date', 'Member Name', 'Visit Purpose'];
-		const scrubbedData = [headings];
-
-		data.visits.forEach((visit) => {
-			const row = [formatDate(visit.date, 'yyyy-mm-dd'), visit.member.name, visit.purpose.name];
-
-			scrubbedData.push(row);
+		const rows = data.visits.map((visit) => {
+			return [
+				formatDate(visit.date, 'yyyy-mm-dd'),
+				`${visit.member.name} [${visit.member.preferredName}]`,
+				visit.purpose.name
+			];
 		});
 
-		convertAndDownloadCsv(scrubbedData);
+		handleCsvDownload(headings, rows);
 	};
 
 	let startDate = data.startDate;
@@ -58,7 +59,7 @@
 	</form>
 
 	<br />
-	<button class="btn btn-primary" on:click={handleCsvDownload}>Download Visits as CSV</button>
+	<button class="btn btn-primary" on:click={formatCsvData}>Download Visits as CSV</button>
 
 	<br />
 	<br />
