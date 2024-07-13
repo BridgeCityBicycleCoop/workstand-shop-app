@@ -1,9 +1,7 @@
 <script lang="ts">
 	import { formatDistance, formatDate } from 'date-fns';
-	import { getDisplayName, convertAndDownloadCsv, Modal, ActivitySelect, Message } from '$lib/ui';
-	import { superForm } from 'sveltekit-superforms';
+	import { getDisplayName, convertAndDownloadCsv, Modal, ActivitySelect } from '$lib/ui';
 	import type { Visit, Member, Purpose } from '$lib/models';
-	import SuperDebug from 'sveltekit-superforms';
 
 	export let data;
 
@@ -36,10 +34,10 @@
 		convertAndDownloadCsv(scrubbedData);
 	};
 
-	const { form, message } = superForm(data.filterVisitsForm, { resetForm: false });
+	let startDate = data.startDate;
+	let endDate = data.endDate;
 </script>
 
-<SuperDebug data={form} />
 <pre>[Under Construction]</pre>
 
 <h2>Activity Reporting</h2>
@@ -51,15 +49,13 @@
 
 	<form id="filter-visits">
 		<label for="startDate">Start (optional)</label>
-		<input type="date" name="startDate" max={$form.startDate} bind:value={$form.startDate} />
+		<input type="date" name="startDate" max={endDate} bind:value={startDate} />
 
 		<label for="endDate">End (optional)</label>
-		<input type="date" name="endDate" min={$form.startDate} bind:value={$form.endDate} />
+		<input type="date" name="endDate" min={startDate} bind:value={endDate} />
 
 		<button class="btn btn-primary" type="submit">Filter Visits</button>
 	</form>
-
-	<Message message={$message} />
 
 	<br />
 	<button class="btn btn-primary" on:click={handleCsvDownload}>Download Visits as CSV</button>

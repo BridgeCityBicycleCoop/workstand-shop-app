@@ -16,12 +16,12 @@ export const load = async ({ locals, url }) => {
 	// create the options obj
 	const filterOptions = { startDate, endDate };
 
-	const filterVisitsForm = await superValidate(zod(filterVisitFormSchema));
+	// const filterVisitsForm = await superValidate(zod(filterVisitFormSchema));
 	const logVisitForm = await superValidate(zod(logVisitFormSchema));
 	const purposes = await purposesService.find();
 	const visits = await visitsService.findByDate(filterOptions);
 
-	return { filterVisitsForm, logVisitForm, purposes, visits };
+	return { startDate, endDate, logVisitForm, purposes, visits };
 };
 
 export const actions = {
@@ -59,7 +59,7 @@ const logVisitFormSchema = z.object({
 	visitId: z.string().optional()
 });
 
-const filterVisitFormSchema = z.object({
-	startDate: z.string(),
-	endDate: z.string()
-});
+// const filterVisitFormSchema = z.object({
+// 	startDate: z.string(),
+// 	endDate: z.string()
+// });
