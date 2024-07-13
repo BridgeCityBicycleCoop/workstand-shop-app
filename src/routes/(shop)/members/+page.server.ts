@@ -1,7 +1,7 @@
 import { fail } from '@sveltejs/kit';
 import { superValidate, message } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
-import { memberCreateSchema } from '$lib/models/member';
+import { memberCreateSchema } from '$lib/models';
 import { members as membersService } from '$lib/server/db';
 
 export async function load() {

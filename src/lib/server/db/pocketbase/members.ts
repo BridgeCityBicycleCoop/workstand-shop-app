@@ -1,11 +1,6 @@
 import PocketBase from 'pocketbase';
 import { env } from '$env/dynamic/private';
-import {
-	memberSchema,
-	memberListSchema,
-	type MemberCreate,
-	type MemberUpdate
-} from '$lib/models/member';
+import { memberSchema, memberListSchema, type MemberCreate, type MemberUpdate } from '$lib/models';
 import { type TypedPocketBase } from './types';
 
 const pb = new PocketBase(env.POCKETBASE_URL) as TypedPocketBase;

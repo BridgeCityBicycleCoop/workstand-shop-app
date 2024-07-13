@@ -5,7 +5,7 @@ import {
 	purposeListSchema,
 	type PurposeCreate,
 	type PurposeUpdate
-} from '$lib/models/purpose';
+} from '$lib/models';
 import { type TypedPocketBase } from './types';
 
 const pb = new PocketBase(env.POCKETBASE_URL) as TypedPocketBase;

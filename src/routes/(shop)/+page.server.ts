@@ -7,11 +7,11 @@ import {
 	purposes as purposesService,
 	visits as visitsService
 } from '$lib/server/db';
-import { memberUpdateSchema } from '$lib/models/member';
+import { memberUpdateSchema } from '$lib/models';
 
 export async function load() {
 	const members = await membersService.find();
-	const visits = await visitsService.findTodays();
+	const visits = await visitsService.findByDate();
 	const purposes = await purposesService.find();
 
 	const logVisitForm = await superValidate(zod(logVisitFormSchema));

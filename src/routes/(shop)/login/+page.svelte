@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { superForm } from 'sveltekit-superforms/client';
 	import { Field, Control, Label, Description, FieldErrors } from 'formsnap';
+	import { Message } from '$lib/ui';
 
 	export let data;
 	const loginForm = superForm(data.loginForm);
@@ -50,7 +51,7 @@
 					</Control>
 					<FieldErrors />
 				</Field>
-				{#if $message}<h3>{$message}</h3>{/if}
+				<Message message={$message} />
 				<button class="btn btn-primary">Log In</button>
 			</form>
 		{:else}

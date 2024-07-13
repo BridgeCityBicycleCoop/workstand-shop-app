@@ -1,7 +1,7 @@
 import { fail, error } from '@sveltejs/kit';
 import { superValidate, message } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
-import { bikeUpdateSchema } from '$lib/models/bike';
+import { bikeUpdateSchema } from '$lib/models';
 import { bikes as bikesService } from '$lib/server/db';
 
 const bikeUpdateFormSchema = bikeUpdateSchema.pick({

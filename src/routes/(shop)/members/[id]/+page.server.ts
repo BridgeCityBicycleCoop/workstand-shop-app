@@ -1,7 +1,7 @@
 import { fail, error } from '@sveltejs/kit';
 import { superValidate, message } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
-import { memberUpdateSchema } from '$lib/models/member';
+import { memberUpdateSchema } from '$lib/models';
 import { members as membersService } from '$lib/server/db';
 
 const memberUpdateFormSchema = memberUpdateSchema

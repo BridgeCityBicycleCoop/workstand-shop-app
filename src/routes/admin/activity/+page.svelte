@@ -1,13 +1,7 @@
 <script lang="ts">
 	import { formatDistance, formatDate } from 'date-fns';
-	import { getDisplayName, convertAndDownloadCsv } from '$lib/ui/utils';
-
-	import type { Visit } from '$lib/models/visit';
-	import type { Member } from '$lib/models/member';
-	import type { Purpose } from '$lib/models/purpose';
-
-	import Modal from '$lib/ui/Modal.svelte';
-	import ActivitySelect from '$lib/ui/ActivitySelect.svelte';
+	import { getDisplayName, convertAndDownloadCsv, Modal, ActivitySelect } from '$lib/ui';
+	import type { Visit, Member, Purpose } from '$lib/models';
 
 	export let data;
 
@@ -39,17 +33,36 @@
 
 		convertAndDownloadCsv(scrubbedData);
 	};
+
+	let startDate = data.startDate;
+	let endDate = data.endDate;
 </script>
 
 <pre>[Under Construction]</pre>
+
 <h2>Activity Reporting</h2>
 
 <p>Not sure about this one, but 🤷 some charts and such here</p>
 
-<button class="btn btn-primary" on:click={handleCsvDownload}>Download Visits as CSV</button>
-
 <section class="visits-list">
 	<h3>Member Visits</h3>
+
+	<form id="filter-visits">
+		<label for="startDate">Start (optional)</label>
+		<input type="date" name="startDate" max={endDate} bind:value={startDate} />
+
+		<label for="endDate">End (optional)</label>
+		<input type="date" name="endDate" min={startDate} bind:value={endDate} />
+
+		<button class="btn btn-primary" type="submit">Filter Visits</button>
+	</form>
+
+	<br />
+	<button class="btn btn-primary" on:click={handleCsvDownload}>Download Visits as CSV</button>
+
+	<br />
+	<br />
+
 	<div class="tableWrap">
 		{#if data.visits.length > 0}
 			<table>

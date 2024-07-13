@@ -1,17 +1,13 @@
 <script lang="ts">
 	import { formatDistance } from 'date-fns';
 	import { goto } from '$app/navigation';
-	import ActivitySelect from '$lib/ui/ActivitySelect.svelte';
-	import Modal from '$lib/ui/Modal.svelte';
+	import { ActivitySelect, Modal, getDisplayName } from '$lib/ui';
 	import ClipboardEditOutline from '~icons/mdi/clipboard-edit-outline';
 	import QuestionMark from '~icons/mdi/question-mark';
 	import Exclamation from '~icons/mdi/exclamation';
-	import { getDisplayName } from '$lib/ui/utils';
 
-	import type { Member } from '$lib/models/member';
-	import type { Purpose } from '$lib/models/purpose';
 	import type { FormEventHandler } from 'svelte/elements';
-	import type { Visit } from '$lib/models/visit';
+	import type { Member, Purpose, Visit } from '$lib/models';
 
 	export let data;
 

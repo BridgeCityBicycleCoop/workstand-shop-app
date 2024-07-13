@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { superForm } from 'sveltekit-superforms';
-	import { MemberEditFields, getDisplayName } from '$lib/ui';
+	import { MemberEditFields, getDisplayName, Message } from '$lib/ui';
 
 	export let data;
 	$: member = data.member;
@@ -17,17 +17,7 @@
 		<MemberEditFields memberForm={form} {errors} />
 	</form>
 
-	{#if $message}
-		<div class="message-container">
-			{#if typeof $message === 'string'}
-				<div class="message">{$message}</div>
-			{:else}
-				{#each Object.entries($message) as [key, val]}
-					<div class="message">ERROR: [{key}] {val}</div>
-				{/each}
-			{/if}
-		</div>
-	{/if}
+	<Message message={$message} />
 
 	<div class="buttons">
 		<button class="btn btn-neutral" on:click={() => history.back()}>Back</button>
@@ -43,17 +33,6 @@
 		min-width: 50%;
 		max-width: 80%;
 		margin: auto;
-	}
-
-	.message-container {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-	}
-
-	.message {
-		font-weight: bold;
-		color: rebeccapurple;
 	}
 
 	.buttons {

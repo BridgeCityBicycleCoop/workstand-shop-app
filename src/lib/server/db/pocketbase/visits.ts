@@ -1,12 +1,7 @@
 import PocketBase from 'pocketbase';
 import { constructNow, startOfToday } from 'date-fns';
 import { env } from '$env/dynamic/private';
-import {
-	visitSchema,
-	visitListSchema,
-	type VisitCreate,
-	type VisitUpdate
-} from '$lib/models/visit';
+import { visitSchema, visitListSchema, type VisitCreate, type VisitUpdate } from '$lib/models';
 import type { MembersResponse, PurposesResponse, VisitsResponse, TypedPocketBase } from './types';
 
 const pb = new PocketBase(env.POCKETBASE_URL) as TypedPocketBase;
@@ -42,12 +37,25 @@ export const remove = async (id: string) => {
 	return await pb.collection('visits').delete(id);
 };
 
-export const findTodays = async () => {
+// no startDate or endDate, all visits,
+// startDate only, should end with the latest visit
+// endDate only, should start from the very first visit
+export const findByDate = async (options: { startDate?: string; endDate?: string } = {}) => {
+	let filter;
+
+	if (!options.startDate && !options.endDate) {
+		filter = pb.filter('');
+	} else {
+		const startDateTime = options.startDate ? new Date(options.startDate) : startOfToday();
+		const endDateTime = options.endDate ? new Date(options.endDate) : constructNow(new Date());
+		filter = pb.filter('{:endDateTime} >= date && {:startDateTime} <= date', {
+			startDateTime,
+			endDateTime
+		});
+	}
+
 	const listResult = await pb.collection('visits').getList<VisitWithMemberAndPurpose>(1, 100, {
-		filter: pb.filter('{:endDateTime} >= date && {:startDateTime} <= date', {
-			startDateTime: startOfToday(),
-			endDateTime: constructNow(new Date())
-		}),
+		filter,
 		sort: '-date',
 		expand: 'memberId,purposeId'
 	});
