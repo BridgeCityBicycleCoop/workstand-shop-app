@@ -1,10 +1,5 @@
 import z from 'zod';
 
-export const datelikeToDate = z
-	.union([z.date(), z.string(), z.number()])
-	.transform((value) => (value === '' ? undefined : value))
-	.pipe(z.coerce.date().nullish());
-
 export const requireEmailOrPhone = z.union(
 	[
 		z.object({ email: z.undefined(), phone: z.string() }),
