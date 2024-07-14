@@ -1,6 +1,7 @@
 import z from 'zod';
 import { purposeSchema } from './purpose';
 import { memberSchema } from './member';
+import { isValidIsoStringDate } from '.';
 
 export const visitSchema = z.object({
 	id: z.string(),
@@ -14,7 +15,7 @@ export const visitFilterSchema = visitSchema.omit({ id: true });
 export const visitCreateSchema = z.object({
 	memberId: z.string(),
 	purposeId: z.string(),
-	date: z.date()
+	date: z.string().refine(isValidIsoStringDate, 'Not a valid ISO String Date')
 });
 export const visitUpdateSchema = z.intersection(
 	visitSchema.pick({ id: true }),
