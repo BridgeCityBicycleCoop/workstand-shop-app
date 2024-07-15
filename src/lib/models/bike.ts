@@ -1,20 +1,20 @@
 import z from 'zod';
-import { isValidIsoStringDate } from '.';
+import { isValidIsoDateString } from '$lib/models/utils/isValidIsoDateString';
 
 export const bikeSchema = z.object({
 	id: z.string(),
 	colour: z.string().optional(),
 	make: z.string().optional(),
 	serialNumber: z.string(),
-	donationDate: z.string().refine(isValidIsoStringDate, 'Not a valid ISO String Date').optional(),
+	donationDate: z.string().refine(isValidIsoDateString, 'Not a valid IsoDateString').optional(),
 	donatedBy: z.string().optional(),
 	email: z.string().optional(),
 	suggestedDonation: z.number().optional(),
 	recipientName: z.string().optional(),
 	recipientAge: z.string().optional(),
 	recipientPhoneNumber: z.string().optional(),
-	cpicDate: z.string().refine(isValidIsoStringDate, 'Not a valid ISO String Date').optional(),
-	outOfShopDate: z.string().refine(isValidIsoStringDate, 'Not a valid ISO String Date').optional(),
+	cpicDate: z.string().refine(isValidIsoDateString, 'Not a valid IsoDateString').optional(),
+	outOfShopDate: z.string().refine(isValidIsoDateString, 'Not a valid IsoDateString').optional(),
 	pricePaid: z.number().optional(),
 	bikeDestiny: z.string().optional(),
 	bcbcProgram: z.string().optional(),

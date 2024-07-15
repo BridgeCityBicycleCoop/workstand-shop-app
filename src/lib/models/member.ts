@@ -1,5 +1,5 @@
 import z from 'zod';
-import { isValidIsoStringDate } from '.';
+import { isValidIsoDateString } from '$lib/models/utils/isValidIsoDateString';
 
 export const requireEmailOrPhone = z.union(
 	[
@@ -29,7 +29,7 @@ export const memberSchema = z.object({
 	postalCode: z.string().optional(),
 	notes: z.string().optional(),
 	status: z.nativeEnum(MemberStatus), // active, suspended, banned
-	waiver: z.string().refine(isValidIsoStringDate, 'Not a valid ISO String Date').optional()
+	waiver: z.string().refine(isValidIsoDateString, 'Not a valid IsoDateString').optional()
 });
 
 export const memberListSchema = z.array(memberSchema);

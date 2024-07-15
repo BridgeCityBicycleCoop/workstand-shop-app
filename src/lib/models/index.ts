@@ -1,5 +1,3 @@
-import { isValid, toDate } from 'date-fns';
-
 export type { Bike, BikeFilter, BikeCreate, BikeUpdate, BikeList } from './bike';
 export type { Member, MemberFilter, MemberCreate, MemberUpdate, MemberList } from './member';
 export type { User, UserFilter, UserCreate, UserUpdate, UserList } from './user';
@@ -41,8 +39,3 @@ export {
 	purposeFilterSchema,
 	purposeUpdateSchema
 } from './purpose';
-
-export const isValidIsoStringDate = (stringDate: string): boolean => {
-	const isEmptyString = stringDate === '';
-	return isEmptyString || isValid(toDate(stringDate));
-};
