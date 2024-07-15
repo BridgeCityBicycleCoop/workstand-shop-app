@@ -58,8 +58,3 @@ const logVisitFormSchema = z.object({
 	purposeId: z.string(),
 	visitId: z.string().optional()
 });
-
-// const filterVisitFormSchema = z.object({
-// 	startDate: z.string(),
-// 	endDate: z.string()
-// });

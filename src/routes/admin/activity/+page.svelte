@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { formatDistance, formatDate } from 'date-fns';
 	import { getDisplayName, Modal, ActivitySelect } from '$lib/ui';
-	import { handleCsvDownload } from '$lib/utils';
+	import { convertAndDownloadCsv } from '$lib/utils';
 	import type { Visit, Member, Purpose } from '$lib/models';
 
 	export let data;
@@ -23,7 +23,6 @@
 	};
 
 	const formatCsvData = (_event: MouseEvent) => {
-		const headings = ['Date', 'Member Name', 'Visit Purpose'];
 		const rows = data.visits.map((visit) => {
 			return [
 				formatDate(visit.date, 'yyyy-mm-dd'),
@@ -32,7 +31,7 @@
 			];
 		});
 
-		handleCsvDownload(headings, rows);
+		convertAndDownloadCsv(rows, 'Visits');
 	};
 
 	let startDate = data.startDate;
