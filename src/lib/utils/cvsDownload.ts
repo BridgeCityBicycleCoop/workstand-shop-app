@@ -3,7 +3,7 @@ import { formatDate } from 'date-fns/format';
 /**
  * Convert a 2D array into a CSV string
  */
-export function arrayToCsv(data: unknown[][]) {
+export function arrayToCsv(data: string[][]) {
 	return data
 		.map(
 			(row) =>
@@ -32,7 +32,7 @@ export function downloadBlob(content: string, filename: string, contentType: str
 	pom.click();
 }
 
-export function convertAndDownloadCsv(data: unknown[][], collectionName: string = '') {
+export function convertAndDownloadCsv(data: string[][], collectionName: string = '') {
 	const csv = arrayToCsv(data);
 	const date = formatDate(Date.now(), 'yyyy-mm-dd');
 	const filename = `Workstand ${collectionName} ${date}`;
