@@ -3,10 +3,10 @@ import { isValidIsoDateString } from '$lib/models/utils/isValidIsoDateString';
 
 export const bikeSchema = z.object({
 	id: z.string(),
+	donationDate: z.string().refine(isValidIsoDateString, 'Not a valid IsoDateString').optional(),
 	colour: z.string().optional(),
 	make: z.string().optional(),
 	serialNumber: z.string(),
-	donationDate: z.string().refine(isValidIsoDateString, 'Not a valid IsoDateString').optional(),
 	donatedBy: z.string().optional(),
 	email: z.string().optional(),
 	suggestedDonation: z.number().optional(),

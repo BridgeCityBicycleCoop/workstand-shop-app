@@ -1,10 +1,9 @@
 <script lang="ts">
-	import { formatDate } from 'date-fns';
 	import { goto } from '$app/navigation';
 	import { superForm } from 'sveltekit-superforms';
 	import { BikeEditFields, Message } from '$lib/ui';
 	import type { Bike } from '$lib/models';
-	import type { IsoDateString } from '$lib/server/db/pocketbase/types.js';
+	import { formatStringDate } from '$lib/ui/utils';
 
 	export let data;
 	const BIKE_THEFT_URL = 'https://www.cpic-cipc.ca/sbi-rve-eng.htm';
@@ -17,10 +16,6 @@
 		updateClipboard(bike.serialNumber);
 
 		window.open(BIKE_THEFT_URL, '_blank') || window.location.replace(BIKE_THEFT_URL);
-	};
-
-	const formatStringDate = (stringDate: IsoDateString): string => {
-		return stringDate === '' ? 'date not set' : formatDate(stringDate, 'yyyy-mm-dd');
 	};
 
 	function updateClipboard(newClip: string) {
