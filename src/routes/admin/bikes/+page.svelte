@@ -2,6 +2,7 @@
 	import { convertAndDownloadCsv } from '$lib/utils';
 	import { formatStringDate } from '$lib/ui/utils';
 	import { isValidIsoDateString } from '$lib/models/utils/isValidIsoDateString';
+	import { type Bike } from '$lib/server/db';
 
 	export let data;
 
@@ -13,7 +14,15 @@
 			const firstBike = data.bikes[0];
 			const headers = Object.keys(firstBike).filter((key) => key !== 'id');
 			const csvSource = data.bikes.map((bike: Bike) => {
-				return headers.map((key) => bike[key]);
+				return headers.map((key) => {
+					const bikeValue = bike[key];
+
+					if (isValidIsoDateString(bikeValue)) {
+						return formatStringDate(bikeValue);
+					} else {
+						return bikeValue;
+					}
+				});
 			});
 
 			csvSource.unshift(headers);
