@@ -2,7 +2,7 @@
 	import { convertAndDownloadCsv } from '$lib/utils';
 	import { formatStringDate } from '$lib/ui/utils';
 	import { isValidIsoDateString } from '$lib/models/utils/isValidIsoDateString';
-	import { type Bike } from '$lib/server/db';
+	import { type Bike } from '$lib/models';
 
 	export let data;
 
