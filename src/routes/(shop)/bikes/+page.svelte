@@ -86,15 +86,12 @@
 					{#each data.bikes as bike}
 						<tr>
 							<td>
-								<button class="flatten-button" on:click={(event) => handleBikeUpdate(event, bike)}>
+								<button class="link" on:click={(event) => handleBikeUpdate(event, bike)}>
 									{bike.colour} / {bike.make}
 								</button>
 							</td>
 							<td>
-								<button
-									class="flatten-button"
-									on:click={(event) => handleCheckSerialNumber(event, bike)}
-								>
+								<button class="link" on:click={(event) => handleCheckSerialNumber(event, bike)}>
 									{bike.serialNumber}
 								</button>
 							</td>
@@ -152,13 +149,5 @@
 	a slight movement of the header row */
 	table {
 		border-collapse: collapse;
-	}
-
-	.flatten-button {
-		appearance: unset;
-		background-color: transparent;
-		border: none;
-		color: rgb(var(--color-primary));
-		cursor: pointer;
 	}
 </style>

@@ -4,7 +4,8 @@
 	import { ActivitySelect, Modal, getDisplayName } from '$lib/ui';
 	import ClipboardEditOutline from '~icons/mdi/clipboard-edit-outline';
 	import QuestionMark from '~icons/mdi/question-mark';
-	import Exclamation from '~icons/mdi/exclamation';
+	import Exclamation from '~icons/mdi/exclamation-thick';
+	import AlertOctagon from '~icons/mdi/alert-octagon-outline';
 
 	import type { FormEventHandler } from 'svelte/elements';
 	import type { Member, Purpose, Visit } from '$lib/models';
@@ -71,21 +72,20 @@
 	<div class="search-results">
 		{#if showList}
 			{#each filteredMemeberList as member}
-				<div class="button-column">
+				<div class="button-group">
+					{#if member.status === 'suspended' || member.status === 'banned' || member.notes}
+						<button class="primary status" disabled={signedInMembers.has(member.id)}>
+							{#if member.status === 'suspended'}
+								<Exclamation />
+							{:else if member.status === 'banned'}
+								<AlertOctagon />
+							{:else if member.notes}
+								<QuestionMark />
+							{/if}
+						</button>
+					{/if}
 					<button
-						class="btn btn-primary"
-						class:button-greyed-out={signedInMembers.has(member.id)}
-						disabled={signedInMembers.has(member.id)}
-					>
-						{#if member.status === 'suspended'}
-							<QuestionMark />
-						{:else if member.status === 'banned'}
-							<Exclamation />
-						{/if}
-					</button>
-					<button
-						class="btn btn-primary"
-						class:button-greyed-out={signedInMembers.has(member.id)}
+						class="primary activity"
 						on:click={(event) => handleMemberSelect(event, member)}
 						disabled={signedInMembers.has(member.id)}
 					>
@@ -93,12 +93,12 @@
 					</button>
 
 					<button
-						class="btn btn-primary"
-						class:button-greyed-out={signedInMembers.has(member.id)}
+						class="primary edit"
+						class:unavailable={signedInMembers.has(member.id)}
 						on:click={(event) => handleEditMember(event, member)}
 					>
 						<ClipboardEditOutline />
-						Edit Member
+						<span class="visually-hidden">Edit Member</span>
 					</button>
 				</div>
 			{/each}
@@ -121,7 +121,9 @@
 						{#each data.visits as visit}
 							<tr>
 								<td>
-									<button class="edit-profile" on:click={(event) => handleVisitUpdate(event, visit)}
+									<button
+										class="edit-profile link"
+										on:click={(event) => handleVisitUpdate(event, visit)}
 										>{getDisplayName(visit.member)}
 									</button>
 								</td>
@@ -162,10 +164,9 @@
 	.signin {
 		display: grid;
 		grid-template-areas:
-			'members-search members-search members-search'
-			'search-results search-results search-results'
-			'activity activity activity';
-		grid-template-columns: min-content auto min-content;
+			'members-search'
+			'search-results'
+			'activity';
 		grid-template-rows: auto minmax(35dvh, max-content) auto;
 		row-gap: 1rem;
 		min-height: 100%;
@@ -189,42 +190,7 @@
 		grid-area: search-results;
 		display: flex;
 		flex-direction: column;
-	}
-
-	button {
-		min-height: 40px;
-		margin: 5px 0px;
-	}
-
-	.button-column {
-		display: grid;
-		grid-template-columns: 0.5fr 10fr 2.5fr;
-	}
-
-	.button-column button:not(:last-child) {
-		border-right: none; /* Prevent double borders */
-	}
-
-	.button-column button:not(:first-child) {
-		border-left: none; /* Prevent double borders */
-	}
-
-	/* Clear floats (clearfix hack) */
-	.button-column:after {
-		content: '';
-		clear: both;
-		display: table;
-	}
-
-	/* Add a background color on hover */
-	.button-column button:hover {
-		background-color: #c4c4c4;
-	}
-
-	.button-greyed-out {
-		background-color: light-dark(rgba(239, 239, 239, 0.3), rgba(19, 1, 1, 0.3));
-		color: light-dark(rgba(16, 16, 16, 0.3), rgba(255, 255, 255, 0.3));
-		border-color: light-dark(rgba(118, 118, 118, 0.3), rgba(195, 195, 195, 0.3));
+		gap: 0.5rem;
 	}
 
 	.currently-signed-in {
@@ -238,11 +204,11 @@
 		border-collapse: collapse;
 	}
 
-	.edit-profile {
-		appearance: unset;
-		background-color: transparent;
-		border: none;
-		color: rgb(var(--color-primary));
-		cursor: pointer;
+	.button-group .status,
+	.button-group .edit {
+		flex: 0 1 content;
+	}
+	.button-group .activity:not(.status + *) {
+		padding-inline-start: 4.25rem;
 	}
 </style>
