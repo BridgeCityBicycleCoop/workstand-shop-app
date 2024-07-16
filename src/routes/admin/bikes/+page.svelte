@@ -10,28 +10,13 @@
 
 	const downloadCSV = (_event: MouseEvent) => {
 		if (data.bikes.length) {
-			const headers = Object.keys(data.bikes[0]).reduce((result: string[], bikeKey: string) => {
-				if (bikeKey === 'id') return;
-
-				result.push(bikeKey);
-				return result;
-			}, []);
-
-			const rows = data.bikes.map((bike) => {
-				return Object.keys(bike).reduce((result: string[], key: string) => {
-					if (key === 'id') return;
-					if (isValidIsoDateString(bike[key])) result.push(formatStringDate(bike[key]));
-
-					result.push(bike[key]);
-					return result;
-				}, []);
+			const firstBike = data.bikes[0];
+			const headers = Object.keys(firstBike).filter((key) => key !== 'id');
+			const csvSource = data.bikes.map((bike: Bike) => {
+				return headers.map((key) => bike[key]);
 			});
 
-			const csvSource: string[][] = [];
-
-			csvSource.push(headers);
-			csvSource.push(rows);
-			// console.log('bikes csv', headers, rows, csvSource);
+			csvSource.unshift(headers);
 
 			convertAndDownloadCsv(csvSource, 'Bikes');
 		}
@@ -44,7 +29,7 @@
 <p>We will put reports and csv downloads here in the future</p>
 
 <section class="bikes-list">
-	<h3>Member Bikes</h3>
+	<h3>Bikes List</h3>
 
 	<form id="filter-bikes">
 		<label for="startDate">Start (optional)</label>

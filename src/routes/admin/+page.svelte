@@ -2,6 +2,7 @@
 	import { convertAndDownloadCsv } from '$lib/utils';
 	import { formatStringDate } from '$lib/ui/utils';
 	import { isValidIsoDateString } from '$lib/models/utils/isValidIsoDateString';
+	import { type Member } from '$lib/models';
 
 	export let data;
 
@@ -10,28 +11,13 @@
 
 	const downloadCSV = (_event: MouseEvent) => {
 		if (data.members.length) {
-			const headers = Object.keys(data.members[0]).reduce((result: string[], memberKey: string) => {
-				if (memberKey === 'id') return;
-
-				result.push(memberKey);
-				return result;
-			}, []);
-
-			const rows = data.members.map((member) => {
-				return Object.keys(member).reduce((result: string[], key: string) => {
-					if (key === 'id') return;
-					if (isValidIsoDateString(member[key])) result.push(formatStringDate(member[key]));
-
-					result.push(member[key]);
-					return result;
-				}, []);
+			const firstMember = data.members[0];
+			const headers = Object.keys(firstMember).filter((key) => key !== 'id');
+			const csvSource = data.members.map((member: Member) => {
+				return headers.map((key) => member[key]);
 			});
 
-			const csvSource: string[][] = [];
-
-			csvSource.push(headers);
-			csvSource.push(rows);
-			// console.log('members csv', headers, rows, csvSource);
+			csvSource.unshift(headers);
 
 			convertAndDownloadCsv(csvSource, 'Members');
 		}
@@ -44,7 +30,7 @@
 <p>We will put reports and csv downloads here in the future</p>
 
 <section class="members-list">
-	<h3>Member Members</h3>
+	<h3>Members List</h3>
 
 	<form id="filter-members">
 		<label for="startDate">Start (optional)</label>

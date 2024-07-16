@@ -33,7 +33,7 @@ export const findByDate = async (options: { startDate?: string; endDate?: string
 		sort: '-donationDate'
 	});
 
-	return bikeListSchema.parse(listResult.items.map((i) => (!i ? '' : i)));
+	return bikeListSchema.parse(listResult.items);
 };
 export const get = async (id: string) => {
 	return bikeSchema.parse(await pb.collection('bikes').getOne(id));
