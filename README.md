@@ -1,42 +1,24 @@
-# Workstand - Open Source management, tracking and reporting tool for non-profit memberhips, inventory, and activities.
+# Workstand
 
-This app is developed using [Sveltekit](https://kit.svelte.dev/), [Typescript](https://www.typescriptlang.org/), [Superforms](https://superforms.rocks/), and [Pocketbase](https://pocketbase.io/).
+**Open Source management, tracking and reporting tool for non-profit memberhips, inventory, and activities.**
 
-## Setup Local Pocketbase DB on MacOS
+> [!CAUTION]
+> This project is currently under active development and is **not yet ready** for use or contributions.
 
-Create your own local .env file - see `.env.example`
-open your terminal
+Workstand is a basic membership sign-in web application developed for the [Bridge City Bicycle Co-operative (BCBC)](https://bcbc.bike/). It allows the BCBC to collect usage data for their shop. This helps with program planning, grant reporting, volunteer management, and more.
 
-On MacOS it's easiest to use [Homebrew](https://brew.sh/) to install and manage packages.
+Workstand is "Free and open-source software" (FOSS), and you are encouraged to run your own instance of it for your organization, clone and modify it to suit your clubs needs, or [contribute to the project](https://github.com/BridgeCityBicycleCoop/workstand-2024/blob/main/CONTRIBUTING.md) with features and modifications.
 
-```bash
-brew install pocketbase
-/opt/homebrew/bin/pocketbase serve
-```
+> [!IMPORTANT]
+> The project is currently under active deveopment and is **not yet ready to accept contributions**.
+> We do want you to contribute in the future, so please check back soon for updates.
 
-Go to the Admin UI in your browser by command click the link in your terminal. It will prompt you to set up an email and password which will need to match your `.env` file.
+## Deploy your own instance of Workstand
 
-Once there, manually create a user record in the `users` collection. After getting the dev steps completed below, you will be able to login using the info created above.
+> [!NOTE]  
+> TODO: Add information about how deploy and configure Workstand
 
-## Developing
+## Development
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+> [!NOTE]  
+> TODO: Add information about how to contribute features and bug fixes to the workstand project
