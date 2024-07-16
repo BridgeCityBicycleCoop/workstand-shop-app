@@ -1,6 +1,6 @@
 import type { Member } from '$lib/models';
 import type { IsoDateString } from '$lib/server/db/pocketbase/types';
-import { format, intlFormat } from 'date-fns';
+import { intlFormat } from 'date-fns';
 
 export const getDisplayName = (member: Member | undefined): string => {
 	if (!member) {
@@ -23,6 +23,8 @@ export const getLocaleDisplayDate = (
 		minute: '2-digit'
 	}
 ): string => {
+	// pull locale from browser
+	const locale = navigator.languages[0] || navigator.language || 'en-US';
 	// intlFormat requires a Date object
-	return !stringDate ? '' : intlFormat(new Date(stringDate), formatOptions);
+	return !stringDate ? '' : intlFormat(new Date(stringDate), formatOptions, { locale });
 };
