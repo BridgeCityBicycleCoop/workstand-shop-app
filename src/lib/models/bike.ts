@@ -1,25 +1,20 @@
 import z from 'zod';
-import { isValid, toDate } from 'date-fns';
-
-const isValidIsoStringDate = (stringDate: string): boolean => {
-	const isEmptyString = stringDate === '';
-	return isEmptyString || isValid(toDate(stringDate));
-};
+import { isValidIsoDateString } from '$lib/models/utils/isValidIsoDateString';
 
 export const bikeSchema = z.object({
 	id: z.string(),
-	serialNumber: z.string(),
-	make: z.string().optional(),
+	donationDate: z.string().refine(isValidIsoDateString, 'Not a valid IsoDateString').optional(),
 	colour: z.string().optional(),
+	make: z.string().optional(),
+	serialNumber: z.string(),
 	donatedBy: z.string().optional(),
 	email: z.string().optional(),
-	donationDate: z.string().refine(isValidIsoStringDate, 'Not a valid ISO String Date'),
 	suggestedDonation: z.number().optional(),
-	cpicDate: z.string().refine(isValidIsoStringDate, 'Not a valid ISO String Date'),
 	recipientName: z.string().optional(),
 	recipientAge: z.string().optional(),
 	recipientPhoneNumber: z.string().optional(),
-	outOfShopDate: z.string().refine(isValidIsoStringDate, 'Not a valid ISO String Date'),
+	cpicDate: z.string().refine(isValidIsoDateString, 'Not a valid IsoDateString').optional(),
+	outOfShopDate: z.string().refine(isValidIsoDateString, 'Not a valid IsoDateString').optional(),
 	pricePaid: z.number().optional(),
 	bikeDestiny: z.string().optional(),
 	bcbcProgram: z.string().optional(),
