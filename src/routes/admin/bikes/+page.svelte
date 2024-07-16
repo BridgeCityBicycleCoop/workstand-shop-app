@@ -14,7 +14,7 @@
 			const firstBike = data.bikes[0];
 			const headers = Object.keys(firstBike).filter((key) => key !== 'id');
 			const csvSource = data.bikes.map((bike: Bike) => {
-				return headers.map((key) => {
+				return headers.map((key: string) => {
 					const bikeValue = bike[key];
 
 					if (isValidIsoDateString(bikeValue)) {

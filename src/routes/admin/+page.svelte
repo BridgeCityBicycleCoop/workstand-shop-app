@@ -14,7 +14,15 @@
 			const firstMember = data.members[0];
 			const headers = Object.keys(firstMember).filter((key) => key !== 'id');
 			const csvSource = data.members.map((member: Member) => {
-				return headers.map((key) => member[key]);
+				return headers.map((key: string) => {
+					const memberValue = member[key];
+
+					if (isValidIsoDateString(memberValue)) {
+						return formatStringDate(memberValue);
+					} else {
+						return memberValue;
+					}
+				});
 			});
 
 			csvSource.unshift(headers);
