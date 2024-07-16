@@ -16,8 +16,6 @@
 			}
 		}
 	});
-
-	$: console.log({ $form, $errors, $message });
 </script>
 
 <section class="register-member">
