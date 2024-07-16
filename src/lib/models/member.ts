@@ -19,23 +19,23 @@ enum MemberStatus {
 export const memberSchema = z.object({
 	id: z.string(),
 	name: z.string().min(1, 'Name is required'),
-	preferredName: z.string().optional(),
-	pronouns: z.string().optional(),
-	email: z.string().optional(),
-	emailConsent: z.boolean().optional(),
-	phone: z.string().optional(),
-	requiresGuardian: z.boolean().optional(),
-	guardianName: z.string().optional(),
-	postalCode: z.string().optional(),
-	notes: z.string().optional(),
+	preferredName: z.string().nullish(),
+	pronouns: z.string().nullish(),
+	email: z.string().nullish(),
+	emailConsent: z.boolean().default(false),
+	phone: z.string().nullish(),
+	requiresGuardian: z.boolean().default(false),
+	guardianName: z.string().nullish(),
+	postalCode: z.string().nullish(),
+	notes: z.string().nullish(),
 	status: z.nativeEnum(MemberStatus), // active, suspended, banned
-	waiver: z.string().refine(isValidIsoDateString, 'Not a valid IsoDateString').optional()
+	waiver: z.string().refine(isValidIsoDateString, 'Not a valid IsoDateString').nullish()
 });
 
 export const memberListSchema = z.array(memberSchema);
 export const memberFilterSchema = memberSchema.omit({ id: true });
 export const memberCreateSchema = memberSchema.omit({ id: true }).required({ email: true }); // currently require email
-export const memberUpdateSchema = memberSchema.partial().required({ id: true });
+export const memberUpdateSchema = memberSchema.required({ id: true });
 
 export type Member = z.infer<typeof memberSchema>;
 export type MemberList = z.infer<typeof memberListSchema>;

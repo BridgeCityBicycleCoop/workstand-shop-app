@@ -1,11 +1,22 @@
 <script lang="ts">
 	import { superForm } from 'sveltekit-superforms';
-	import { MemberEditFields, getDisplayName, Message } from '$lib/ui';
+	import { MemberEditFields, getDisplayName, Message, Toasts, addToast } from '$lib/ui';
 
 	export let data;
 	$: member = data.member;
 
-	const { form, errors, enhance, message } = superForm(data.form, { resetForm: false });
+	const { form, errors, enhance, message } = superForm(data.form, {
+		resetForm: false,
+		onUpdated(event) {
+			if (event.form.message) {
+				addToast({
+					type: event.form.valid ? 'success' : 'error',
+					message: event.form.message,
+					timeout: 3000
+				});
+			}
+		}
+	});
 </script>
 
 <section>
@@ -16,8 +27,6 @@
 	<form id="update-member" method="POST" use:enhance>
 		<MemberEditFields memberForm={form} {errors} />
 	</form>
-
-	<Message message={$message} />
 
 	<div class="buttons">
 		<button class="btn btn-neutral" on:click={() => history.back()}>Back</button>
