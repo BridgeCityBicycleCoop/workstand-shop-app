@@ -11,7 +11,7 @@ import { memberUpdateSchema } from '$lib/models';
 
 export async function load() {
 	const members = await membersService.find();
-	const visits = await visitsService.findByDate();
+	const visits = await visitsService.findByDate({ startDate: new Date().toISOString() });
 	const purposes = await purposesService.find();
 
 	const logVisitForm = await superValidate(zod(logVisitFormSchema));
