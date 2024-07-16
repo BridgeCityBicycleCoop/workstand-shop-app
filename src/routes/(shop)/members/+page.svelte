@@ -45,10 +45,4 @@
 		max-width: 80%;
 		margin: auto;
 	}
-
-	button {
-		min-height: 40px;
-		margin: 25px 10px;
-		padding: 10px 30px;
-	}
 </style>

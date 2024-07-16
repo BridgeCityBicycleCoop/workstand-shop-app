@@ -40,10 +40,6 @@
 
 <pre>[Under Construction]</pre>
 
-<h2>Activity Reporting</h2>
-
-<p>Not sure about this one, but 🤷 some charts and such here</p>
-
 <section class="visits-list">
 	<h3>Member Visits</h3>
 
@@ -54,14 +50,10 @@
 		<label for="endDate">End (optional)</label>
 		<input type="date" name="endDate" min={startDate} bind:value={endDate} />
 
-		<button class="btn btn-primary" type="submit">Filter Visits</button>
+		<button class="primary" type="submit">Filter Visits</button>
 	</form>
 
-	<br />
-	<button class="btn btn-primary" on:click={handleCsvDownload}>Download Visits as CSV</button>
-
-	<br />
-	<br />
+	<button class="csv primary" on:click={handleCsvDownload}>Download Visits as CSV</button>
 
 	<div class="tableWrap">
 		{#if data.visits.length > 0}
@@ -77,7 +69,9 @@
 					{#each data.visits as visit}
 						<tr>
 							<td>
-								<button class="edit-profile" on:click={(event) => handleVisitUpdate(event, visit)}
+								<button
+									class="edit-profile link"
+									on:click={(event) => handleVisitUpdate(event, visit)}
 									>{getDisplayName(visit.member)}
 								</button>
 							</td>
@@ -106,18 +100,16 @@
 			}}
 		/>
 		<div slot="buttons">
-			<button class="btn btn-primary" on:click={handleClose}>Cancel</button>
+			<button class="primary" on:click={handleClose}>Cancel</button>
 		</div>
 	</Modal>
 </section>
 
 <style>
-	h2 {
-		font-weight: bold;
-	}
-
 	.visits-list {
-		grid-area: activity;
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
 	}
 
 	/* If we use border,
@@ -128,10 +120,10 @@
 	}
 
 	.edit-profile {
-		appearance: unset;
-		background-color: transparent;
-		border: none;
-		color: rgb(var(--color-primary));
-		cursor: pointer;
+		min-height: auto;
+	}
+
+	.csv {
+		align-self: flex-end;
 	}
 </style>
