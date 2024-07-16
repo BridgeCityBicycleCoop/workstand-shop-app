@@ -1,5 +1,5 @@
 import PocketBase from 'pocketbase';
-import { constructNow, startOfToday } from 'date-fns';
+import { constructNow, startOfToday, startOfDay, endOfDay } from 'date-fns';
 import { env } from '$env/dynamic/private';
 import { visitSchema, visitListSchema, type VisitCreate, type VisitUpdate } from '$lib/models';
 import type { MembersResponse, PurposesResponse, VisitsResponse, TypedPocketBase } from './types';
@@ -46,8 +46,10 @@ export const findByDate = async (options: { startDate?: string; endDate?: string
 	if (!options.startDate && !options.endDate) {
 		filter = pb.filter('');
 	} else {
-		const startDateTime = options.startDate ? new Date(options.startDate) : startOfToday();
-		const endDateTime = options.endDate ? new Date(options.endDate) : constructNow(new Date());
+		const startDateTime = options.startDate ? startOfDay(options.startDate) : startOfToday();
+		const endDateTime = options.endDate
+			? endOfDay(options.endDate)
+			: endOfDay(constructNow(new Date()));
 		filter = pb.filter('{:endDateTime} >= date && {:startDateTime} <= date', {
 			startDateTime,
 			endDateTime
