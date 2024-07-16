@@ -57,7 +57,7 @@
 	</form>
 
 	<br />
-	<button class="btn btn-primary" on:click={downloadCSV}>Download Bikes as CSV</button>
+	<button class="csv btn-primary" on:click={downloadCSV}>Download Bikes as CSV</button>
 
 	<br />
 	<br />

@@ -18,7 +18,7 @@
 		<option value="Public" />
 		<option value="Landfill" />
 	</datalist>
-	<Field name="email" type="email" bind:value={$bikeForm.email}>Email Address</Field>
+	<Field name="email" type="email" bind:value={$bikeForm.email}>Email</Field>
 	{#if $errors?.email}
 		<div class="errors">{$errors?.email}</div>
 	{/if}
