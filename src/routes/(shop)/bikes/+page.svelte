@@ -3,7 +3,7 @@
 	import { superForm } from 'sveltekit-superforms';
 	import { BikeEditFields, Message } from '$lib/ui';
 	import type { Bike } from '$lib/models';
-	import { formatStringDate } from '$lib/ui/utils';
+	import { getLocaleDisplayDate } from '$lib/ui/utils';
 
 	export let data;
 	const BIKE_THEFT_URL = 'https://www.cpic-cipc.ca/sbi-rve-eng.htm';
@@ -96,9 +96,9 @@
 							<td>{bike.recipientPhoneNumber}</td>
 							<td>{bike.recipientAge}</td>
 							<td>{bike.bikeDestiny}</td>
-							<td>{formatStringDate(bike.donationDate)}</td>
-							<td>{formatStringDate(bike.cpicDate)}</td>
-							<td>{formatStringDate(bike.outOfShopDate)}</td>
+							<td>{getLocaleDisplayDate(bike.donationDate)}</td>
+							<td>{getLocaleDisplayDate(bike.cpicDate)}</td>
+							<td>{getLocaleDisplayDate(bike.outOfShopDate)}</td>
 							<td>{bike.bcbcProgram}</td>
 						</tr>
 					{/each}

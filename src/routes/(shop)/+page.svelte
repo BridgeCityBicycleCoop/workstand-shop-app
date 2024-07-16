@@ -1,7 +1,6 @@
 <script lang="ts">
-	import { formatDistance } from 'date-fns';
 	import { goto } from '$app/navigation';
-	import { ActivitySelect, Modal, getDisplayName } from '$lib/ui';
+	import { ActivitySelect, Modal, getLocaleDisplayDate, getDisplayName } from '$lib/ui';
 	import ClipboardEditOutline from '~icons/mdi/clipboard-edit-outline';
 	import QuestionMark from '~icons/mdi/question-mark';
 	import Exclamation from '~icons/mdi/exclamation-thick';
@@ -128,7 +127,7 @@
 									</button>
 								</td>
 								<td>{visit.purpose.name}</td>
-								<td>{formatDistance(visit.date, Date.now(), { addSuffix: true })}</td>
+								<td>{getLocaleDisplayDate(visit.date)}</td>
 							</tr>
 						{/each}
 					</tbody>

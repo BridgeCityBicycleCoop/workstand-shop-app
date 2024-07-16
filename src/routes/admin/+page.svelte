@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { convertAndDownloadCsv } from '$lib/utils';
-	import { formatStringDate } from '$lib/ui/utils';
+	import { getLocaleDisplayDate } from '$lib/ui/utils';
 	import { isValidIsoDateString } from '$lib/models/utils/isValidIsoDateString';
 	import { type Member } from '$lib/models';
 
@@ -18,7 +18,7 @@
 					const memberValue = member[key];
 
 					if (isValidIsoDateString(memberValue)) {
-						return formatStringDate(memberValue);
+						return getLocaleDisplayDate(memberValue);
 					} else {
 						return memberValue;
 					}
@@ -77,7 +77,7 @@
 				<tbody>
 					{#each data.members as member}
 						<tr>
-							<td>{formatStringDate(member.waiver)}</td>
+							<td>{getLocaleDisplayDate(member.waiver)}</td>
 							<td>{member.name}</td>
 							<td>{member.preferredName}</td>
 							<td>{member.pronouns}</td>
