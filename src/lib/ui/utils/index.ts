@@ -26,5 +26,5 @@ export const getLocaleDisplayDate = (
 	// pull locale from browser
 	const locale = navigator.languages[0] || navigator.language || 'en-US';
 	// intlFormat requires a Date object
-	return !stringDate ? '' : intlFormat(new Date(stringDate), formatOptions, { locale });
+	return !stringDate ? '' : intlFormat(stringDate, formatOptions, { locale });
 };
