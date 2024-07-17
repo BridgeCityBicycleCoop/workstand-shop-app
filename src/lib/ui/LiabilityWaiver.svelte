@@ -3,7 +3,7 @@
 
 	export let name: string = '';
 	export let requiresGuardian: boolean = false;
-	export let guardianName: string = '';
+	export let guardianName: string | null = '';
 
 	let waiverDate = format(Date.now(), 'LLLL dd, yyyy');
 </script>
@@ -43,8 +43,8 @@
 		<p>I {name} have read and agree to the above terms & conditions.</p>
 		<p>Date: {waiverDate}</p>
 		{#if requiresGuardian}
-			<p>Guardian Name (if under 18): {guardianName}</p>
-			<p>Guardian Signature: <span class="signature">{guardianName}</span></p>
+			<p>Guardian Name (if under 18): {guardianName ?? ''}</p>
+			<p>Guardian Signature: <span class="signature">{guardianName ?? ''}</span></p>
 		{:else}
 			<p>Signature: <span class="signature">{name}</span></p>
 		{/if}

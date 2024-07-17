@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { PageLayout, Header, Footer, TopNav, Logo, GithubLink } from '$lib/ui';
+	import { PageLayout, Header, Footer, TopNav, Logo, GithubLink, Toasts } from '$lib/ui';
 	export let data;
 
 	$: navItems = [
@@ -10,6 +10,8 @@
 		...(data.user?.role.includes('admin') ? [{ name: 'Admin', href: '/admin' }] : [])
 	];
 </script>
+
+<Toasts />
 
 <PageLayout>
 	<Header slot="header">

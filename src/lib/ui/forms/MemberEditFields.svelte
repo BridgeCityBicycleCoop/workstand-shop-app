@@ -10,40 +10,56 @@
 </script>
 
 <fieldset>
-	<Field name="name" bind:value={$memberForm.name}>Name</Field>
-	<Field name="preferredName" bind:value={$memberForm.preferredName}>Preferred Name</Field>
-	<Field name="pronouns" list="common-pronouns" bind:value={$memberForm.pronouns}>Pronouns</Field>
+	<Field name="name" errors={$errors.name} bind:value={$memberForm.name}>Name</Field>
+	<Field name="preferredName" errors={$errors.preferredName} bind:value={$memberForm.preferredName}
+		>Preferred Name</Field
+	>
+	<Field
+		name="pronouns"
+		list="common-pronouns"
+		errors={$errors.pronouns}
+		bind:value={$memberForm.pronouns}>Pronouns</Field
+	>
 	<datalist id="common-pronouns">
 		<option value="he/him/his" />
 		<option value="she/her/hers" />
 		<option value="they/them/theirs" />
 	</datalist>
-	<Field name="email" type="email" bind:value={$memberForm.email}>Email</Field>
+	<Field name="email" type="email" errors={$errors.email} bind:value={$memberForm.email}
+		>Email</Field
+	>
 	{#if $errors?.email}
 		<div class="errors">{$errors?.email}</div>
 	{/if}
 	<Field name="emailConsent" type="toggle" bind:checked={$memberForm.emailConsent}>
 		Email Consent
 	</Field>
-	<Field name="phone" bind:value={$memberForm.phone}>Phone</Field>
+	<Field name="phone" errors={$errors.phone} bind:value={$memberForm.phone}>Phone</Field>
 	<Field name="requiresGuardian" type="toggle" bind:checked={$memberForm.requiresGuardian}>
 		Requires Guardian
 	</Field>
 	{#if $memberForm.requiresGuardian}
-		<Field name="guardianName" bind:value={$memberForm.guardianName}>Guardian Name</Field>
+		<Field name="guardianName" errors={$errors.guardianName} bind:value={$memberForm.guardianName}
+			>Guardian Name</Field
+		>
 	{/if}
-	<Field name="postalCode" bind:value={$memberForm.postalCode}>Postal Code</Field>
+	<Field name="postalCode" errors={$errors.postalCode} bind:value={$memberForm.postalCode}
+		>Postal Code</Field
+	>
 	{#if $memberForm.id}
 		<Field
 			name="status"
 			type="select"
 			options={Object.entries(memberSchema.shape.status.enum)}
+			errors={$errors.status}
 			bind:value={$memberForm.status}
 		>
 			Status
 		</Field>
 	{/if}
-	<Field name="notes" type="textarea" rows="4" bind:value={$memberForm.notes}>Notes</Field>
+	<Field name="notes" type="textarea" rows="4" errors={$errors.notes} bind:value={$memberForm.notes}
+		>Notes</Field
+	>
 	{#if $memberForm.id}
 		<input type="hidden" name="id" bind:value={$memberForm.id} />
 	{/if}

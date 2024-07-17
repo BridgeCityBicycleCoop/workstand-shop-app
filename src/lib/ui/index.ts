@@ -17,4 +17,5 @@ export { default as ToggleSwitch } from './forms/ToggleSwitch.svelte';
 
 export { default as GithubLink } from './GithubLink.svelte';
 
+export * from './toast';
 export * from './utils';

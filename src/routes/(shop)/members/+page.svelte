@@ -1,11 +1,21 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { superForm } from 'sveltekit-superforms';
-	import { LiabilityWaiver, MemberEditFields, Message } from '$lib/ui';
+	import { LiabilityWaiver, MemberEditFields, addToast } from '$lib/ui';
 
 	export let data;
 
-	const { form, errors, enhance, message } = superForm(data.form);
+	const { form, errors, enhance, message } = superForm(data.form, {
+		onUpdated(event) {
+			if (event.form.message) {
+				addToast({
+					type: event.form.valid ? 'success' : 'error',
+					message: event.form.message,
+					timeout: 3000
+				});
+			}
+		}
+	});
 </script>
 
 <section class="register-member">
@@ -19,10 +29,6 @@
 		</form>
 	</div>
 
-	<br />
-	<Message message={$message} />
-
-	<br />
 	<LiabilityWaiver
 		name={$form.name}
 		requiresGuardian={$form.requiresGuardian}

@@ -18,10 +18,8 @@ export async function load() {
 export const actions = {
 	async default({ request }) {
 		const form = await superValidate(request, zod(memberCreateSchema));
+		if (!form.valid) return fail(422, { form });
 
-		if (!form.valid) {
-			return message(form, form.errors);
-		}
 		try {
 			await membersService.add(form.data);
 			return message(form, 'Member added successfully!');

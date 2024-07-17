@@ -2,12 +2,12 @@
 	export let message;
 </script>
 
-{#if $message}
+{#if message}
 	<div class="message-container">
-		{#if typeof $message === 'string'}
-			<div class="message">{$message}</div>
+		{#if typeof message === 'string'}
+			<div class="message">{message}</div>
 		{:else}
-			{#each Object.entries($message) as [_key, val]}
+			{#each Object.entries(message) as [_key, val]}
 				<div class="message">ERROR: {val}</div>
 			{/each}
 		{/if}
