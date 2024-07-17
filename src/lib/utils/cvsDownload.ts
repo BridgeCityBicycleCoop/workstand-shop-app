@@ -34,7 +34,7 @@ export function downloadBlob(content: string, filename: string, contentType: str
 
 export function convertAndDownloadCsv(data: string[][], collectionName: string = '') {
 	const csv = arrayToCsv(data);
-	const date = formatDate(Date.now(), 'yyyy-mm-dd');
+	const date = formatDate(Date.now(), 'yyyy-mm-dd-hh-mm');
 	const filename = `Workstand ${collectionName} ${date}`;
 
 	downloadBlob(csv, filename, 'text/csv;charset=utf-8;');

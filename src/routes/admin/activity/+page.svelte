@@ -1,6 +1,5 @@
 <script lang="ts">
-	import { formatDistance, formatDate } from 'date-fns';
-	import { getDisplayName, Modal, ActivitySelect } from '$lib/ui';
+	import { getDisplayName, Modal, ActivitySelect, getLocaleDisplayDate } from '$lib/ui';
 	import { convertAndDownloadCsv } from '$lib/utils';
 	import type { Visit, Member, Purpose } from '$lib/models';
 
@@ -23,9 +22,9 @@
 	};
 
 	const formatCsvData = (_event: MouseEvent) => {
-		const rows = data.visits.map((visit) => {
+		const rows = data.visits.map((visit: Visit) => {
 			return [
-				formatDate(visit.date, 'yyyy-mm-dd'),
+				getLocaleDisplayDate(visit.date),
 				`${visit.member.name} [${visit.member.preferredName}]`,
 				visit.purpose.name
 			];
@@ -76,7 +75,7 @@
 								</button>
 							</td>
 							<td>{visit.purpose.name}</td>
-							<td>{formatDistance(visit.date, Date.now(), { addSuffix: true })}</td>
+							<td>{getLocaleDisplayDate(visit.date)}</td>
 						</tr>
 					{/each}
 				</tbody>

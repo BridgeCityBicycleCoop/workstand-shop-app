@@ -62,6 +62,7 @@ export enum MembersStatusOptions {
 	'banned' = 'banned'
 }
 export type MembersRecord = {
+	waiver?: IsoDateString;
 	email?: string;
 	emailConsent?: boolean;
 	guardianName?: string;
@@ -73,7 +74,6 @@ export type MembersRecord = {
 	pronouns?: string;
 	requiresGuardian?: boolean;
 	status?: MembersStatusOptions;
-	waiver?: IsoDateString;
 };
 
 export type PurposesRecord = {

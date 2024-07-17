@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { convertAndDownloadCsv } from '$lib/utils';
-	import { formatStringDate } from '$lib/ui/utils';
+	import { getLocaleDisplayDate } from '$lib/ui/utils';
 	import { isValidIsoDateString } from '$lib/models/utils/isValidIsoDateString';
 	import { type Bike } from '$lib/models';
 
@@ -18,7 +18,7 @@
 					const bikeValue = bike[key];
 
 					if (isValidIsoDateString(bikeValue)) {
-						return formatStringDate(bikeValue);
+						return getLocaleDisplayDate(bikeValue);
 					} else {
 						return bikeValue;
 					}
@@ -82,18 +82,18 @@
 				<tbody>
 					{#each data.bikes as bike}
 						<tr>
-							<td>{formatStringDate(bike.donationDate)}</td>
+							<td>{getLocaleDisplayDate(bike.donationDate)}</td>
 							<td>{bike.colour}</td>
 							<td>{bike.make}</td>
 							<td>{bike.serialNumber}</td>
 							<td>{bike.donatedBy}</td>
 							<td>{bike.email}</td>
 							<td>{bike.suggestedDonation}</td>
-							<td>{formatStringDate(bike.cpicDate)}</td>
+							<td>{getLocaleDisplayDate(bike.cpicDate)}</td>
 							<td>{bike.recipientName}</td>
 							<td>{bike.recipientAge}</td>
 							<td>{bike.recipientPhoneNumber}</td>
-							<td>{formatStringDate(bike.outOfShopDate)}</td>
+							<td>{getLocaleDisplayDate(bike.outOfShopDate)}</td>
 							<td>{bike.pricePaid}</td>
 							<td>{bike.bikeDestiny}</td>
 							<td>{bike.bcbcProgram}</td>
