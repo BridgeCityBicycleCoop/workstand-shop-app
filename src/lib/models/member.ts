@@ -18,6 +18,7 @@ enum MemberStatus {
 
 export const memberSchema = z.object({
 	id: z.string(),
+  waiver: z.string().refine(isValidIsoDateString, 'Not a valid IsoDateString').nullish(),
 	name: z.string().min(1, 'Name is required'),
 	preferredName: z.string().nullish(),
 	pronouns: z.string().nullish(),
@@ -29,7 +30,6 @@ export const memberSchema = z.object({
 	postalCode: z.string().nullish(),
 	notes: z.string().nullish(),
 	status: z.nativeEnum(MemberStatus), // active, suspended, banned
-	waiver: z.string().refine(isValidIsoDateString, 'Not a valid IsoDateString').nullish()
 });
 
 export const memberListSchema = z.array(memberSchema);

@@ -22,7 +22,7 @@ export const findByDate = async (options: { startDate?: string; endDate?: string
 	} else {
 		const startDateTime = options.startDate ? new Date(options.startDate) : startOfToday();
 		const endDateTime = options.endDate ? new Date(options.endDate) : constructNow(new Date());
-		filter = pb.filter('{:endDateTime} >= date && {:startDateTime} <= date', {
+		filter = pb.filter('{:endDateTime} >= donationDate && {:startDateTime} <= donationDate', {
 			startDateTime,
 			endDateTime
 		});
