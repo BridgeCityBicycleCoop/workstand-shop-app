@@ -75,7 +75,11 @@
 			{#each filteredMemeberList as member}
 				<div class="button-group">
 					{#if member.status === 'suspended' || member.status === 'banned' || member.notes}
-						<button class="primary status" disabled={signedInMembers.has(member.id)}>
+						<button
+							class="primary status"
+							class:unavailable={signedInMembers.has(member.id)}
+							popovertarget={`membernotes-${member.id}`}
+						>
 							{#if member.status === 'suspended'}
 								<Exclamation />
 							{:else if member.status === 'banned'}
@@ -101,6 +105,29 @@
 						<ClipboardEditOutline />
 						<span class="visually-hidden">Edit Member</span>
 					</button>
+				</div>
+
+				<div id={`membernotes-${member.id}`} popover="auto" role="dialog">
+					<div class="notes">
+						<div class="notes-title">{getDisplayName(member)}</div>
+						{#if member.status === 'suspended'}
+							<span class="note-icon">
+								<Exclamation />
+							</span>
+							<span>This member is currently suspended</span>
+						{:else if member.status === 'banned'}
+							<span class="note-icon">
+								<AlertOctagon />
+							</span>
+							<span>This member is currently banned</span>
+						{/if}
+						{#if member.notes}
+							<span class="note-icon">
+								<QuestionMark />
+							</span>
+							<div>{@html member.notes}</div>
+						{/if}
+					</div>
 				</div>
 			{/each}
 		{/if}
@@ -209,7 +236,51 @@
 	.button-group .edit {
 		flex: 0 1 content;
 	}
-	.button-group .activity:not(.status + *) {
-		padding-inline-start: 4.25rem;
+	.button-group:not(:has(.status)) .activity::before {
+		content: '';
+		width: 3.2rem;
+	}
+
+	[popover] {
+		position: absolute;
+		top: 4rem;
+		bottom: auto;
+		margin: auto;
+		min-width: 400px;
+		width: 24rem;
+		max-width: 100%;
+		opacity: 0;
+		padding: 0;
+		transition:
+			opacity 0.3s,
+			display 0.3s allow-discrete;
+		border-radius: var(--border-radius, 6px);
+	}
+
+	[popover]:popover-open {
+		opacity: 1;
+	}
+
+	.notes {
+		display: grid;
+		grid-template-columns: min-content 1fr;
+		align-items: center;
+		gap: 1em 0.5em;
+		font-size: 1.2rem;
+		padding: 1rem;
+		background: var(--color-bg-dark);
+		color: var(--color-text-light);
+	}
+
+	.notes-title {
+		grid-column: span 2;
+		text-align: center;
+		justify-self: center;
+		font-size: 0.6em;
+		font-weight: bold;
+	}
+
+	.note-icon {
+		justify-self: end;
 	}
 </style>
