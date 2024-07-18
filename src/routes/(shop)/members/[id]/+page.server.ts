@@ -42,7 +42,6 @@ export const actions = {
 		if (!memberUpdateForm.valid) return fail(400, { memberUpdateForm });
 
 		try {
-			console.log('ADAM !!! memberUpdateForm.data', memberUpdateForm.data);
 			await membersService.update(memberUpdateForm.data);
 		} catch (error) {
 			if (error instanceof Error) {

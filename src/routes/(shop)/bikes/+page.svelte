@@ -30,7 +30,6 @@
 	}
 
 	const { form, errors, enhance, message } = superForm(data.form);
-	console.log('errs', errors, message);
 </script>
 
 <div class="bike-page">
