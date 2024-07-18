@@ -22,20 +22,20 @@
 		navigator.clipboard.writeText(newClip).then(
 			() => {
 				console.log('succesfully copied to clipboard');
-				/* clipboard successfully set */
 			},
 			() => {
 				console.log('failed to copy to clipboard');
-				/* clipboard write failed */
 			}
 		);
 	}
 
 	const { form, errors, enhance, message } = superForm(data.form);
+	console.log('errs', errors, message);
 </script>
 
 <div class="bike-page">
 	<h1>Register New Bike</h1>
+	<Message message={$message} />
 
 	<div class="form-container">
 		<form id="register-bike" method="POST" use:enhance>
@@ -44,8 +44,6 @@
 	</div>
 
 	<br />
-
-	<Message {message} />
 
 	<br />
 	<div class="register-bike-buttons">
