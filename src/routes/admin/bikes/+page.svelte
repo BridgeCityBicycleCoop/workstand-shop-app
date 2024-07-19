@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { convertAndDownloadCsv, type Prettify } from '$lib/utils';
+	import { convertAndDownloadCsv } from '$lib/utils';
 	import { getLocaleDisplayDate } from '$lib/ui/utils';
 	import type { Bike } from '$lib/models';
 

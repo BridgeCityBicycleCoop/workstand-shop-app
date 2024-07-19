@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { superForm } from 'sveltekit-superforms';
-	import { MemberEditFields, getDisplayName, Message, Toasts, addToast } from '$lib/ui';
+	import { MemberEditFields, getDisplayName, addToast } from '$lib/ui';
 
 	export let data;
 	$: member = data.member;
 
-	const { form, errors, enhance, message } = superForm(data.form, {
+	const { form, errors, enhance } = superForm(data.form, {
 		resetForm: false,
 		onUpdated(event) {
 			if (event.form.message) {

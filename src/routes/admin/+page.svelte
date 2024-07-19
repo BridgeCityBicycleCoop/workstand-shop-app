@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { convertAndDownloadCsv } from '$lib/utils';
 	import { getLocaleDisplayDate } from '$lib/ui/utils';
-	import { isIsoDateString } from '$lib/models/utils';
 	import { type Member } from '$lib/models';
 
 	export let data;
