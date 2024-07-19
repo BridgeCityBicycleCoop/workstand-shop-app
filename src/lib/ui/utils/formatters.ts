@@ -15,6 +15,7 @@ export const getDisplayName = (member: Member | undefined): string => {
 
 export const getLocaleDisplayDate = (
 	stringDate: IsoDateString | undefined,
+	locale: string = '',
 	formatOptions: Intl.DateTimeFormatOptions = {
 		year: 'numeric',
 		month: '2-digit',
@@ -23,8 +24,16 @@ export const getLocaleDisplayDate = (
 		minute: '2-digit'
 	}
 ): string => {
-	// pull locale from browser
-	const locale = navigator.languages[0] || navigator.language || 'en-US';
-	// intlFormat requires a Date object
-	return !stringDate ? '' : intlFormat(stringDate, formatOptions, { locale });
+	console.log('locale is', locale);
+	if (locale) {
+		return !stringDate ? '' : intlFormat(stringDate, formatOptions, { locale });
+	} else {
+		return 'en-US';
+	}
+};
+
+export const getLocale = () => {
+	return navigator && navigator.languages && navigator.languages.length
+		? navigator.languages[0]
+		: navigator.language;
 };
