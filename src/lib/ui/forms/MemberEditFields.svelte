@@ -3,7 +3,7 @@
 	import type { SuperForm } from 'sveltekit-superforms';
 	import Field from './Field.svelte';
 
-	type MemberForm = MemberUpdate | (MemberCreate & { id?: string });
+	type MemberForm = Omit<MemberUpdate, 'waiver'> | (MemberCreate & { id?: string });
 
 	export let memberForm: SuperForm<MemberForm>['form'];
 	export let errors: SuperForm<MemberForm>['errors'];
@@ -28,9 +28,6 @@
 	<Field name="email" type="email" errors={$errors.email} bind:value={$memberForm.email}
 		>Email</Field
 	>
-	{#if $errors?.email}
-		<div class="errors">{$errors?.email}</div>
-	{/if}
 	<Field name="emailConsent" type="toggle" bind:checked={$memberForm.emailConsent}>
 		Email Consent
 	</Field>

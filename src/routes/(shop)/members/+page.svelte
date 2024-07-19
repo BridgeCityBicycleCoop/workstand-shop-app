@@ -7,11 +7,20 @@
 
 	const { form, errors, enhance, message } = superForm(data.form, {
 		onUpdated(event) {
-			if (event.form.message) {
+			if ($message) {
 				addToast({
 					type: event.form.valid ? 'success' : 'error',
-					message: event.form.message,
+					message: $message,
 					timeout: 3000
+				});
+			}
+			if ($errors._errors?.length) {
+				$errors._errors.forEach((message) => {
+					addToast({
+						type: 'error',
+						message,
+						timeout: 3000
+					});
 				});
 			}
 		}

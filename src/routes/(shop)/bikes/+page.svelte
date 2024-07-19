@@ -32,25 +32,20 @@
 	const { form, errors, enhance, message } = superForm(data.form);
 </script>
 
-<div class="bike-page">
-	<h1>Register New Bike</h1>
-	<Message message={$message} />
+<h1>Register New Bike</h1>
+<Message message={$message} />
 
-	<div class="form-container">
-		<form id="register-bike" method="POST" use:enhance>
-			<BikeEditFields bikeForm={form} {errors} />
-		</form>
-	</div>
+<div class="form-container">
+	<form id="register-bike" method="POST" use:enhance>
+		<BikeEditFields bikeForm={form} {errors} />
+	</form>
+</div>
 
-	<br />
-
-	<br />
-	<div class="register-bike-buttons">
-		<button class="btn btn-primary" type="reset" form="register-bike">Cancel Registration</button>
-		<button class="btn btn-primary" type="submit" form="register-bike"
-			>Click to Register New Bike</button
-		>
-	</div>
+<div class="register-bike-buttons">
+	<button class="btn btn-primary" type="reset" form="register-bike">Cancel Registration</button>
+	<button class="btn btn-primary" type="submit" form="register-bike"
+		>Click to Register New Bike</button
+	>
 </div>
 
 <section class="bike-list">
@@ -108,13 +103,6 @@
 </section>
 
 <style>
-	.bike-page {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		min-width: 50%;
-	}
-
 	form {
 		display: flex;
 		flex-direction: column;

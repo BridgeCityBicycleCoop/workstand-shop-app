@@ -1,20 +1,21 @@
 import z from 'zod';
-import { isValidIsoDateString } from '$lib/models/utils/isValidIsoDateString';
+import { makeOptionalPropsNullable } from './utils';
+import type { Prettify } from '$lib/utils';
 
 export const bikeSchema = z.object({
 	id: z.string(),
-	donationDate: z.string().refine(isValidIsoDateString, 'Not a valid IsoDateString').optional(),
+	serialNumber: z.string(),
+	donationDate: z.date().optional(),
 	colour: z.string().optional(),
 	make: z.string().optional(),
-	serialNumber: z.string(),
 	donatedBy: z.string().optional(),
 	email: z.string().optional(),
 	suggestedDonation: z.number().optional(),
 	recipientName: z.string().optional(),
 	recipientAge: z.string().optional(),
 	recipientPhoneNumber: z.string().optional(),
-	cpicDate: z.string().refine(isValidIsoDateString, 'Not a valid IsoDateString').optional(),
-	outOfShopDate: z.string().refine(isValidIsoDateString, 'Not a valid IsoDateString').optional(),
+	cpicDate: z.date().optional(),
+	outOfShopDate: z.date().optional(),
 	pricePaid: z.number().optional(),
 	bikeDestiny: z.string().optional(),
 	bcbcProgram: z.string().optional(),
@@ -22,14 +23,17 @@ export const bikeSchema = z.object({
 });
 
 export const bikeListSchema = z.array(bikeSchema);
-export const bikeFilterSchema = bikeSchema.omit({ id: true });
 export const bikeCreateSchema = bikeSchema.omit({ id: true });
-export const bikeUpdateSchema = bikeSchema.partial().required({ id: true });
+export const bikeUpdateSchema = makeOptionalPropsNullable(
+	bikeSchema.partial().required({ id: true, serialNumber: true })
+);
 
-export type Bike = z.infer<typeof bikeSchema>;
-export type BikeList = z.infer<typeof bikeListSchema>;
-export type BikeCreate = z.infer<typeof bikeCreateSchema>;
-export type BikeUpdate = z.infer<typeof bikeUpdateSchema>;
+export const bikeFilterSchema = bikeSchema.omit({ id: true });
+
+export type Bike = Prettify<z.infer<typeof bikeSchema>>;
+export type BikeList = Prettify<z.infer<typeof bikeListSchema>>;
+export type BikeCreate = Prettify<z.infer<typeof bikeCreateSchema>>;
+export type BikeUpdate = Prettify<z.infer<typeof bikeUpdateSchema>>;
 
 export type BikeFilter = z.infer<typeof bikeFilterSchema>; // Todo: use this in the find method
 

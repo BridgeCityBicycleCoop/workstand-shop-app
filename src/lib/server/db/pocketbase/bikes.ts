@@ -1,20 +1,53 @@
-import PocketBase from 'pocketbase';
+import PocketBase, { ClientResponseError } from 'pocketbase';
+import { z } from 'zod';
 import { env } from '$env/dynamic/private';
-import { bikeSchema, bikeListSchema, type BikeCreate, type BikeUpdate } from '$lib/models';
-import { constructNow, startOfToday } from 'date-fns';
+import {
+	bikeSchema,
+	bikeListSchema,
+	type Bike,
+	type BikeCreate,
+	type BikeUpdate
+} from '$lib/models';
+import { constructNow, startOfToday, parseISO } from 'date-fns';
 import type { TypedPocketBase, BikesResponse } from './types';
 
 const pb = new PocketBase(env.POCKETBASE_URL) as TypedPocketBase;
 
-export const find = async (_filters: Record<string, unknown> = {}) => {
-	const records = await pb.collection('bikes').getFullList<BikesResponse>();
-	const bikes = bikeListSchema.parse(records);
+const optionalDateFromString = z
+	.string()
+	.nullish()
+	.transform((dateStringMaybe) => {
+		return !dateStringMaybe ? undefined : parseISO(dateStringMaybe);
+	})
+	.pipe(z.date().optional());
+
+const bikeRecordSchema = z
+	.object({
+		donationDate: optionalDateFromString,
+		cpicDate: optionalDateFromString,
+		outOfShopDate: optionalDateFromString
+	})
+	.passthrough();
+const recordToBikeSchema = bikeRecordSchema.pipe(bikeSchema);
+const bikeRecordListSchema = bikeRecordSchema.array();
+const recordsToBikeListSchema = bikeRecordListSchema.pipe(bikeListSchema);
+
+export const find = async (_filters: Record<string, unknown> = {}): Promise<Bike[]> => {
+	const records = await pb
+		.collection('bikes')
+		.getFullList<BikesResponse>()
+		.catch((e: ClientResponseError) => {
+			throw e.originalError;
+		});
+	const bikes = recordsToBikeListSchema.parse(records);
 	return bikes;
 };
 // no startDate or endDate, all bikes,
 // startDate only, should end with the latest bike
 // endDate only, should start from the very first bike
-export const findByDate = async (options: { startDate?: string; endDate?: string } = {}) => {
+export const findByDate = async (
+	options: { startDate?: string; endDate?: string } = {}
+): Promise<Bike[]> => {
 	let filter;
 
 	if (!options.startDate && !options.endDate) {
@@ -28,22 +61,53 @@ export const findByDate = async (options: { startDate?: string; endDate?: string
 		});
 	}
 
-	const listResult = await pb.collection('bikes').getList<BikesResponse>(1, 100, {
-		filter,
-		sort: '-donationDate'
-	});
+	const listResult = await pb
+		.collection('bikes')
+		.getList<BikesResponse>(1, 100, {
+			filter,
+			sort: '-donationDate'
+		})
+		.catch((e: ClientResponseError) => {
+			throw e.originalError;
+		});
 
-	return bikeListSchema.parse(listResult.items);
+	return recordsToBikeListSchema.parse(listResult.items);
 };
-export const get = async (id: string) => {
-	return bikeSchema.parse(await pb.collection('bikes').getOne(id));
+export const get = async (id: string): Promise<Bike> => {
+	return recordToBikeSchema.parse(
+		await pb
+			.collection('bikes')
+			.getOne(id)
+			.catch((e: ClientResponseError) => {
+				throw e.originalError;
+			})
+	);
 };
-export const add = async (data: BikeCreate) => {
-	return bikeSchema.parse(await pb.collection('bikes').create(data));
+export const add = async (data: BikeCreate): Promise<Bike> => {
+	return recordToBikeSchema.parse(
+		await pb
+			.collection('bikes')
+			.create(data)
+			.catch((e: ClientResponseError) => {
+				throw e.originalError;
+			})
+	);
 };
-export const update = async (data: BikeUpdate) => {
-	return bikeSchema.parse(await pb.collection('bikes').update(data.id, data));
+export const update = async (data: BikeUpdate): Promise<Bike> => {
+	return recordToBikeSchema.parse(
+		await pb
+			.collection('bikes')
+			.update(data.id, data)
+			.catch((e: ClientResponseError) => {
+				throw e.originalError;
+			})
+	);
 };
-export const remove = async (id: string) => {
-	return await pb.collection('bikes').delete(id);
+export const remove = async (id: string): Promise<boolean> => {
+	return await pb
+		.collection('bikes')
+		.delete(id)
+		.catch((e: ClientResponseError) => {
+			throw e.originalError;
+		});
 };

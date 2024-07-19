@@ -39,7 +39,6 @@
 		border-radius: 0.2rem;
 		display: flex;
 		align-items: center;
-		margin: 0 auto 0.5rem auto;
 		width: 20rem;
 	}
 	.error {
