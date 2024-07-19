@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { convertAndDownloadCsv } from '$lib/utils';
 	import { getLocaleDisplayDate } from '$lib/ui/utils';
-	import { isValidIsoDateString } from '$lib/models/utils/isValidIsoDateString';
+	import { isIsoDateString } from '$lib/models/utils';
 	import { type Member } from '$lib/models';
 
 	export let data;
@@ -12,15 +12,15 @@
 	const downloadCSV = (_event: MouseEvent) => {
 		if (data.members.length) {
 			const firstMember = data.members[0];
-			const headers = Object.keys(firstMember).filter((key) => key !== 'id');
+			const headers = (Object.keys(firstMember) as (keyof Member)[]).filter((key) => key !== 'id');
 			const csvSource = data.members.map((member: Member) => {
-				return headers.map((key: string) => {
-					const memberValue = member[key];
+				return headers.map((key) => {
+					const memberValue = member[key] ?? '';
 
-					if (isValidIsoDateString(memberValue)) {
+					if (memberValue instanceof Date) {
 						return getLocaleDisplayDate(memberValue);
 					} else {
-						return memberValue;
+						return `${memberValue}`;
 					}
 				});
 			});

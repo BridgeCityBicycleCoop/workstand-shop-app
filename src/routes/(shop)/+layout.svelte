@@ -11,8 +11,6 @@
 	];
 </script>
 
-<Toasts />
-
 <PageLayout>
 	<Header slot="header">
 		<Logo slot="logo" />
@@ -24,3 +22,5 @@
 
 	<Footer slot="footer" />
 </PageLayout>
+
+<Toasts />

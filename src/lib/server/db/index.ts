@@ -1,7 +1,4 @@
-import type { MembersService } from './types';
-import type { VisitsService } from './types';
-import type { PurposesService } from './types';
-import type { BikesService } from './types';
+import type { MembersService, VisitsService, PurposesService, BikesService } from './types';
 
 import * as services from './pocketbase';
 

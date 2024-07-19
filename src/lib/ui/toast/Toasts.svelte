@@ -23,13 +23,14 @@
 	section {
 		position: fixed;
 		top: 0;
-		left: 0;
 		right: 0;
-		width: 100%;
+		left: 0;
 		display: flex;
-		margin-top: 1rem;
+		margin: 1rem;
 		justify-content: center;
+		align-items: flex-end;
 		flex-direction: column;
-		z-index: 1000;
+		gap: 0.5rem;
+		z-index: 1;
 	}
 </style>

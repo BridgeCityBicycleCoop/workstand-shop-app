@@ -1,8 +1,7 @@
 <script lang="ts">
-	import { convertAndDownloadCsv } from '$lib/utils';
+	import { convertAndDownloadCsv, type Prettify } from '$lib/utils';
 	import { getLocaleDisplayDate } from '$lib/ui/utils';
-	import { isValidIsoDateString } from '$lib/models/utils/isValidIsoDateString';
-	import { type Bike } from '$lib/models';
+	import type { Bike } from '$lib/models';
 
 	export let data;
 
@@ -11,16 +10,16 @@
 
 	const downloadCSV = (_event: MouseEvent) => {
 		if (data.bikes.length) {
-			const firstBike = data.bikes[0];
-			const headers = Object.keys(firstBike).filter((key) => key !== 'id');
+			const firstBike: Bike = data.bikes[0];
+			const headers = (Object.keys(firstBike) as (keyof Bike)[]).filter((key) => key !== 'id');
 			const csvSource = data.bikes.map((bike: Bike) => {
-				return headers.map((key: string) => {
-					const bikeValue = bike[key];
+				return headers.map((key) => {
+					const bikeValue = bike[key] ?? '';
 
-					if (isValidIsoDateString(bikeValue)) {
+					if (bikeValue instanceof Date) {
 						return getLocaleDisplayDate(bikeValue);
 					} else {
-						return bikeValue;
+						return `${bikeValue}`;
 					}
 				});
 			});

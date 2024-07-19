@@ -1,4 +1,4 @@
-import z from 'zod';
+import { z } from 'zod';
 import { fail } from '@sveltejs/kit';
 import { message, superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
@@ -29,7 +29,7 @@ export async function load() {
 export const actions = {
 	logVisit: async (event) => {
 		const logVisitForm = await superValidate(event.request, zod(logVisitFormSchema));
-		if (!logVisitForm.valid) return fail(400, { logVisitForm });
+		if (!logVisitForm.valid) return fail(400, { form: logVisitForm });
 
 		const { memberId, purposeId, visitId } = logVisitForm.data;
 		try {
@@ -40,7 +40,7 @@ export const actions = {
 					memberId
 				});
 			} else {
-				await visitsService.add({ memberId, purposeId, date: new Date() });
+				await visitsService.add({ memberId, purposeId });
 			}
 		} catch (error) {
 			if (error instanceof Error) {
@@ -50,7 +50,7 @@ export const actions = {
 			}
 			throw error;
 		}
-		return { logVisitForm };
+		return { form: logVisitForm };
 	},
 	updateMember: async (event) => {
 		const memberUpdateForm = await superValidate(event.request, zod(memberUpdateFormSchema));

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { format, parse } from 'date-fns';
 	import ToggleSwitch from './ToggleSwitch.svelte';
 
 	export let type:
@@ -31,6 +32,12 @@
 	export let value: string | Date | null | number | undefined = undefined;
 	export let checked = false;
 	export let errors: string[] | undefined = undefined;
+
+	$: dateString = value instanceof Date ? format(value, 'yyyy-MM-dd') : '';
+	const onDateChange = (event: Event) => {
+		const target = event.target as HTMLInputElement;
+		value = parse(target.value, 'yyyy-MM-dd', new Date());
+	};
 </script>
 
 <label for={id}><slot /></label>
@@ -51,6 +58,14 @@
 				{/each}
 			{/if}
 		</select>
+	{:else if type === 'date'}
+		<input
+			{id}
+			{...$$props}
+			aria-invalid={errors ? 'true' : undefined}
+			value={dateString}
+			on:input={onDateChange}
+		/>
 	{:else}
 		<input {id} {...$$props} aria-invalid={errors ? 'true' : undefined} bind:value />
 	{/if}

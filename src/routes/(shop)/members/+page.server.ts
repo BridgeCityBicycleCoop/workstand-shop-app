@@ -1,41 +1,26 @@
 import { fail } from '@sveltejs/kit';
-import { superValidate, message } from 'sveltekit-superforms';
+import { superValidate, message, setError } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import { memberCreateSchema } from '$lib/models';
 import { members as membersService } from '$lib/server/db';
 
-export async function load() {
-	const form = await superValidate(zod(memberCreateSchema));
-	form.data.waiver = new Date().toISOString();
-
-	const members = await membersService.find();
-	return {
-		form: form,
-		members: members
-	};
-}
+export const load = async () => ({
+	form: await superValidate(zod(memberCreateSchema))
+});
 
 export const actions = {
 	async default({ request }) {
 		const form = await superValidate(request, zod(memberCreateSchema));
-		if (!form.valid) return fail(422, { form });
 
+		if (!form.valid) return fail(422, { form });
 		try {
 			await membersService.add(form.data);
 			return message(form, 'Member added successfully!');
-		} catch (errors) {
-			if (
-				typeof errors === 'object' &&
-				errors !== null &&
-				'request' in errors &&
-				typeof errors.request === 'object' &&
-				errors.request !== null &&
-				'status' in errors.request &&
-				typeof errors.request.status === 'number'
-			) {
-				return fail(errors.request.status ?? 500, { errors, form });
+		} catch (err) {
+			if (err instanceof Error) {
+				return setError(form, '', err.message, { status: 400 });
 			}
-			return fail(500, { errors, form });
+			return setError(form, '', 'Something went wrong', { status: 500 });
 		}
 	}
 };

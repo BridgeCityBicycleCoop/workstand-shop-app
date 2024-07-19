@@ -1,7 +1,15 @@
-import PocketBase from 'pocketbase';
-import { constructNow, startOfToday, startOfDay, endOfDay } from 'date-fns';
+import PocketBase, { ClientResponseError } from 'pocketbase';
+import { z } from 'zod';
+import { constructNow, startOfToday, startOfDay, endOfDay, toDate } from 'date-fns';
 import { env } from '$env/dynamic/private';
-import { visitSchema, visitListSchema, type VisitCreate, type VisitUpdate } from '$lib/models';
+import {
+	visitSchema,
+	visitListSchema,
+	visitCreateSchema,
+	type Visit,
+	type VisitCreate,
+	type VisitUpdate
+} from '$lib/models';
 import type { MembersResponse, PurposesResponse, VisitsResponse, TypedPocketBase } from './types';
 
 const pb = new PocketBase(env.POCKETBASE_URL) as TypedPocketBase;
@@ -11,36 +19,65 @@ type VisitWithMemberAndPurpose = VisitsResponse<{
 	purposeId: PurposesResponse;
 }>;
 
-export const find = async (_filters: Record<string, unknown> = {}) => {
+const visitRecordSchema = z.object({ date: z.coerce.date() }).passthrough();
+const recordToVisitSchema = visitRecordSchema.pipe(visitSchema);
+const visitRecordListSchema = visitRecordSchema.array();
+const recordsToVisitListSchema = visitRecordListSchema.pipe(visitListSchema);
+
+export const find = async (_filters: Record<string, unknown> = {}): Promise<Visit[]> => {
 	const records = await pb
 		.collection('visits')
-		.getFullList<VisitWithMemberAndPurpose>(500, { expand: 'memberId,purposeId' });
+		.getFullList<VisitWithMemberAndPurpose>(500, { expand: 'memberId,purposeId' })
+		.catch((e: ClientResponseError) => {
+			throw e.originalError;
+		});
 	const visits = records.map(expandMemberAndPurpose);
-	return visitListSchema.parse(visits);
+	return recordsToVisitListSchema.parse(visits);
 };
-export const get = async (id: string) => {
-	return visitSchema.parse(await pb.collection('visits').getOne(id));
+export const get = async (id: string): Promise<Visit> => {
+	return recordToVisitSchema.parse(
+		await pb
+			.collection('visits')
+			.getOne(id)
+			.catch((e: ClientResponseError) => {
+				throw e.originalError;
+			})
+	);
 };
-export const add = async (data: VisitCreate) => {
+export const add = async (data: VisitCreate): Promise<Visit> => {
+	const createData = visitCreateSchema.parse(data);
 	const result = await pb
 		.collection('visits')
-		.create<VisitWithMemberAndPurpose>(data, { expand: 'memberId,purposeId' });
-	return visitSchema.parse(expandMemberAndPurpose(result));
+		.create<VisitWithMemberAndPurpose>(createData, { expand: 'memberId,purposeId' })
+		.catch((e: ClientResponseError) => {
+			throw e.originalError;
+		});
+	return recordToVisitSchema.parse(expandMemberAndPurpose(result));
 };
-export const update = async (data: VisitUpdate) => {
+export const update = async (data: VisitUpdate): Promise<Visit> => {
 	const result = await pb
 		.collection('visits')
-		.update<VisitWithMemberAndPurpose>(data.id, data, { expand: 'memberId,purposeId' });
-	return visitSchema.parse(expandMemberAndPurpose(result));
+		.update<VisitWithMemberAndPurpose>(data.id, data, { expand: 'memberId,purposeId' })
+		.catch((e: ClientResponseError) => {
+			throw e.originalError;
+		});
+	return recordToVisitSchema.parse(expandMemberAndPurpose(result));
 };
-export const remove = async (id: string) => {
-	return await pb.collection('visits').delete(id);
-};
+
+export const remove = async (id: string): Promise<boolean> =>
+	await pb
+		.collection('visits')
+		.delete(id)
+		.catch<boolean>((e: ClientResponseError) => {
+			throw e.originalError;
+		});
 
 // no startDate or endDate, all visits,
 // startDate only, should end with the latest visit
 // endDate only, should start from the very first visit
-export const findByDate = async (options: { startDate?: string; endDate?: string } = {}) => {
+export const findByDate = async (
+	options: { startDate?: string; endDate?: string } = {}
+): Promise<Visit[]> => {
 	let filter;
 
 	if (!options.startDate && !options.endDate) {
@@ -56,12 +93,17 @@ export const findByDate = async (options: { startDate?: string; endDate?: string
 		});
 	}
 
-	const listResult = await pb.collection('visits').getList<VisitWithMemberAndPurpose>(1, 100, {
-		filter,
-		sort: '-date',
-		expand: 'memberId,purposeId'
-	});
-	return visitListSchema.parse(listResult.items.map(expandMemberAndPurpose));
+	const listResult = await pb
+		.collection('visits')
+		.getList<VisitWithMemberAndPurpose>(1, 100, {
+			filter,
+			sort: '-date',
+			expand: 'memberId,purposeId'
+		})
+		.catch((e: ClientResponseError) => {
+			throw e.originalError;
+		});
+	return recordsToVisitListSchema.parse(listResult.items.map(expandMemberAndPurpose));
 };
 
 const expandMemberAndPurpose = (
@@ -71,7 +113,9 @@ const expandMemberAndPurpose = (
 	}>
 ) => ({
 	id: r.id,
-	member: r.expand?.memberId,
+	member: r.expand?.memberId
+		? { ...r.expand.memberId, waiver: toDate(r.expand.memberId.waiver) }
+		: undefined,
 	purpose: r.expand?.purposeId,
 	date: r.date
 });
