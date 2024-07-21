@@ -10,6 +10,6 @@ export const shopConfig = {
 	logoUrl: '$lib/images/shopLogo.png',
 
 	// title - set this to your shop name
-	// ex: const shopTitle = 'Bridge City Bicyle Co-Op'
-	shopTitle: ''
+	// ex: const shopName = 'Bridge City Bicyle Co-Op'
+	shopName: ''
 };
