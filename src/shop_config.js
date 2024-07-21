@@ -11,5 +11,8 @@ export const shopConfig = {
 
 	// title - set this to your shop name
 	// ex: const shopName = 'Bridge City Bicyle Co-Op'
-	shopName: ''
+	shopName: '',
+	// Font - set this to your brand's font
+	// ex: const shopNameFont = 'Arial'
+	shopNameFont: ''
 };
