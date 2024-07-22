@@ -16,6 +16,7 @@
 </script>
 
 <svelte:head>
+	<!-- eslint-disable-next-line -->
 	{@html themeStyles}
 </svelte:head>
 
