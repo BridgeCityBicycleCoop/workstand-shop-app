@@ -4,24 +4,41 @@
 </script>
 
 <h2>Shop Config</h2>
-<section>
+<table class="settings-list">
 	{#each Object.keys(shopConfig) as setting}
 		<tr>
-			<td>{camelCaseToWords(setting)}: </td>
+			<th>{camelCaseToWords(setting)}</th>
 			<td>{shopConfig[setting]}</td>
 		</tr>
 	{/each}
-</section>
+</table>
 
 <h2>Shop Theme</h2>
-<section>
+<table class="theme-list">
 	{#each Object.keys(theme) as style}
 		<tr>
-			<td>{camelCaseToWords(style)}: </td>
+			<th>{camelCaseToWords(style)}</th>
 			<td>{theme[style]}</td>
 		</tr>
 	{/each}
-</section>
+</table>
 
 <style>
+	.settings-list {
+		margin-top: 1rem;
+	}
+
+	th {
+		border: 1px dotted black;
+		width: 10em;
+	}
+
+	td {
+		border: 1px dotted black;
+	}
+
+	h2 {
+		margin-top: 1.5em;
+		text-decoration: underline;
+	}
 </style>

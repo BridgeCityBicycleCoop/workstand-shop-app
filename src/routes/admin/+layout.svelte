@@ -1,37 +1,38 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import { Logo } from '$lib/ui';
+	import ArrowLeftBoldIcon from '~icons/mdi/arrow-left-bold';
+
+	const navItems = [
+		{ name: 'Reporting', href: '' },
+		{ name: 'Members', href: '/admin' },
+		{ name: 'Activity', href: '/admin/activity' },
+		{ name: 'Bikes', href: '/admin/bikes' },
+		{ name: 'Admin', href: '' },
+		{ name: 'Settings', href: '/admin/settings' }
+	];
 </script>
 
 <div class="admin-layout">
 	<nav>
 		<span aria-label="logo" class="logo"><Logo /></span>
 		<ul class="admin-menu">
-			<li class="menu-heading">
-				<h3>Reporting</h3>
-			</li>
-			<li>
-				<a href="/admin">
-					<span>Members</span>
-				</a>
-			</li>
-			<li>
-				<a href="/admin/bikes">
-					<span>Bikes</span>
-				</a>
-			</li>
-			<li>
-				<a href="/admin/activity">
-					<span>Activity</span>
-				</a>
-			</li>
-			<li class="menu-heading">
-				<h3>Admin</h3>
-			</li>
-			<li>
-				<a href="/admin/settings">
-					<span>Settings</span>
-				</a>
-			</li>
+			{#each navItems as { name, href }}
+				{#if !href}
+					<li class="menu-heading">
+						<h3>{name}</h3>
+					</li>
+				{:else}
+					<li>
+						<a {href}>{name}</a>
+						{#if $page.url.pathname === href}
+							<span class="nav-arrow">
+								<ArrowLeftBoldIcon />
+							</span>
+						{/if}
+					</li>
+				{/if}
+			{/each}
 		</ul>
 	</nav>
 
@@ -53,13 +54,39 @@
 
 	nav {
 		display: flex;
+		flex-basis: 8rem;
+		flex-shrink: 0;
 		flex-direction: column;
-		min-width: 8rem;
-		max-width: 12rem;
 		min-height: 100dvh;
 		padding-inline-end: 1rem;
 		background: var(--color-bg-dark);
 		color: var(--color-text-light);
+	}
+
+	.nav-arrow {
+		display: inline-flex;
+		position: absolute;
+		right: 0;
+		top: 0;
+		bottom: 0;
+		align-items: center;
+
+		opacity: 1;
+		animation-name: fadeInFromRight;
+		animation-iteration-count: 1;
+		animation-timing-function: ease-in;
+		animation-duration: 0.2s;
+	}
+
+	@keyframes fadeInFromRight {
+		0% {
+			opacity: 0;
+			transform: translateX(50%);
+		}
+		100% {
+			opacity: 1;
+			transform: translateX(0);
+		}
 	}
 
 	.logo {
@@ -76,8 +103,9 @@
 	}
 
 	.admin-menu li {
+		position: relative;
 		font-size: 0.9em;
-		padding: 12px 15px;
+		padding: 12px calc(1rem + 15px) 12px 15px;
 	}
 
 	.admin-menu a {
@@ -99,10 +127,10 @@
 
 	.page-content {
 		display: flex;
+		flex: 1;
 		flex-direction: column;
 		justify-content: stretch;
 		min-height: 100dvh;
-		flex: 1;
 		min-height: 100dvh;
 		padding: 0 1.4rem 1rem;
 		background: var(--color-bg-lighter, white);

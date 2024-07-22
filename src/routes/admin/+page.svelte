@@ -32,7 +32,7 @@
 </script>
 
 <section class="members-list">
-	<form id="filter-members">
+	<form class="filter-members">
 		<label for="startDate">Start (optional)</label>
 		<input type="date" name="startDate" max={endDate} bind:value={startDate} />
 
@@ -42,9 +42,11 @@
 		<button class="btn btn-primary" type="submit">Filter Members</button>
 	</form>
 
-	<button class="csv btn-primary" on:click={downloadCSV}>Download Members as CSV</button>
+	<button class="csv btn-primary download-csv" on:click={downloadCSV}
+		>Download Members as CSV</button
+	>
 
-	<div class="tableWrap">
+	<div class="tableWrap search-result">
 		{#if data.members.length > 0}
 			<table>
 				<thead>
@@ -87,4 +89,25 @@
 </section>
 
 <style>
+	.members-list {
+		margin-top: 3rem;
+		display: grid;
+		grid-template-areas:
+			'filter-members'
+			'download-csv'
+			'search-result';
+		row-gap: 2rem;
+	}
+
+	.filter-members {
+		grid-area: 'filter-members';
+	}
+
+	.download-csv {
+		grid-area: 'download-csv';
+	}
+
+	.search-result {
+		grid-area: 'search-result';
+	}
 </style>

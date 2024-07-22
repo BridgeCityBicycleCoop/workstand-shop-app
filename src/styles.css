@@ -12,17 +12,14 @@
 	--color-bg-med: rgb(132, 165, 197);
 	--color-bg-dark: rgb(36, 46, 66);
 	--border-radius: 6px;
-}
 
-#shop-theme {
-	background-color: yellow;
 	font-size: var(--font-size);
 	font-family: var(--font-body);
 	color: var(--color-text);
 }
 
 @media (min-width: 720px) {
-	#shop-theme {
+	:root {
 		font-size: calc(var(--font-size) + 6px);
 	}
 }
@@ -57,10 +54,6 @@ a:hover {
 h1 {
 	font-size: 2rem;
 	text-align: center;
-}
-
-h2 {
-	font-size: 1rem;
 }
 
 pre {

@@ -2,20 +2,22 @@
 	import '../styles.css';
 
 	export let data;
-	const shopConfig = data.shopConfig;
 	const theme = data.theme;
 
-	const themeString = Object.keys(theme).reduce((str: string, key: string) => {
-		return str + key + ': ' + theme[key] + '\n';
-	}, '');
+	$: themeStyles = `
+	<style class="theme-styles">
+		:root {
+			${Object.keys(theme).reduce((str: string, key: string) => {
+				return str + `--${key}: ${theme[key]};` + '\n';
+			}, '')}
+		}
+	</style>
+	`;
 </script>
 
-<div id="shop-theme" style={themeString}>
-	<slot />
-</div>
+<svelte:head>
+	<!-- eslint-disable-next-line -->
+	{@html themeStyles}
+</svelte:head>
 
-<style>
-	div {
-		display: contents;
-	}
-</style>
+<slot />
