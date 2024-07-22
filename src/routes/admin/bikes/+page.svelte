@@ -33,8 +33,6 @@
 	};
 </script>
 
-<h2>Bike Reporting</h2>
-
 <section class="bikes-list">
 	<form id="filter-bikes">
 		<label for="startDate">Start (optional)</label>
@@ -46,11 +44,7 @@
 		<button class="btn btn-primary" type="submit">Filter Bikes</button>
 	</form>
 
-	<br />
 	<button class="csv btn-primary" on:click={downloadCSV}>Download Bikes as CSV</button>
-
-	<br />
-	<br />
 
 	<div class="tableWrap">
 		{#if data.bikes.length > 0}
@@ -92,7 +86,4 @@
 </section>
 
 <style>
-	h2 {
-		font-weight: bold;
-	}
 </style>

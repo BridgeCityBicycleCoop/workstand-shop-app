@@ -17,9 +17,7 @@
 		<BikeEditFields bikeForm={form} {errors} />
 	</form>
 
-	<br />
 	<Message message={$message} />
-	<br />
 
 	<div class="buttons">
 		<button class="btn btn-neutral" on:click={() => history.back()}>Back</button>

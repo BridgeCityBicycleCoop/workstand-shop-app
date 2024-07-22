@@ -38,8 +38,6 @@
 </script>
 
 <section class="visits-list">
-	<h2>Activity Reporting</h2>
-
 	<form id="filter-visits">
 		<label for="startDate">Start (optional)</label>
 		<input type="date" name="startDate" max={endDate} bind:value={startDate} />
@@ -103,10 +101,6 @@
 </section>
 
 <style>
-	h2 {
-		font-weight: bold;
-	}
-
 	.visits-list {
 		display: flex;
 		flex-direction: column;

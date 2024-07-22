@@ -3,9 +3,7 @@
 	import { camelCaseToWords } from '$lib/ui/utils';
 </script>
 
-<h2>Settings</h2>
-
-<h3>Shop Config</h3>
+<h2>Shop Config</h2>
 <section>
 	{#each Object.keys(shopConfig) as setting}
 		<tr>
@@ -15,7 +13,7 @@
 	{/each}
 </section>
 
-<h3>Shop Theme</h3>
+<h2>Shop Theme</h2>
 <section>
 	{#each Object.keys(theme) as style}
 		<tr>
@@ -26,7 +24,4 @@
 </section>
 
 <style>
-	h2 {
-		font-weight: bold;
-	}
 </style>

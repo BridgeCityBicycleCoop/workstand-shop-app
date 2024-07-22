@@ -31,8 +31,6 @@
 	};
 </script>
 
-<h2>Members Reporting</h2>
-
 <section class="members-list">
 	<form id="filter-members">
 		<label for="startDate">Start (optional)</label>
@@ -44,11 +42,7 @@
 		<button class="btn btn-primary" type="submit">Filter Members</button>
 	</form>
 
-	<br />
 	<button class="csv btn-primary" on:click={downloadCSV}>Download Members as CSV</button>
-
-	<br />
-	<br />
 
 	<div class="tableWrap">
 		{#if data.members.length > 0}
@@ -93,7 +87,4 @@
 </section>
 
 <style>
-	h2 {
-		font-weight: bold;
-	}
 </style>
