@@ -34,7 +34,7 @@
 </script>
 
 <section class="bikes-list">
-	<form id="filter-bikes">
+	<form class="filter-bikes">
 		<label for="startDate">Start (optional)</label>
 		<input type="date" name="startDate" max={endDate} bind:value={startDate} />
 
@@ -44,9 +44,9 @@
 		<button class="btn btn-primary" type="submit">Filter Bikes</button>
 	</form>
 
-	<button class="csv btn-primary" on:click={downloadCSV}>Download Bikes as CSV</button>
+	<button class="csv btn-primary download-csv" on:click={downloadCSV}>Download Bikes as CSV</button>
 
-	<div class="tableWrap">
+	<div class="tableWrap search-result">
 		{#if data.bikes.length > 0}
 			<table>
 				<thead>
@@ -86,4 +86,25 @@
 </section>
 
 <style>
+	.bikes-list {
+		margin-top: 3rem;
+		display: grid;
+		grid-template-areas:
+			'filter-bikes'
+			'download-csv'
+			'search-result';
+		row-gap: 2rem;
+	}
+
+	.filter-bikes {
+		grid-area: 'filter-members';
+	}
+
+	.download-csv {
+		grid-area: 'download-csv';
+	}
+
+	.search-result {
+		grid-area: 'search-result';
+	}
 </style>

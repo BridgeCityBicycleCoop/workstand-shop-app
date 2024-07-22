@@ -37,8 +37,8 @@
 	let endDate = data.endDate;
 </script>
 
-<section class="visits-list">
-	<form id="filter-visits">
+<section class="activity-list">
+	<form class="filter-visits">
 		<label for="startDate">Start (optional)</label>
 		<input type="date" name="startDate" max={endDate} bind:value={startDate} />
 
@@ -48,9 +48,11 @@
 		<button class="primary" type="submit">Filter Visits</button>
 	</form>
 
-	<button class="csv primary" on:click={formatCsvData}>Download Visits as CSV</button>
+	<button class="btn btn-primary download-csv" on:click={formatCsvData}
+		>Download Visits as CSV</button
+	>
 
-	<div class="tableWrap">
+	<div class="tableWrap search-result">
 		{#if data.visits.length > 0}
 			<table>
 				<thead>
@@ -101,24 +103,25 @@
 </section>
 
 <style>
-	.visits-list {
-		display: flex;
-		flex-direction: column;
-		gap: 1rem;
+	.activity-list {
+		margin-top: 3rem;
+		display: grid;
+		grid-template-areas:
+			'filter-visits'
+			'download-csv'
+			'search-result';
+		row-gap: 2rem;
 	}
 
-	/* If we use border,
-	we must use table-collapse to avoid
-	a slight movement of the header row */
-	table {
-		border-collapse: collapse;
+	.filter-visits {
+		grid-area: 'filter-visits';
 	}
 
-	.edit-profile {
-		min-height: auto;
+	.download-csv {
+		grid-area: 'download-csv';
 	}
 
-	.csv {
-		align-self: flex-end;
+	.search-result {
+		grid-area: 'search-result';
 	}
 </style>
