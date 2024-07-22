@@ -8,8 +8,6 @@
 	const themeString = Object.keys(theme).reduce((str: string, key: string) => {
 		return str + key + ': ' + theme[key] + '\n';
 	}, '');
-
-	console.log(themeString);
 </script>
 
 <div id="shop-theme" style={themeString}>
