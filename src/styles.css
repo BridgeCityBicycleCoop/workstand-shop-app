@@ -1,10 +1,9 @@
-@import './shop_theme.css';
+@import '@fontsource/fira-mono';
 
 * {
 	box-sizing: border-box;
 }
 
-/* These styles are changed to change the theme */
 :root {
 	--column-width: 42rem;
 	--column-margin-top: 4rem;
@@ -13,14 +12,18 @@
 	--color-bg-med: rgb(132, 165, 197);
 	--color-bg-dark: rgb(36, 46, 66);
 	--border-radius: 6px;
+}
+
+#shop-theme {
+	background-color: yellow;
 	font-size: var(--font-size);
 	font-family: var(--font-body);
 	color: var(--color-text);
 }
 
 @media (min-width: 720px) {
-	:root {
-		font-size: 22px;
+	#shop-theme {
+		font-size: calc(var(--font-size) + 6px);
 	}
 }
 
