@@ -28,25 +28,17 @@
 
 {#if activeMember?.id}
 	<form id={formId} method="post" action="?/logVisit" use:enhance>
-		<div class="activity-title">Select {displayName}'s Activity</div>
+		<div class="activity-title">Select <b>{displayName}</b>'s activity for today</div>
 		<div class="activity-container">
 			{#each purposes as purpose}
 				<button
-					class="btn btn-primary"
+					class="primary option"
 					on:click={() => {
 						selectedPurpose = purpose;
 					}}
 					>{purpose.name}
 				</button>
 			{/each}
-		</div>
-
-		<div class="selected-activity">
-			<div>
-				You've selected: <span class="highlight">{activeVisit ? activeVisit.purpose.name : ''}</span
-				>
-			</div>
-			<div>for {displayName}</div>
 		</div>
 		<input type="hidden" name="memberId" value={activeMember.id} />
 		<input type="hidden" name="purposeId" value={selectedPurpose ? selectedPurpose.id : ''} />
@@ -58,33 +50,18 @@
 
 <style>
 	.activity-title {
-		margin: 40px 0px;
+		margin-bottom: 40px;
 	}
 
 	.activity-container {
 		display: flex;
 		flex-direction: column;
-		width: 100%;
-		max-width: 48rem;
-		flex: 0.2;
-		justify-content: center;
-		margin: 0 auto;
+		max-width: 100%;
+		gap: 0.5rem;
 	}
 
-	button {
+	.option {
+		/* makes the option buttons slightly smaller than usual */
 		min-height: 40px;
-		margin: 5px 0px;
-	}
-
-	.selected-activity {
-		display: flex;
-		flex-direction: column;
-		margin: 30px 0px;
-	}
-
-	.highlight {
-		margin-left: 0.5em;
-		font-size: larger;
-		font-weight: bold;
 	}
 </style>
