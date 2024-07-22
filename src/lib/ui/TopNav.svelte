@@ -56,7 +56,7 @@
 		height: 100%;
 	}
 
-	li[aria-current='page']::before {
+	a[aria-current='page']::before {
 		--size: 6px;
 		content: '';
 		width: 0;
