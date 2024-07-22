@@ -11,10 +11,10 @@ export const shopConfig: Record<string, string> = {
 
 	// title - set this to your shop name
 	// ex: const shopName = 'Bridge City Bicyle Co-Op'
-	shopName: '',
+	shopName: 'Bridge City Bicycle Co-Op',
 	// Font - set this to your brand's font
 	// ex: const shopNameFont = 'Arial'
-	shopNameFont: ''
+	shopNameFont: 'Fira Mono'
 };
 
 export const theme: Record<string, string> = {

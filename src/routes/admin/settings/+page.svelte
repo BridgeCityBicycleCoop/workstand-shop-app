@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { shopConfig } from '../../../shop_config';
+	import { shopConfig, theme } from '../../../shop_config';
 	import { camelCaseToWords } from '$lib/ui/utils';
 </script>
 
@@ -17,7 +17,15 @@
 	{/each}
 </section>
 <h3>Shop Theme</h3>
-<section></section>
+
+<section>
+	{#each Object.keys(theme) as style}
+		<tr>
+			<td>{camelCaseToWords(style)}: </td>
+			<td>{theme[style]}</td>
+		</tr>
+	{/each}
+</section>
 
 <style>
 	h2 {
