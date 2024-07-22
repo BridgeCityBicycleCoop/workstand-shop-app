@@ -1,37 +1,36 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import { Logo } from '$lib/ui';
+	import ArrowLeftBoldIcon from '~icons/mdi/arrow-left-bold';
+
+	const navItems = [
+		{ name: 'Reporting', href: '' },
+		{ name: 'Members', href: '/admin' },
+		{ name: 'Activity', href: '/admin/activity' },
+		{ name: 'Bikes', href: '/admin/bikes' },
+		{ name: 'Admin', href: '' },
+		{ name: 'Settings', href: '/admin/settings' }
+	];
 </script>
 
 <div class="admin-layout">
 	<nav>
 		<span aria-label="logo" class="logo"><Logo /></span>
 		<ul class="admin-menu">
-			<li class="menu-heading">
-				<h3>Reporting</h3>
-			</li>
-			<li>
-				<a href="/admin">
-					<span>Members</span>
-				</a>
-			</li>
-			<li>
-				<a href="/admin/bikes">
-					<span>Bikes</span>
-				</a>
-			</li>
-			<li>
-				<a href="/admin/activity">
-					<span>Activity</span>
-				</a>
-			</li>
-			<li class="menu-heading">
-				<h3>Admin</h3>
-			</li>
-			<li>
-				<a href="/admin/settings">
-					<span>Settings</span>
-				</a>
-			</li>
+			{#each navItems as { name, href }}
+				{#if !href}
+					<li class="menu-heading">
+						<h3>{name}</h3>
+					</li>
+				{:else}
+					<li>
+						<a {href}>{name}</a>
+						{#if $page.url.pathname === href}
+							<ArrowLeftBoldIcon viewBox="-5 -5 24 24" />
+						{/if}
+					</li>
+				{/if}
+			{/each}
 		</ul>
 	</nav>
 
@@ -54,7 +53,7 @@
 	nav {
 		display: flex;
 		flex-direction: column;
-		min-width: 8rem;
+		min-width: 10rem;
 		max-width: 12rem;
 		min-height: 100dvh;
 		padding-inline-end: 1rem;
