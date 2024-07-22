@@ -82,10 +82,6 @@
 		transition: color 0.2s linear;
 	}
 
-	[aria-current='page'] > a {
-		color: rgb(var(--color-primary));
-	}
-
 	@media (hover) {
 		a:hover {
 			color: rgb(var(--color-primary));
