@@ -19,18 +19,18 @@ export const shopConfig: Record<string, string> = {
 
 export const theme: Record<string, string> = {
 	/* font and text */
-	'--font-body': `Arial, -apple-system, BlinkMacSystemFont, 'Open Sans', sans-serif;`,
-	'--font-mono': `'Fira Mono', monospace;`,
-	'--font-size': `16px;`,
-	'--color-text': `#323336;`,
-	'--color-text-light': `#dde9f8;`,
+	'font-body': `Arial, -apple-system, BlinkMacSystemFont, 'Open Sans', sans-serif`,
+	'font-mono': `'Fira Mono', monospace`,
+	'font-size': `16px`,
+	'color-text': `#323336`,
+	'color-text-light': `#dde9f8`,
 	/* main colors */
 	/* removal of rgb() wrapper allows adding opactiy in the app */
-	'--color-primary': `64, 117, 166; ` /* #4075a6; */,
-	'--color-secondary': `64, 117, 166;` /* #40A6A4; */,
-	'--color-neutral': `250, 250, 250;`,
+	'color-primary': `64, 117, 166 ` /* #4075a6 */,
+	'color-secondary': `64, 117, 166` /* #40A6A4 */,
+	'color-neutral': `250, 250, 250`,
 	/* accent */
-	'--color-accent': `#a348e9;`,
-	'--color-accent-subtle': `#e9ecef;`,
-	'--color-accent-med': `rgb(132, 165, 197);`
+	'color-accent': `#a348e9`,
+	'color-accent-subtle': `#e9ecef`,
+	'color-accent-med': `rgb(132, 165, 197)`
 };
