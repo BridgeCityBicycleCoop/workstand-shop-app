@@ -19,7 +19,7 @@ export const shopConfig: Record<string, string> = {
 
 export const theme: Record<string, string> = {
 	/* font and text */
-	'--font-body': `Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;`,
+	'--font-body': `Arial, -apple-system, BlinkMacSystemFont, 'Open Sans', sans-serif;`,
 	'--font-mono': `'Fira Mono', monospace;`,
 	'--font-size': `16px;`,
 	'--color-text': `#323336;`,
