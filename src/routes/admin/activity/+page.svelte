@@ -37,10 +37,8 @@
 	let endDate = data.endDate;
 </script>
 
-<pre>[Under Construction]</pre>
-
 <section class="visits-list">
-	<h3>Member Visits</h3>
+	<h2>Activity Reporting</h2>
 
 	<form id="filter-visits">
 		<label for="startDate">Start (optional)</label>
@@ -105,6 +103,10 @@
 </section>
 
 <style>
+	h2 {
+		font-weight: bold;
+	}
+
 	.visits-list {
 		display: flex;
 		flex-direction: column;
