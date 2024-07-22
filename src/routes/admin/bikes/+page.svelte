@@ -1,18 +1,20 @@
 <script lang="ts">
 	import { convertAndDownloadCsv } from '$lib/utils';
-	import { getLocaleDisplayDate } from '$lib/ui/utils';
-	import type { Bike } from '$lib/models';
+	import { getLocaleDisplayDate, camelCaseToWords } from '$lib/ui/utils';
+	import { bikeSchema } from '$lib/models';
 
 	export let data;
 
 	let startDate = data.startDate;
 	let endDate = data.endDate;
 
+	const bikeProps = bikeSchema.shape;
+	type BikePropKeys = keyof typeof bikeProps;
+	const headers = (Object.keys(bikeProps) as BikePropKeys[]).filter((key) => key !== 'id');
+
 	const downloadCSV = (_event: MouseEvent) => {
 		if (data.bikes.length) {
-			const firstBike: Bike = data.bikes[0];
-			const headers = (Object.keys(firstBike) as (keyof Bike)[]).filter((key) => key !== 'id');
-			const csvSource = data.bikes.map((bike: Bike) => {
+			const csvSource = data.bikes.map((bike) => {
 				return headers.map((key) => {
 					const bikeValue = bike[key] ?? '';
 
@@ -31,14 +33,7 @@
 	};
 </script>
 
-<pre>[Under Construction]</pre>
-<h2>Bike Reporting</h2>
-
-<p>We will put reports and csv downloads here in the future</p>
-
 <section class="bikes-list">
-	<h3>Bikes List</h3>
-
 	<form id="filter-bikes">
 		<label for="startDate">Start (optional)</label>
 		<input type="date" name="startDate" max={endDate} bind:value={startDate} />
@@ -49,33 +44,16 @@
 		<button class="btn btn-primary" type="submit">Filter Bikes</button>
 	</form>
 
-	<br />
 	<button class="csv btn-primary" on:click={downloadCSV}>Download Bikes as CSV</button>
-
-	<br />
-	<br />
 
 	<div class="tableWrap">
 		{#if data.bikes.length > 0}
 			<table>
 				<thead>
 					<tr>
-						<th class="sticky-header">Donation Date</th>
-						<th class="sticky-header">Colour</th>
-						<th class="sticky-header">Make</th>
-						<th class="sticky-header">Serial #</th>
-						<th class="sticky-header">Donated By</th>
-						<th class="sticky-header">Email Address</th>
-						<th class="sticky-header">Suggested Donation</th>
-						<th class="sticky-header">CPIC Date</th>
-						<th class="sticky-header">Recipent Name</th>
-						<th class="sticky-header">Recipent Age</th>
-						<th class="sticky-header">Recipent Phone Number</th>
-						<th class="sticky-header">Out of Shop Date</th>
-						<th class="sticky-header">Price Paid</th>
-						<th class="sticky-header">Bike Destiny</th>
-						<th class="sticky-header">BCBC Program</th>
-						<th class="sticky-header">Notes</th>
+						{#each headers as header}
+							<th class="sticky-header">{camelCaseToWords(header)}</th>
+						{/each}
 					</tr>
 				</thead>
 				<tbody>
@@ -108,7 +86,4 @@
 </section>
 
 <style>
-	h2 {
-		font-weight: bold;
-	}
 </style>

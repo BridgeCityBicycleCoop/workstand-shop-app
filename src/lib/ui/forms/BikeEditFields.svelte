@@ -20,8 +20,6 @@
 	</datalist>
 	<Field name="email" type="email" bind:value={$bikeForm.email} errors={$errors.email}>Email</Field>
 	<Field name="donationDate" type="date" bind:value={$bikeForm.donationDate}>Donation Date</Field>
-	<p>donationDate value:</p>
-	<p>{$bikeForm.donationDate}</p>
 	<Field name="suggestedDonation" step="0.01" type="number" bind:value={$bikeForm.suggestedDonation}
 		>Suggested Donation</Field
 	>

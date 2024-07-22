@@ -1,10 +1,27 @@
-<pre>[Under Construction]</pre>
-<h2>Settings</h2>
+<script lang="ts">
+	import { shopConfig, theme } from '../../../shop_config';
+	import { camelCaseToWords } from '$lib/ui/utils';
+</script>
 
-<p>Here you will be able edit certain site settings, such as the site name and special settings.</p>
+<h2>Shop Config</h2>
+<section>
+	{#each Object.keys(shopConfig) as setting}
+		<tr>
+			<td>{camelCaseToWords(setting)}: </td>
+			<td>{shopConfig[setting]}</td>
+		</tr>
+	{/each}
+</section>
+
+<h2>Shop Theme</h2>
+<section>
+	{#each Object.keys(theme) as style}
+		<tr>
+			<td>{camelCaseToWords(style)}: </td>
+			<td>{theme[style]}</td>
+		</tr>
+	{/each}
+</section>
 
 <style>
-	h2 {
-		font-weight: bold;
-	}
 </style>

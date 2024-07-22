@@ -1,5 +1,5 @@
 <script>
-	import logo from '$lib/images/cropped-BCBCLogo_Long-2048x788.png';
+	import logo from '$lib/images/shopLogo.png';
 </script>
 
 <a href="https://bcbc.bike/" target="_blank">

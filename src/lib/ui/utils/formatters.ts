@@ -24,3 +24,8 @@ export const getLocaleDisplayDate = (
 	// intlFormat requires a Date object
 	return !date ? '' : intlFormat(date, formatOptions, { locale });
 };
+
+export const camelCaseToWords = (s: string): string => {
+	const result = s.replace(/([A-Z])/g, ' $1');
+	return result.charAt(0).toUpperCase() + result.slice(1);
+};

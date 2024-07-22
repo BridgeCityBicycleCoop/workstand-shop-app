@@ -37,11 +37,7 @@
 	let endDate = data.endDate;
 </script>
 
-<pre>[Under Construction]</pre>
-
 <section class="visits-list">
-	<h3>Member Visits</h3>
-
 	<form id="filter-visits">
 		<label for="startDate">Start (optional)</label>
 		<input type="date" name="startDate" max={endDate} bind:value={startDate} />

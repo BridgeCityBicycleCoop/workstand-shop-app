@@ -4,34 +4,26 @@
 	box-sizing: border-box;
 }
 
-/* These styles are changed to change the theme */
 :root {
-	--font-body: Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
-		Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-	--font-mono: 'Fira Mono', monospace;
 	--column-width: 42rem;
 	--column-margin-top: 4rem;
-	--color-primary: 64, 117, 166; /* #4075a6; */
-	--color-secondary: 64, 117, 166; /* #40A6A4; */
-	--color-neutral: 250, 250, 250;
 	--color-bg-lighter: rgb(240, 241, 246);
 	--color-bg-light: rgb(202, 216, 228);
 	--color-bg-med: rgb(132, 165, 197);
 	--color-bg-dark: rgb(36, 46, 66);
-	--color-text: #323336;
-	--color-text-light: #dde9f8;
-	--color-accent: #a348e9;
-	--color-accent-subtle: #e9ecef;
-	--color-accent-med: rgb(132, 165, 197);
 	--border-radius: 6px;
+}
+
+#shop-theme {
+	background-color: yellow;
+	font-size: var(--font-size);
 	font-family: var(--font-body);
-	font-size: 16px;
 	color: var(--color-text);
 }
 
 @media (min-width: 720px) {
-	:root {
-		font-size: 22px;
+	#shop-theme {
+		font-size: calc(var(--font-size) + 6px);
 	}
 }
 

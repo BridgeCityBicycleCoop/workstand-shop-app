@@ -32,16 +32,6 @@
 					<span>Settings</span>
 				</a>
 			</li>
-			<li>
-				<a href="/admin/options">
-					<span>Options</span>
-				</a>
-			</li>
-			<li>
-				<a href="/admin/branding">
-					<span>Branding</span>
-				</a>
-			</li>
 		</ul>
 	</nav>
 

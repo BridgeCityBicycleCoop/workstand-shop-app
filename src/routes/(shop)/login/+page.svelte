@@ -34,7 +34,6 @@
 
 		{#if !registering}
 			<div>Please enter your username and password to log in to Workstand</div>
-			<br />
 
 			<form method="post" action="?/login" use:enhance>
 				<Field form={loginForm} name="email">

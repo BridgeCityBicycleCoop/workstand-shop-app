@@ -8,9 +8,11 @@
 
 	import type { FormEventHandler } from 'svelte/elements';
 	import type { Member, Purpose, Visit } from '$lib/models';
+	import { shopConfig } from '../../shop_config.js';
 
 	export let data;
 
+	const title = shopConfig.shopName ? `Home - ${shopConfig.shopName}` : `Home`;
 	let selectedPurpose: Purpose;
 	let activeMember: Member | undefined;
 	let activeVisit: Visit | undefined;
@@ -58,7 +60,7 @@
 </script>
 
 <svelte:head>
-	<title>Home</title>
+	<title>{title}</title>
 	<meta name="description" content="Workstand - A shop application for Bicycle Co-ops" />
 </svelte:head>
 
