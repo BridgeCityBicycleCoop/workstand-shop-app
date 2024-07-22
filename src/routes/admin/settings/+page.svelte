@@ -4,57 +4,41 @@
 </script>
 
 <h2>Shop Config</h2>
-<section class="settings-list">
+<table class="settings-list">
 	{#each Object.keys(shopConfig) as setting}
-		<div class="row">
-			<div class="column1">
-				<div><span class="setting-name">{camelCaseToWords(setting)}</span></div>
-			</div>
-			<div class="column2">
-				<div class="setting-value">{shopConfig[setting]}</div>
-			</div>
-		</div>
+		<tr>
+			<th>{camelCaseToWords(setting)}</th>
+			<td>{shopConfig[setting]}</td>
+		</tr>
 	{/each}
-</section>
+</table>
 
 <h2>Shop Theme</h2>
-<section class="theme-list">
+<table class="theme-list">
 	{#each Object.keys(theme) as style}
-		<div class="row">
-			<div><span class="setting-name">{camelCaseToWords(style)}</span></div>
-			<div class="setting-value">{theme[style]}</div>
-		</div>
+		<tr>
+			<th>{camelCaseToWords(style)}</th>
+			<td>{theme[style]}</td>
+		</tr>
 	{/each}
-</section>
+</table>
 
 <style>
-	.row {
-		display: flex;
-		width: 100%;
-		column-gap: 6rem;
-	}
 	.settings-list {
 		margin-top: 1rem;
 	}
 
-	.setting-name {
-		color: var(--color-accent-subtle);
-		background-color: var(--color-bg-med);
-		padding: 0px 10px;
-		text-align: left;
-		min-width: 175px;
-		flex-grow: 1;
+	th {
+		border: 1px dotted black;
+		width: 10em;
 	}
 
-	.setting-name:after {
-		content: ':';
-	}
-
-	.setting-value {
-		flex-grow: 1;
+	td {
+		border: 1px dotted black;
 	}
 
 	h2 {
 		margin-top: 1.5em;
+		text-decoration: underline;
 	}
 </style>
