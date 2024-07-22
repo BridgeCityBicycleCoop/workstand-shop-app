@@ -10,8 +10,8 @@
 	</svg>
 	<ul>
 		{#each navItems as { name, href }}
-			<li aria-current={$page.url.pathname === href ? 'page' : undefined}>
-				<a {href}>{name}</a>
+			<li>
+				<a aria-current={$page.url.pathname === href ? 'page' : undefined} {href}>{name}</a>
 			</li>
 		{/each}
 	</ul>
