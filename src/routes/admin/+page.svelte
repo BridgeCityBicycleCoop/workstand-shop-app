@@ -90,7 +90,7 @@
 
 <style>
 	.members-list {
-		margin-top: 3rem;
+		margin-top: 1rem;
 		display: grid;
 		grid-template-areas:
 			'filter-members'
@@ -100,14 +100,15 @@
 	}
 
 	.filter-members {
-		grid-area: 'filter-members';
+		grid-area: filter-members;
 	}
 
 	.download-csv {
-		grid-area: 'download-csv';
+		grid-area: download-csv;
+		justify-self: start;
 	}
 
 	.search-result {
-		grid-area: 'search-result';
+		grid-area: search-result;
 	}
 </style>
