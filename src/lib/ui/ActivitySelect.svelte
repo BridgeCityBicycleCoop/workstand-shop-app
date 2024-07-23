@@ -1,6 +1,8 @@
 <script lang="ts">
+	import { getContext } from 'svelte';
 	import { superForm, type SuperValidated } from 'sveltekit-superforms';
 	import type { Member, Visit, Purpose } from '$lib/models';
+	import type { Writable } from 'svelte/store';
 
 	export let formId: string;
 	export let activeMember: Member | undefined;
@@ -21,9 +23,12 @@
 		}
 	>;
 
-	const { enhance } = superForm(formData, {
+	const { enhance, delayed, submitting } = superForm(formData, {
 		onUpdated: onSuccess
 	});
+
+	const loading = getContext<Writable<boolean>>('loading-store');
+	$: $loading = $delayed;
 </script>
 
 {#if activeMember?.id}
@@ -36,6 +41,7 @@
 					on:click={() => {
 						selectedPurpose = purpose;
 					}}
+					data-loading={$submitting && selectedPurpose === purpose}
 					>{purpose.name}
 				</button>
 			{/each}

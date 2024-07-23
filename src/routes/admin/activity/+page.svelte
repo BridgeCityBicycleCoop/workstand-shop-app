@@ -1,25 +1,9 @@
 <script lang="ts">
-	import { getDisplayName, Modal, ActivitySelect, getLocaleDisplayDate } from '$lib/ui';
+	import { getDisplayName, getLocaleDisplayDate } from '$lib/ui';
 	import { convertAndDownloadCsv } from '$lib/utils';
-	import type { Visit, Member, Purpose } from '$lib/models';
+	import type { Visit } from '$lib/models';
 
 	export let data;
-
-	let selectedPurpose: Purpose;
-	let activeMember: Member | undefined;
-	let activeVisit: Visit | undefined;
-	let isOpen: boolean;
-
-	const handleVisitUpdate = (_event: MouseEvent, visit: Visit) => {
-		activeMember = visit.member;
-		activeVisit = visit;
-		isOpen = true;
-	};
-
-	const handleClose = () => {
-		isOpen = false;
-		activeMember = undefined;
-	};
 
 	const formatCsvData = (_event: MouseEvent) => {
 		const rows = data.visits.map((visit: Visit) => {
@@ -65,13 +49,7 @@
 				<tbody>
 					{#each data.visits as visit}
 						<tr>
-							<td>
-								<button
-									class="edit-profile link"
-									on:click={(event) => handleVisitUpdate(event, visit)}
-									>{getDisplayName(visit.member)}
-								</button>
-							</td>
+							<td>{getDisplayName(visit.member)}</td>
 							<td>{visit.purpose.name}</td>
 							<td>{getLocaleDisplayDate(visit.date)}</td>
 						</tr>
@@ -82,24 +60,6 @@
 			<p>No Visits Logged</p>
 		{/if}
 	</div>
-
-	<Modal bind:open={isOpen}>
-		<ActivitySelect
-			formId="log-visit"
-			formData={data.logVisitForm}
-			bind:selectedPurpose
-			purposes={data.purposes}
-			displayName={getDisplayName(activeMember)}
-			{activeMember}
-			{activeVisit}
-			onSuccess={() => {
-				handleClose();
-			}}
-		/>
-		<div slot="buttons">
-			<button class="primary" on:click={handleClose}>Cancel</button>
-		</div>
-	</Modal>
 </section>
 
 <style>

@@ -73,16 +73,28 @@ textarea,
 select {
 	font-size: inherit;
 	font-family: inherit;
-	padding: 0;
-	margin: 0;
-}
-
-input {
 	display: inline-block;
 	border: var(--color-accent-subtle) 1px solid;
 	border-radius: var(--border-radius, 3px);
 	padding: 0.5em 1em;
 	margin: 0;
+}
+
+input[type='search']::-webkit-search-cancel-button {
+	/* Remove default */
+	-webkit-appearance: none;
+
+	/* Now your own custom styles */
+	height: 14px;
+	width: 14px;
+	display: block;
+	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAn0lEQVR42u3UMQrDMBBEUZ9WfQqDmm22EaTyjRMHAlM5K+Y7lb0wnUZPIKHlnutOa+25Z4D++MRBX98MD1V/trSppLKHqj9TTBWKcoUqffbUcbBBEhTjBOV4ja4l4OIAZThEOV6jHO8ARXD+gPPvKMABinGOrnu6gTNUawrcQKNCAQ7QeTxORzle3+sDfjJpPCqhJh7GixZq4rHcc9l5A9qZ+WeBhgEuAAAAAElFTkSuQmCC);
+	/* icon size */
+	background-size: 14px;
+}
+
+select {
+	padding: 0.5em 0.7em;
 }
 
 input:focus-visible {
@@ -160,6 +172,10 @@ button {
 	user-select: none;
 	-webkit-tap-highlight-color: transparent;
 	cursor: pointer;
+
+	&:active {
+		transform: translate(1px, 1px);
+	}
 }
 
 button:focus-visible {
@@ -179,18 +195,39 @@ button.primary {
 	&:hover {
 		background-color: rgb(var(--color-primary));
 	}
+
+	&:active {
+		background-color: hsl(from rgb(var(--color-primary)) h s 40% / 1);
+	}
 }
 
 .btn-secondary,
 button.secondary {
-	background-color: rgb(var(--color-secondary), 0.6);
-	color: var(--color-accent);
+	background-color: hsl(from rgb(var(--color-secondary)) h s l / 0.8);
+	color: var(--color-accent-subtle);
+	outline-color: var(--color-accent-subtle);
+
+	&:hover {
+		background-color: rgb(var(--color-secondary));
+	}
+
+	&:active {
+		background-color: hsl(from rgb(var(--color-secondary)) h s 40% / 1);
+	}
 }
 
 .btn-neutral,
 button.neutral {
 	background-color: rgb(var(--color-neutral));
 	color: var(--color-text);
+
+	&:hover {
+		background-color: hsl(from rgb(var(--color-neutral)) h s calc(l + 10) / 1);
+	}
+
+	&:active {
+		background-color: hsl(from rgb(var(--color-neutral)) h s calc(l + 20) / 1);
+	}
 }
 
 button[disabled],
@@ -224,6 +261,20 @@ button.link {
 	padding: 0;
 	min-height: 40px;
 	line-height: 1.2;
+}
+
+button[data-loading='true'] {
+	pointer-events: none;
+	animation: fadeInAndOut 1s infinite alternate ease-in-out;
+}
+
+@keyframes fadeInAndOut {
+	from {
+		filter: brightness(100%);
+	}
+	to {
+		filter: brightness(75%);
+	}
 }
 
 .button-group {

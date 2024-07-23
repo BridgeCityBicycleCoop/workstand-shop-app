@@ -9,15 +9,15 @@
 </script>
 
 <div class="wavier-container">
-	<div class="wavier-title">Member Liability Waiver</div>
-	<p>
+	<h2 class="wavier-title">Member Liability Waiver</h2>
+	<small>
 		***Children under the age of 18 must have a parent or guardian co-sign the following waiver
 		form.
-	</p>
-	<p>
+	</small>
+	<small>
 		***Children under the age of 13 must have guardian supervision when participating in BCBC
 		activities and events.
-	</p>
+	</small>
 	<p>
 		By signing this form in the space provided below, I hereby assume all of the risks of
 		participating and/or volunteering in the Bridge City Bicycle Co-operative, hereinafter referred
@@ -52,7 +52,12 @@
 </div>
 
 <style>
+	small {
+		display: block;
+		margin-bottom: 1em;
+	}
 	.signature {
 		font-style: italic;
+		font-weight: bold;
 	}
 </style>

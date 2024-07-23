@@ -1,11 +1,18 @@
 <script lang="ts">
+	import { getContext } from 'svelte';
 	import { superForm } from 'sveltekit-superforms';
 	import { BikeEditFields, Message } from '$lib/ui';
+	import type { Writable } from 'svelte/store';
 
 	export let data;
 	$: bike = data.bike;
 
-	const { form, errors, enhance, message } = superForm(data.form, { resetForm: false });
+	const { form, errors, enhance, message, delayed, submitting } = superForm(data.form, {
+		resetForm: false
+	});
+
+	const loading = getContext<Writable<boolean>>('loading-store');
+	$: $loading = $delayed;
 </script>
 
 <section>
@@ -20,8 +27,10 @@
 	<Message message={$message} />
 
 	<div class="buttons">
-		<button class="btn btn-neutral" on:click={() => history.back()}>Back</button>
-		<button class="btn btn-primary" type="submit" form="update-bike">Update</button>
+		<button class="neutral" on:click={() => history.back()}>Back</button>
+		<button class="primary" type="submit" data-loading={submitting} form="update-bike"
+			>Update</button
+		>
 	</div>
 </section>
 

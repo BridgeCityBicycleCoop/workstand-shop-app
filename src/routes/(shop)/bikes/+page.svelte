@@ -1,9 +1,10 @@
 <script lang="ts">
+	import { getContext } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { superForm } from 'sveltekit-superforms';
-	import { BikeEditFields, Message } from '$lib/ui';
+	import { BikeEditFields, Message, getLocaleDisplayDate } from '$lib/ui';
 	import type { Bike } from '$lib/models';
-	import { getLocaleDisplayDate } from '$lib/ui/utils';
+	import type { Writable } from 'svelte/store';
 
 	export let data;
 	const BIKE_THEFT_URL = 'https://www.cpic-cipc.ca/sbi-rve-eng.htm';
@@ -29,28 +30,28 @@
 		);
 	}
 
-	const { form, errors, enhance, message } = superForm(data.form);
+	const { form, errors, enhance, message, delayed, submitting } = superForm(data.form);
+
+	const loading = getContext<Writable<boolean>>('loading-store');
+	$: $loading = $delayed;
 </script>
 
 <h1>Register New Bike</h1>
 <Message message={$message} />
 
-<div class="form-container">
-	<form id="register-bike" method="POST" use:enhance>
-		<BikeEditFields bikeForm={form} {errors} />
-	</form>
-</div>
-
-<div class="register-bike-buttons">
-	<button class="btn btn-primary" type="reset" form="register-bike">Cancel Registration</button>
-	<button class="btn btn-primary" type="submit" form="register-bike"
-		>Click to Register New Bike</button
-	>
-</div>
+<form id="register-bike" method="POST" use:enhance>
+	<BikeEditFields bikeForm={form} {errors} />
+	<div class="register-bike-buttons">
+		<button class="neutral" type="reset" form="register-bike">Clear</button>
+		<button class="primary" type="submit" data-loading={$submitting} form="register-bike">
+			Register New Bike
+		</button>
+	</div>
+</form>
 
 <section class="bike-list">
 	<h3>Bike List</h3>
-	<div class="tableWrap">
+	<div class="table-wrap">
 		{#if data.bikes.length > 0}
 			<table>
 				<thead>
@@ -106,22 +107,21 @@
 	form {
 		display: flex;
 		flex-direction: column;
-		justify-content: center;
+		gap: 1rem;
+		width: fit-content;
+		margin: auto;
 	}
-
-	form {
-		display: grid;
-		grid-template-columns: max-content max-content;
-		grid-gap: 5px;
-	}
-
 	.register-bike-buttons {
 		display: flex;
-		justify-content: center;
+		justify-content: space-between;
 	}
 
 	.bike-list {
-		grid-area: activity;
+		max-width: 100%;
+	}
+
+	.table-wrap {
+		overflow-x: scroll;
 	}
 
 	/* If we use border,
