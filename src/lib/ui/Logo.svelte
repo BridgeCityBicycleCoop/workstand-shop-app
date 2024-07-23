@@ -1,11 +1,18 @@
 <script lang="ts">
-	export const logoUrl: string = '';
-	export const shopName: string = '';
+	export let logoUrl: string = '';
+	export let shopName: string = 'Workstand';
 </script>
 
-<img src={logoUrl} alt={shopName} />
+<a href="/">
+	<img src={logoUrl} alt={shopName} />
+</a>
 
 <style>
+	a {
+		display: block;
+		height: 100%;
+	}
+
 	img {
 		object-fit: contain;
 		max-height: 100%;
