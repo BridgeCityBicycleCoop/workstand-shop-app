@@ -11,11 +11,16 @@
 		{ name: 'Admin', href: '' },
 		{ name: 'Settings', href: '/admin/settings' }
 	];
+
+	export let data;
+
+	$: logoUrl = data.shopConfig.logoUrl;
+	$: shopName = data.shopConfig.shopName;
 </script>
 
 <div class="admin-layout">
 	<nav>
-		<span aria-label="logo" class="logo"><Logo /></span>
+		<span aria-label="logo" class="logo"><Logo {logoUrl} {shopName} /></span>
 		<ul class="admin-menu">
 			{#each navItems as { name, href }}
 				{#if !href}
@@ -140,7 +145,7 @@
 		display: flex;
 		gap: 2rem;
 		align-items: center;
-		justify-content: end;
+		justify-content: start;
 		min-height: 3rem;
 	}
 </style>

@@ -1,6 +1,9 @@
 <script lang="ts">
-	import { PageLayout, Header, Footer, TopNav, Logo, GithubLink, Toasts } from '$lib/ui';
+	import { PageLayout, Header, Footer, TopNav, Logo, Toasts } from '$lib/ui';
 	export let data;
+
+	$: logoUrl = data.shopConfig.logoUrl;
+	$: shopName = data.shopConfig.shopName;
 
 	$: navItems = [
 		{ name: 'Login', href: '/login' },
@@ -13,9 +16,8 @@
 
 <PageLayout>
 	<Header slot="header">
-		<Logo slot="logo" />
 		<TopNav {navItems} />
-		<GithubLink slot="menu" />
+		<Logo {logoUrl} {shopName} slot="logo" />
 	</Header>
 
 	<slot />

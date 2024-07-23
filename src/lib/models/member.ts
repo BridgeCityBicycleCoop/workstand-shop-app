@@ -18,10 +18,13 @@ export const memberSchema = z.object({
 });
 
 export const memberListSchema = z.array(memberSchema);
-export const memberCreateSchema = memberSchema.omit({ id: true }).extend({
-	waiver: memberSchema.shape.waiver.default(new Date()),
-	status: memberSchema.shape.status.default('active')
-});
+export const memberCreateSchema = memberSchema
+	.omit({ id: true })
+	.extend({
+		waiver: memberSchema.shape.waiver.default(new Date()),
+		status: memberSchema.shape.status.default('active')
+	})
+	.refine((data) => data.email || data.phone, 'Either an email or phone number is required');
 export const memberUpdateSchema = makeOptionalPropsNullable(
 	memberSchema.partial().required({ id: true, emailConsent: true, requiresGuardian: true })
 ).omit({ waiver: true });

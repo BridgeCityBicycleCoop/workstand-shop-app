@@ -1,12 +1,18 @@
-<script>
-	import logo from '$lib/images/shopLogo.png';
+<script lang="ts">
+	export let logoUrl: string = '';
+	export let shopName: string = 'Workstand';
 </script>
 
-<a href="https://bcbc.bike/" target="_blank">
-	<img src={logo} alt="Bridge City Bicyle Co-Op Home Page" />
+<a href="/">
+	<img src={logoUrl} alt={shopName} />
 </a>
 
 <style>
+	a {
+		display: block;
+		height: 100%;
+	}
+
 	img {
 		object-fit: contain;
 		max-height: 100%;

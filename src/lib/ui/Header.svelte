@@ -1,19 +1,15 @@
 <header>
-	<slot />
-
 	<div class="logo">
 		<slot name="logo" />
 	</div>
 
-	<div class="menu">
-		<slot name="menu" />
-	</div>
+	<slot />
 </header>
 
 <style>
 	header {
 		display: grid;
-		grid-template-areas: 'logo nav menu';
+		grid-template-areas: 'logo nav home';
 		grid-template-columns: max-content auto max-content;
 	}
 
@@ -21,18 +17,12 @@
 		header {
 			grid-template-areas:
 				'nav nav nav'
-				'logo x menu';
+				'logo x home';
 		}
 	}
 
 	.logo {
 		grid-area: logo;
-		height: 3em;
-	}
-
-	.menu {
-		grid-area: menu;
-		width: 3em;
 		height: 3em;
 	}
 </style>
