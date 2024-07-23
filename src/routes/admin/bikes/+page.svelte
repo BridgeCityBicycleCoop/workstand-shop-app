@@ -44,7 +44,7 @@
 		<button class="btn btn-primary" type="submit">Filter Bikes</button>
 	</form>
 
-	<button class="csv btn-primary download-csv" on:click={downloadCSV}>Download Bikes as CSV</button>
+	<button class="btn-primary download-csv" on:click={downloadCSV}>Download Bikes as CSV</button>
 
 	<div class="tableWrap search-result">
 		{#if data.bikes.length > 0}
@@ -87,7 +87,7 @@
 
 <style>
 	.bikes-list {
-		margin-top: 3rem;
+		margin-top: 1rem;
 		display: grid;
 		grid-template-areas:
 			'filter-bikes'
@@ -97,14 +97,15 @@
 	}
 
 	.filter-bikes {
-		grid-area: 'filter-members';
+		grid-area: filter-bikes;
 	}
 
 	.download-csv {
-		grid-area: 'download-csv';
+		grid-area: download-csv;
+		justify-self: start;
 	}
 
 	.search-result {
-		grid-area: 'search-result';
+		grid-area: search-result;
 	}
 </style>
