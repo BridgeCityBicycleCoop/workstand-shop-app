@@ -1,11 +1,13 @@
 <script lang="ts">
+	import { getContext } from 'svelte';
 	import { superForm } from 'sveltekit-superforms';
 	import { MemberEditFields, getDisplayName, addToast } from '$lib/ui';
+	import type { Writable } from 'svelte/store';
 
 	export let data;
 	$: member = data.member;
 
-	const { form, errors, enhance } = superForm(data.form, {
+	const { form, errors, enhance, delayed, submitting } = superForm(data.form, {
 		resetForm: false,
 		onUpdated(event) {
 			if (event.form.message) {
@@ -17,6 +19,9 @@
 			}
 		}
 	});
+
+	const loading = getContext<Writable<boolean>>('loading-store');
+	$: $loading = $delayed;
 </script>
 
 <section>
@@ -29,8 +34,10 @@
 	</form>
 
 	<div class="buttons">
-		<button class="btn btn-neutral" on:click={() => history.back()}>Back</button>
-		<button class="btn btn-primary" type="submit" form="update-member">Update</button>
+		<button class="neutral" on:click={() => history.back()}>Back</button>
+		<button class="primary" data-loading={$submitting} type="submit" form="update-member">
+			<span class="spinner-replace">Update</span>
+		</button>
 	</div>
 </section>
 

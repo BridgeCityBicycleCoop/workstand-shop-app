@@ -1,11 +1,13 @@
 <script lang="ts">
+	import { getContext } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { superForm } from 'sveltekit-superforms';
 	import { LiabilityWaiver, MemberEditFields, addToast } from '$lib/ui';
+	import type { Writable } from 'svelte/store';
 
 	export let data;
 
-	const { form, errors, enhance, message } = superForm(data.form, {
+	const { form, errors, enhance, message, delayed, submitting } = superForm(data.form, {
 		onUpdated(event) {
 			if ($message) {
 				addToast({
@@ -23,39 +25,46 @@
 					});
 				});
 			}
+			if (event.form.valid) {
+				goto('/');
+			}
 		}
 	});
+
+	const loading = getContext<Writable<boolean>>('loading-store');
+	$: $loading = $delayed;
 </script>
 
 <section class="register-member">
-	<div>
-		<h1>Register New Member</h1>
-	</div>
+	<h1>Register New Member</h1>
 
-	<div class="form-container">
-		<form id="register-member" method="POST" use:enhance>
-			<MemberEditFields memberForm={form} {errors} />
-		</form>
-	</div>
+	<form id="register-member" method="POST" use:enhance>
+		<MemberEditFields memberForm={form} {errors} />
+	</form>
 
 	<LiabilityWaiver
 		name={$form.name}
 		requiresGuardian={$form.requiresGuardian}
 		guardianName={$form.guardianName}
-	></LiabilityWaiver>
+	/>
+
 	<div class="register-member-buttons">
-		<button class="btn btn-primary" on:click={() => goto('/')}>Cancel Registration</button>
-		<button class="btn btn-primary" type="submit" form="register-member"
-			>Click to Agree to Waiver</button
-		>
+		<button class="primary" on:click={() => goto('/')}>Cancel Registration</button>
+		<button class="primary" data-loading={$submitting} type="submit" form="register-member">
+			Click to Agree to Waiver
+		</button>
 	</div>
 </section>
 
 <style>
+	h1 {
+		margin-bottom: 0;
+	}
 	.register-member {
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
+		gap: 2em;
 		min-width: 50%;
 		max-width: 80%;
 		margin: auto;

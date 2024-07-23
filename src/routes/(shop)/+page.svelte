@@ -1,14 +1,15 @@
 <script lang="ts">
+	import { getContext } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { ActivitySelect, Modal, getLocaleDisplayDate, getDisplayName } from '$lib/ui';
 	import ClipboardEditOutline from '~icons/mdi/clipboard-edit-outline';
 	import QuestionMark from '~icons/mdi/question-mark';
 	import Exclamation from '~icons/mdi/exclamation-thick';
 	import AlertOctagon from '~icons/mdi/alert-octagon-outline';
-
+	import { shopConfig } from '../../shop_config.js';
 	import type { FormEventHandler } from 'svelte/elements';
 	import type { Member, Purpose, Visit } from '$lib/models';
-	import { shopConfig } from '../../shop_config.js';
+	import type { Writable } from 'svelte/store';
 
 	export let data;
 
@@ -23,6 +24,10 @@
 	let filteredMemeberList: Member[];
 	let searchElement: HTMLInputElement;
 
+	const loading = getContext<Writable<boolean>>('loading-store');
+
+	$: signedInMembers = new Set(data.visits.map((visit) => visit.member.id));
+
 	const handleInput: FormEventHandler<HTMLInputElement> = (event) => {
 		const filterText = event.currentTarget?.value.toLocaleLowerCase();
 
@@ -35,8 +40,6 @@
 
 		showList = filterText.length > 1 && filteredMemeberList.length > 0;
 	};
-
-	$: signedInMembers = new Set(data.visits.map((visit) => visit.member.id));
 
 	const handleMemberSelect = (_event: MouseEvent, member: Member) => {
 		activeMember = member;
@@ -66,8 +69,14 @@
 
 <div class="signin">
 	<div class="members-search">
-		<label for="filter">Members: Sign In</label>
-		<input on:input={handleInput} name="filter" type="text" bind:this={searchElement} />
+		<label for="filter">Members Search:</label>
+		<input
+			on:input={handleInput}
+			name="filter"
+			type="search"
+			bind:this={searchElement}
+			autocomplete="off"
+		/>
 	</div>
 
 	<div class="search-results">
@@ -184,7 +193,7 @@
 		}}
 	/>
 	<div slot="buttons">
-		<button class="btn btn-primary" on:click={handleClose}>Cancel</button>
+		<button class="primary" on:click={handleClose}>Cancel</button>
 	</div>
 </Modal>
 

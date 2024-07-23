@@ -73,7 +73,7 @@
 	fieldset {
 		all: unset;
 		display: grid;
-		grid-template-columns: max-content minmax(100px, 1fr);
-		grid-gap: 5px;
+		grid-template-columns: max-content max-content;
+		grid-gap: 0.4rem;
 	}
 </style>

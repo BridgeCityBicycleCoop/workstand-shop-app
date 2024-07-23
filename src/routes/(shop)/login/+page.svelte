@@ -1,18 +1,24 @@
 <script lang="ts">
+	import { getContext } from 'svelte';
 	import { superForm } from 'sveltekit-superforms/client';
 	import { Field, Control, Label, Description, FieldErrors } from 'formsnap';
 	import { Message } from '$lib/ui';
+	import type { Writable } from 'svelte/store';
 
 	export let data;
 	const loginForm = superForm(data.loginForm);
-	const { form, enhance, message } = loginForm;
+	const { form, enhance, message, delayed } = loginForm;
 
 	const registerForm = superForm(data.registerForm);
 	const {
 		form: registerFormData,
 		enhance: registerEnhance,
-		message: registerMessage
+		message: registerMessage,
+		delayed: registerDelayed
 	} = registerForm;
+
+	const loading = getContext<Writable<boolean>>('loading-store');
+	$: $loading = $delayed || $registerDelayed;
 
 	let registering = false;
 	$: headingText = registering ? 'BCBC Workstand Registration' : 'BCBC Workstand Login';

@@ -1,5 +1,8 @@
 <script lang="ts">
 	import '../styles.css';
+	import { setContext } from 'svelte';
+	import { navigating } from '$app/stores';
+	import { loadingStore } from '$lib/ui';
 
 	export let data;
 	const theme = data.theme;
@@ -13,6 +16,10 @@
 		}
 	</style>
 	`;
+
+	const loading = loadingStore(navigating);
+	// ...and add it to the context for child components to access
+	setContext('loading-store', loading);
 </script>
 
 <svelte:head>
