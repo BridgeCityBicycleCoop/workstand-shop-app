@@ -140,7 +140,7 @@
 		display: flex;
 		gap: 2rem;
 		align-items: center;
-		justify-content: end;
+		justify-content: start;
 		min-height: 3rem;
 	}
 </style>
