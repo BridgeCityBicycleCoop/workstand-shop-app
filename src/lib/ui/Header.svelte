@@ -1,9 +1,8 @@
 <header>
+	<slot />
 	<div class="logo">
 		<slot name="logo" />
 	</div>
-
-	<slot />
 </header>
 
 <style>

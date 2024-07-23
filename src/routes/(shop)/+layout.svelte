@@ -16,8 +16,8 @@
 
 <PageLayout>
 	<Header slot="header">
-		<TopNav {navItems} />
 		<Logo {logoUrl} {shopName} slot="logo" />
+		<TopNav {navItems} />
 	</Header>
 
 	<slot />
