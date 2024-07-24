@@ -2,7 +2,7 @@
 	import { getContext } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { superForm } from 'sveltekit-superforms';
-	import { BikeEditFields, Message, getLocaleDisplayDate } from '$lib/ui';
+	import { BikeCreateFields, Message, getLocaleDisplayDate } from '$lib/ui';
 	import type { Bike } from '$lib/models';
 	import type { Writable } from 'svelte/store';
 
@@ -40,7 +40,7 @@
 <Message message={$message} />
 
 <form id="register-bike" method="POST" use:enhance>
-	<BikeEditFields bikeForm={form} {errors} />
+	<BikeCreateFields bikeForm={form} {errors} />
 	<div class="register-bike-buttons">
 		<button class="neutral" type="reset" form="register-bike">Clear</button>
 		<button class="primary" type="submit" data-loading={$submitting} form="register-bike">

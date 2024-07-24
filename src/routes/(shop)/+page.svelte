@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { getContext } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { ActivitySelect, Modal, getLocaleDisplayDate, getDisplayName } from '$lib/ui';
 	import ClipboardEditOutline from '~icons/mdi/clipboard-edit-outline';
@@ -9,7 +8,6 @@
 	import { shopConfig } from '../../shop_config.js';
 	import type { FormEventHandler } from 'svelte/elements';
 	import type { Member, Purpose, Visit } from '$lib/models';
-	import type { Writable } from 'svelte/store';
 
 	export let data;
 
@@ -23,8 +21,6 @@
 	let showList: boolean;
 	let filteredMemeberList: Member[];
 	let searchElement: HTMLInputElement;
-
-	const loading = getContext<Writable<boolean>>('loading-store');
 
 	$: signedInMembers = new Set(data.visits.map((visit) => visit.member.id));
 
