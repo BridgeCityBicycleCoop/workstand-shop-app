@@ -14,18 +14,18 @@ Follow these steps to get the project up and running on your machine.
 
 ### Setup Local Pocketbase DB
 
-1. Create your own local `.env` file 
-    - see `.env.example` for an example
+1. Create your own local `.env` file.
+    - see `.env.example` for an reference.
 
-2. Download and Install [Pocketbase](https://pocketbase.io/docs/)
-    - On MacOS it's easiest to use [Homebrew](https://brew.sh/): `brew install pocketbase`
-3. Start pocketbase: `./pocketbase serve`
-4. Go to the Admin UI (via the URL in your terminal)
+2. Download and install [Pocketbase](https://pocketbase.io/docs/)
+    - On macOS it's easiest to use [Homebrew](https://brew.sh/): `brew install pocketbase`
+3. Start Pocketbase: `./pocketbase serve`
+4. Go to the Admin UI (via the URL in your terminal).
 5. It will prompt you to set up an email and password which will need to match your `.env` file.
 6. Manually create a user record in the `users` collection.
-7. Complte the developing steps below, then login using the info created above.
+7. Complete the development steps below, then login using the info created above.
 
-### Developing
+### Development
 
 Once you've installed dependencies with `npm install`, start a development server:
 
@@ -43,9 +43,13 @@ To create a production version of your app:
 npm run build
 ```
 
-You can preview the production build with `npm run preview`.
+You can preview the production build with:
 
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment. You will also need a place to host the [Pocketbase](https://pocketbase.io/) server, which may be [anywhere pocketbase can be installed](https://pocketbase.io/docs/going-to-production/) but could also be a cloud provider like [pockethost.io](https://pockethost.io/) or [Fly.io](https://github.com/pocketbase/pocketbase/discussions/537).
+```bash
+`npm run preview`.
+```
+
+> **NOTE**: To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment. You will also need a place to host the [Pocketbase](https://pocketbase.io/) server, which may be [anywhere pocketbase can be installed](https://pocketbase.io/docs/going-to-production/) but could also be a cloud provider like [pockethost.io](https://pockethost.io/) or [Fly.io](https://github.com/pocketbase/pocketbase/discussions/537).
 
 ## 🥰 Code of Conduct
 
@@ -55,4 +59,4 @@ For questions, disputes, or clarifications, contact the BCBC Digital Committee a
 
 ## 💌 Contribute
 
-Workstand is currently under active deveopment and is **not ready to accept contributions**. If you are interested in volunteering for the *BCBC Digital Committee*, please email [digital@bridgecitybicyclecoop.com](mailto:digital@bridgecitybicyclecoop.com) and we'd be happy to loop you in.
+Workstand is currently under active development and is **not ready to accept contributions**. If you are interested in volunteering for the *BCBC Digital Committee*, please email [digital@bridgecitybicyclecoop.com](mailto:digital@bridgecitybicyclecoop.com) and we'd be happy to talk.
