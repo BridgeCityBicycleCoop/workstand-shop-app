@@ -34,6 +34,7 @@
 {#if activeMember?.id}
 	<form id={formId} method="post" action="?/logVisit" use:enhance>
 		<div class="activity-title">Select <b>{displayName}</b>'s activity for today</div>
+		<slot />
 		<div class="activity-container">
 			{#each purposes as purpose}
 				<button
@@ -56,7 +57,7 @@
 
 <style>
 	.activity-title {
-		margin-bottom: 40px;
+		margin-bottom: 1rem;
 	}
 
 	.activity-container {

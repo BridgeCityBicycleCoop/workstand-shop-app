@@ -186,6 +186,19 @@ button:focus:not(:focus-visible) {
 	outline: none;
 }
 
+button:has(.icon) {
+	justify-content: space-between;
+
+	&::after {
+		content: '';
+	}
+}
+
+button > .icon {
+	display: inline-block;
+	line-height: 0.5;
+}
+
 .btn-primary,
 button.primary {
 	background-color: hsl(from rgb(var(--color-primary)) h s l / 0.8);
