@@ -40,6 +40,7 @@
 		<input type="date" name="endDate" min={startDate} bind:value={endDate} />
 
 		<button class="btn btn-primary" type="submit">Filter Members</button>
+		<button class="btn btn-secondary" type="reset">Clear Filter</button>
 	</form>
 
 	<button class="csv btn-primary download-csv" on:click={downloadCSV}

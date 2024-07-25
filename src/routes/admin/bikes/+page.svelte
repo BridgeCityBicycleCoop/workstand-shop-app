@@ -42,6 +42,7 @@
 		<input type="date" name="endDate" min={startDate} bind:value={endDate} />
 
 		<button class="btn btn-primary" type="submit">Filter Bikes</button>
+		<button class="btn btn-secondary" type="reset">Clear Filter</button>
 	</form>
 
 	<button class="btn-primary download-csv" on:click={downloadCSV}>Download Bikes as CSV</button>
