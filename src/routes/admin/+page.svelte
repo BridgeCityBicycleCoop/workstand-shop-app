@@ -33,14 +33,22 @@
 
 <section class="members-list">
 	<form class="filter-members">
-		<label for="startDate">Start (optional)</label>
-		<input type="date" name="startDate" max={endDate} bind:value={startDate} />
-
-		<label for="endDate">End (optional)</label>
-		<input type="date" name="endDate" min={startDate} bind:value={endDate} />
-
-		<button class="btn btn-primary" type="submit">Filter Members</button>
-		<button class="btn btn-secondary" type="reset">Clear Filter</button>
+		<ul class="wrapper">
+			<li class="form-row">
+				<span>
+					<label for="startDate">Start (optional)</label>
+					<input type="date" name="startDate" max={endDate} bind:value={startDate} />
+				</span>
+				<span>
+					<label for="endDate">End (optional)</label>
+					<input type="date" name="endDate" min={startDate} bind:value={endDate} />
+				</span>
+				<span>
+					<button class="btn btn-primary" type="submit">Filter Members</button>
+					<button class="btn btn-secondary" type="reset">Clear Filter</button>
+				</span>
+			</li>
+		</ul>
 	</form>
 
 	<button class="csv btn-primary download-csv" on:click={downloadCSV}
@@ -90,6 +98,21 @@
 </section>
 
 <style>
+	.wrapper {
+		list-style-type: none;
+		padding: 0;
+		border-radius: 3px;
+	}
+	.form-row {
+		display: flex;
+		justify-content: flex-start;
+		flex-wrap: wrap;
+		padding: 0.5em;
+	}
+	.form-row > span {
+		padding: 0.5em 1em 0.5em 0;
+	}
+
 	.members-list {
 		margin-top: 1rem;
 		display: grid;
