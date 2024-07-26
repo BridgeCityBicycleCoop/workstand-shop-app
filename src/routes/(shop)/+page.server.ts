@@ -8,10 +8,17 @@ import {
 	visits as visitsService
 } from '$lib/server/db';
 import { memberUpdateSchema } from '$lib/models';
+import { startOfDay, endOfDay } from 'date-fns';
 
 export async function load() {
 	const members = await membersService.find();
-	const visits = await visitsService.findByDate({ startDate: new Date().toISOString() });
+	const startDate = startOfDay(Date.now()).toISOString();
+	const endDate = endOfDay(Date.now()).toISOString();
+
+	const visits = await visitsService.findByDate({
+		startDate,
+		endDate
+	});
 	const purposes = await purposesService.find();
 
 	const logVisitForm = await superValidate(zod(logVisitFormSchema));
