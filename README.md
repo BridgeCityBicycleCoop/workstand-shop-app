@@ -1,35 +1,41 @@
-# Workstand - Open Source management, tracking and reporting tool for non-profit memberhips, inventory, and activities.
+# 🚲 Workstand - Shop App
+
+> **⚠️ CAUTION:** This project is under active development.
+
+Workstand is a basic membership sign-in and bicycle management web application developed for the [Bridge City Bicycle Co-operative (BCBC)](https://bcbc.bike). It allows the BCBC to collect usage data for their shop. This helps with program planning, grant reporting, volunteer management, and more.
+
+## 💻 Tech Stack
 
 This app is developed using [Sveltekit](https://kit.svelte.dev/), [Typescript](https://www.typescriptlang.org/), [Superforms](https://superforms.rocks/), and [Pocketbase](https://pocketbase.io/).
 
-## Setup Local Pocketbase DB on MacOS
+## 🏃‍♂️ Quickstart
 
-Create your own local .env file - see `.env.example`
-open your terminal
+Follow these steps to get the project up and running on your machine.
 
-On MacOS it's easiest to use [Homebrew](https://brew.sh/) to install and manage packages.
+### Setup Local Pocketbase DB
 
-```bash
-brew install pocketbase
-/opt/homebrew/bin/pocketbase serve
-```
+1. Create your own local `.env` file.
+    - see `.env.example` for an reference.
 
-Go to the Admin UI in your browser by command click the link in your terminal. It will prompt you to set up an email and password which will need to match your `.env` file.
+2. Download and install [Pocketbase](https://pocketbase.io/docs/)
+    - On macOS it's easiest to use [Homebrew](https://brew.sh/): `brew install pocketbase`
+3. Start Pocketbase: `./pocketbase serve`
+4. Go to the Admin UI (via the URL in your terminal).
+5. It will prompt you to set up an email and password which will need to match your `.env` file.
+6. Manually create a user record in the `users` collection.
+7. Complete the development steps below, then login using the info created above.
 
-Once there, manually create a user record in the `users` collection. After getting the dev steps completed below, you will be able to login using the info created above.
+### Development
 
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+Once you've installed dependencies with `npm install`, start a development server:
 
 ```bash
 npm run dev
-
 # or start the server and open the app in a new browser tab
 npm run dev -- --open
 ```
 
-## Building
+## 🚛 Deployment
 
 To create a production version of your app:
 
@@ -37,6 +43,20 @@ To create a production version of your app:
 npm run build
 ```
 
-You can preview the production build with `npm run preview`.
+You can preview the production build with:
 
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+```bash
+`npm run preview`.
+```
+
+> **NOTE**: To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment. You will also need a place to host the [Pocketbase](https://pocketbase.io/) server, which may be [anywhere pocketbase can be installed](https://pocketbase.io/docs/going-to-production/) but could also be a cloud provider like [pockethost.io](https://pockethost.io/) or [Fly.io](https://github.com/pocketbase/pocketbase/discussions/537).
+
+## 🥰 Code of Conduct
+
+All contributors and maintainers are required to adhere to the [Bridge City Bicycle Co-operative Policies](https://bcbc.bike/policies/). Please treat each other with the same respect and courtesy online as you would in person at the shop.
+
+For questions, disputes, or clarifications, contact the BCBC Digital Committee at [digital@bridgecitybicyclecoop.com](mailto:digital@bridgecitybicyclecoop.com).
+
+## 💌 Contribute
+
+Workstand is currently under active development and is **not ready to accept contributions**. If you are interested in volunteering for the *BCBC Digital Committee*, please email [digital@bridgecitybicyclecoop.com](mailto:digital@bridgecitybicyclecoop.com) and we'd be happy to talk.
