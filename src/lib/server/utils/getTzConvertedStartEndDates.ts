@@ -12,8 +12,8 @@ type StartEndTime = {
 export const getStartDate = (dateString: IsoDateString = EPOCH): Date => {
 	return new Date(dateString);
 };
-export const getEndDate = (dateString: IsoDateString = new Date().toISOString()): Date => {
-	const endDate = new Date(dateString);
+export const getEndDate = (dateString: IsoDateString | undefined): Date => {
+	const endDate = !dateString ? constructNow(new Date()) : new Date(dateString);
 	endDate.setUTCHours(23, 59, 59, 999);
 
 	return endDate;
