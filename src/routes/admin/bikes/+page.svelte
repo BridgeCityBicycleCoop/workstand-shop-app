@@ -53,7 +53,7 @@
 		</ul>
 	</form>
 
-	<button class="btn-primary download-csv" on:click={downloadCSV}>Download Bikes as CSV</button>
+	<button class="btn-primary download-csv" on:click={downloadCSV}> Download Bikes as CSV </button>
 
 	<div class="tableWrap search-result">
 		{#if data.bikes.length > 0}

@@ -15,10 +15,11 @@ Follow these steps to get the project up and running on your machine.
 ### Setup Local Pocketbase DB
 
 1. Create your own local `.env` file.
-    - see `.env.example` for an reference.
+
+   - see `.env.example` for an reference.
 
 2. Download and install [Pocketbase](https://pocketbase.io/docs/)
-    - On macOS it's easiest to use [Homebrew](https://brew.sh/): `brew install pocketbase`
+   - On macOS it's easiest to use [Homebrew](https://brew.sh/): `brew install pocketbase`
 3. Start Pocketbase: `./pocketbase serve`
 4. Go to the Admin UI (via the URL in your terminal).
 5. It will prompt you to set up an email and password which will need to match your `.env` file.
@@ -59,4 +60,4 @@ For questions, disputes, or clarifications, contact the BCBC Digital Committee a
 
 ## 💌 Contribute
 
-Workstand is currently under active development and is **not ready to accept contributions**. If you are interested in volunteering for the *BCBC Digital Committee*, please email [digital@bridgecitybicyclecoop.com](mailto:digital@bridgecitybicyclecoop.com) and we'd be happy to talk.
+Workstand is currently under active development and is **not ready to accept contributions**. If you are interested in volunteering for the _BCBC Digital Committee_, please email [digital@bridgecitybicyclecoop.com](mailto:digital@bridgecitybicyclecoop.com) and we'd be happy to talk.

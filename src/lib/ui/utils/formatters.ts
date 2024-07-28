@@ -5,7 +5,7 @@ export const getDisplayName = (member?: Member): string => {
 	return member?.preferredName ? `${member.name} [${member.preferredName}]` : `${member?.name}`;
 };
 
-export const getLocaleDisplayDate = (date: Date): string => {
+export const getLocaleDisplayDate = (date: Date | undefined): string => {
 	return date ? date.toLocaleString() : '';
 };
 

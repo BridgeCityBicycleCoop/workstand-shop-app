@@ -5,7 +5,7 @@ import type { Prettify } from '$lib/utils';
 export const bikeSchema = z.object({
 	id: z.string(),
 	serialNumber: z.string(),
-	donationDate: z.date().optional(),
+	donationDate: z.date(),
 	colour: z.string().optional(),
 	make: z.string().optional(),
 	donatedBy: z.string().optional(),
