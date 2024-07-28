@@ -8,7 +8,12 @@ import {
 	type BikeCreate,
 	type BikeUpdate
 } from '$lib/models';
-import { constructNow, startOfToday, parseISO } from 'date-fns';
+import { parseISO } from 'date-fns';
+import {
+	getStartDate,
+	getEndDate,
+	getTzConvertedStartEndDates
+} from '$lib/server/utils/getTzConvertedStartEndDates';
 import type { TypedPocketBase, BikesResponse } from './types';
 
 const pb = new PocketBase(env.POCKETBASE_URL) as TypedPocketBase;
@@ -53,9 +58,13 @@ export const findByDate = async (
 	if (!options.startDate && !options.endDate) {
 		filter = pb.filter('');
 	} else {
-		const startDateTime = options.startDate ? new Date(options.startDate) : startOfToday();
-		const endDateTime = options.endDate ? new Date(options.endDate) : constructNow(new Date());
-		filter = pb.filter('{:endDateTime} >= donationDate && {:startDateTime} <= donationDate', {
+		const { startDateTime, endDateTime } = getTzConvertedStartEndDates(
+			getStartDate(options.startDate),
+			getEndDate(options.endDate),
+			'UTC'
+		);
+
+		filter = pb.filter('{:startDateTime} <= donationDate && {:endDateTime} >= donationDate', {
 			startDateTime,
 			endDateTime
 		});

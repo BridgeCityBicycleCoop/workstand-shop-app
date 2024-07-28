@@ -1,6 +1,11 @@
 import PocketBase, { ClientResponseError } from 'pocketbase';
 import { z } from 'zod';
-import { constructNow, startOfToday, startOfDay, endOfDay, toDate } from 'date-fns';
+import { toDate } from 'date-fns';
+import {
+	getStartDate,
+	getEndDate,
+	getTzConvertedStartEndDates
+} from '$lib/server/utils/getTzConvertedStartEndDates';
 import { env } from '$env/dynamic/private';
 import {
 	visitSchema,
@@ -83,11 +88,13 @@ export const findByDate = async (
 	if (!options.startDate && !options.endDate) {
 		filter = pb.filter('');
 	} else {
-		const startDateTime = options.startDate ? startOfDay(options.startDate) : startOfToday();
-		const endDateTime = options.endDate
-			? endOfDay(options.endDate)
-			: endOfDay(constructNow(new Date()));
-		filter = pb.filter('{:endDateTime} >= date && {:startDateTime} <= date', {
+		const { startDateTime, endDateTime } = getTzConvertedStartEndDates(
+			getStartDate(options.startDate),
+			getEndDate(options.endDate),
+			'UTC'
+		);
+
+		filter = pb.filter('{:startDateTime} <= date && {:endDateTime} >= date', {
 			startDateTime,
 			endDateTime
 		});
