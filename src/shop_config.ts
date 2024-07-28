@@ -30,6 +30,9 @@ export const theme: Record<string, string> = {
 	'color-primary': `64, 117, 166 ` /* #4075a6 */,
 	'color-secondary': `64, 117, 166` /* #40A6A4 */,
 	'color-neutral': `250, 250, 250`,
+	'color-success': 'rgb(15 186 129)',
+	'color-warning': 'rgb(167 127 6)',
+	'color-error': 'rgb(220 20 60)',
 	/* accent */
 	'color-accent': `#a348e9`,
 	'color-accent-subtle': `#e9ecef`,

@@ -79,26 +79,18 @@
 		{#if showList}
 			{#each filteredMemeberList as member}
 				<div class="button-group">
-					{#if member.status === 'suspended' || member.status === 'banned' || member.notes}
-						<button
-							class="primary status"
-							class:unavailable={signedInMembers.has(member.id)}
-							popovertarget={`membernotes-${member.id}`}
-						>
-							{#if member.status === 'suspended'}
-								<Exclamation />
-							{:else if member.status === 'banned'}
-								<AlertOctagon />
-							{:else if member.notes}
-								<QuestionMark />
-							{/if}
-						</button>
-					{/if}
 					<button
 						class="primary activity"
 						on:click={(event) => handleMemberSelect(event, member)}
 						disabled={signedInMembers.has(member.id)}
 					>
+						{#if member.status === 'suspended'}
+							<i class="icon warning"><Exclamation /></i>
+						{:else if member.status === 'banned'}
+							<i class="icon error"><AlertOctagon /></i>
+						{:else if member.notes}
+							<i class="icon"><QuestionMark /></i>
+						{/if}
 						{getDisplayName(member)}
 					</button>
 
@@ -110,29 +102,6 @@
 						<ClipboardEditOutline />
 						<span class="visually-hidden">Edit Member</span>
 					</button>
-				</div>
-
-				<div id={`membernotes-${member.id}`} popover="auto" role="dialog">
-					<div class="notes">
-						<div class="notes-title">{getDisplayName(member)}</div>
-						{#if member.status === 'suspended'}
-							<span class="note-icon">
-								<Exclamation />
-							</span>
-							<span>This member is currently suspended</span>
-						{:else if member.status === 'banned'}
-							<span class="note-icon">
-								<AlertOctagon />
-							</span>
-							<span>This member is currently banned</span>
-						{/if}
-						{#if member.notes}
-							<span class="note-icon">
-								<QuestionMark />
-							</span>
-							<div>{@html member.notes}</div>
-						{/if}
-					</div>
 				</div>
 			{/each}
 		{/if}
@@ -187,7 +156,27 @@
 			searchElement.value = '';
 			searchElement.dispatchEvent(new Event('input', { bubbles: true }));
 		}}
-	/>
+	>
+		<div class="member-notes">
+			{#if activeMember?.status === 'suspended'}
+				<div class="note warning">
+					<Exclamation />
+					<span>This member is currently suspended</span>
+				</div>
+			{:else if activeMember?.status === 'banned'}
+				<div class="note error">
+					<AlertOctagon />
+					<span>This member is currently banned</span>
+				</div>
+			{/if}
+			{#if activeMember?.notes}
+				<div class="note">
+					<QuestionMark />
+					<div>{@html activeMember.notes}</div>
+				</div>
+			{/if}
+		</div>
+	</ActivitySelect>
 	<div slot="buttons">
 		<button class="primary" on:click={handleClose}>Cancel</button>
 	</div>
@@ -237,55 +226,49 @@
 		border-collapse: collapse;
 	}
 
-	.button-group .status,
+	.button-group .icon {
+		color: hsl(from rgb(var(--text-color-light)) h s l / 0.5);
+	}
+
+	.button-group .icon.warning {
+		color: hsl(from var(--color-warning) h calc(s + 10) calc(l + 10) / 1);
+	}
+
+	.button-group .icon.error {
+		color: hsl(from var(--color-error) h calc(s + 10) calc(l + 10) / 1);
+	}
+
 	.button-group .edit {
 		flex: 0 1 content;
 	}
-	.button-group:not(:has(.status)) .activity::before {
-		content: '';
-		width: 3.2rem;
-	}
 
-	[popover] {
-		position: absolute;
-		top: 4rem;
-		bottom: auto;
-		margin: auto;
-		min-width: 400px;
-		width: 24rem;
-		max-width: 100%;
-		opacity: 0;
-		padding: 0;
-		transition:
-			opacity 0.3s,
-			display 0.3s allow-discrete;
-		border-radius: var(--border-radius, 6px);
-	}
+	.member-notes {
+		display: flex;
+		flex-direction: column;
+		margin-bottom: 1rem;
 
-	[popover]:popover-open {
-		opacity: 1;
-	}
+		& > .note {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 0.5rem;
+			padding: 1rem;
+			background-color: hsl(from var(--color-bg-light) h s calc(l - 10));
 
-	.notes {
-		display: grid;
-		grid-template-columns: min-content 1fr;
-		align-items: center;
-		gap: 1em 0.5em;
-		font-size: 1.2rem;
-		padding: 1rem;
-		background: var(--color-bg-dark);
-		color: var(--color-text-light);
-	}
+			& > *:first-child {
+				min-width: 1.2rem;
+			}
 
-	.notes-title {
-		grid-column: span 2;
-		text-align: center;
-		justify-self: center;
-		font-size: 0.6em;
-		font-weight: bold;
-	}
+			&.error {
+				background-color: var(--color-error, rgb(220 20 60));
+				color: var(--text-color-light, white);
+			}
 
-	.note-icon {
-		justify-self: end;
+			&.warning {
+				background-color: var(--color-warning, rgb(167 127 6));
+				color: var(--text-color-light, white);
+				padding: 1rem;
+			}
+		}
 	}
 </style>
