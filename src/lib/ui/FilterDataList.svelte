@@ -1,6 +1,5 @@
 <script lang="ts">
 	import type { IsoDateString } from '$lib/server/db/pocketbase/types';
-	import { getLocaleDisplayDate, getDisplayName } from '$lib/ui';
 	import { convertAndDownloadCsv } from '$lib/utils';
 
 	export let name: string;
@@ -8,9 +7,6 @@
 	export let list: string[][];
 	export let startDate: IsoDateString;
 	export let endDate: IsoDateString;
-
-	// console.log('headers', headers);
-	// console.log('list', list);
 
 	const downloadCSV = (_event: MouseEvent) => {
 		list.unshift(headers);
