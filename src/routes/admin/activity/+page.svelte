@@ -1,112 +1,14 @@
 <script lang="ts">
-	import { getDisplayName, getLocaleDisplayDate } from '$lib/ui';
-	import { convertAndDownloadCsv } from '$lib/utils';
-	import type { Visit } from '$lib/models';
+	import { FilterDataList, getLocaleDisplayDate, getDisplayName } from '$lib/ui';
 
 	export let data;
-
-	const formatCsvData = (_event: MouseEvent) => {
-		const rows = data.visits.map((visit: Visit) => {
-			return [
-				getLocaleDisplayDate(visit.date),
-				`${visit.member.name} [${visit.member.preferredName}]`,
-				visit.purpose.name
-			];
-		});
-
-		convertAndDownloadCsv(rows, 'Visits');
-	};
-
+	const name = 'Visits';
+	const headers = ['Name', 'Purpose', 'Signed-in'];
+	$: list = data.visits.map((visit) => {
+		return [getDisplayName(visit.member), visit.purpose.name, getLocaleDisplayDate(visit.date)];
+	});
 	let startDate = data.startDate;
 	let endDate = data.endDate;
 </script>
 
-<section class="activity-list">
-	<form class="filter-visits">
-		<ul class="wrapper">
-			<li class="form-row">
-				<span>
-					<label for="startDate">Start (optional)</label>
-					<input type="date" name="startDate" max={endDate} bind:value={startDate} />
-				</span>
-				<span>
-					<label for="endDate">End (optional)</label>
-					<input type="date" name="endDate" min={startDate} bind:value={endDate} />
-				</span>
-				<span>
-					<button class="primary" type="submit">Filter Visits</button>
-					<button class="btn btn-secondary" type="reset">Clear Filter</button>
-				</span>
-			</li>
-		</ul>
-	</form>
-
-	<button class="btn btn-primary download-csv" on:click={formatCsvData}
-		>Download Visits as CSV</button
-	>
-
-	<div class="tableWrap search-result">
-		{#if data.visits.length > 0}
-			<table>
-				<thead>
-					<tr>
-						<th class="sticky-header">Name</th>
-						<th class="sticky-header">Purpose</th>
-						<th class="sticky-header">Signed-in At</th>
-					</tr>
-				</thead>
-				<tbody>
-					{#each data.visits as visit}
-						<tr>
-							<td>{getDisplayName(visit.member)}</td>
-							<td>{visit.purpose.name}</td>
-							<td>{getLocaleDisplayDate(visit.date)}</td>
-						</tr>
-					{/each}
-				</tbody>
-			</table>
-		{:else}
-			<p>No Visits Logged</p>
-		{/if}
-	</div>
-</section>
-
-<style>
-	.wrapper {
-		list-style-type: none;
-		padding: 0;
-		border-radius: 3px;
-	}
-	.form-row {
-		display: flex;
-		justify-content: flex-start;
-		flex-wrap: wrap;
-		padding: 0.5em;
-	}
-	.form-row > span {
-		padding: 0.5em 1em 0.5em 0;
-	}
-
-	.activity-list {
-		margin-top: 1rem;
-		display: grid;
-		grid-template-areas:
-			'filter-visits'
-			'download-csv'
-			'search-result';
-		row-gap: 2rem;
-	}
-
-	.filter-visits {
-		grid-area: filter-visits;
-	}
-
-	.download-csv {
-		grid-area: download-csv;
-		justify-self: start;
-	}
-
-	.search-result {
-		grid-area: search-result;
-	}
-</style>
+<FilterDataList {startDate} {endDate} {name} {headers} {list} />
