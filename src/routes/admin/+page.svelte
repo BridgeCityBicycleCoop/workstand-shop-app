@@ -9,7 +9,7 @@
 	type MemberPropKeys = keyof typeof memberProps;
 	const memberKeys = (Object.keys(memberProps) as MemberPropKeys[]).filter((key) => key !== 'id');
 	const headers = memberKeys.map(camelCaseToWords);
-	const list = data.members.map((member) => {
+	$: list = data.members.map((member) => {
 		return memberKeys.map((key) => {
 			const value = member[key];
 
@@ -23,8 +23,8 @@
 		});
 	});
 
-	const startDate = data.startDate;
-	const endDate = data.endDate;
+	let startDate = data.startDate;
+	let endDate = data.endDate;
 </script>
 
 <FilterDataList {startDate} {endDate} {name} {headers} {list} />

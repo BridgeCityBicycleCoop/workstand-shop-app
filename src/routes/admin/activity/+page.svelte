@@ -4,11 +4,11 @@
 	export let data;
 	const name = 'Visits';
 	const headers = ['Name', 'Purpose', 'Signed-in'];
-	const list = data.visits.map((visit) => {
+	$: list = data.visits.map((visit) => {
 		return [getDisplayName(visit.member), visit.purpose.name, getLocaleDisplayDate(visit.date)];
 	});
-	const startDate = data.startDate;
-	const endDate = data.endDate;
+	let startDate = data.startDate;
+	let endDate = data.endDate;
 </script>
 
 <FilterDataList {startDate} {endDate} {name} {headers} {list} />

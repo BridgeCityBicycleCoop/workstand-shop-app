@@ -9,7 +9,7 @@
 	type BikePropKeys = keyof typeof bikeProps;
 	const bikeKeys = (Object.keys(bikeProps) as BikePropKeys[]).filter((key) => key !== 'id');
 	const headers = bikeKeys.map(camelCaseToWords);
-	const list = data.bikes.map((bike) => {
+	$: list = data.bikes.map((bike) => {
 		return bikeKeys.map((key) => {
 			const value = bike[key];
 
@@ -23,8 +23,8 @@
 		});
 	});
 
-	const startDate = data.startDate;
-	const endDate = data.endDate;
+	let startDate = data.startDate;
+	let endDate = data.endDate;
 </script>
 
 <FilterDataList {startDate} {endDate} {name} {headers} {list} />
