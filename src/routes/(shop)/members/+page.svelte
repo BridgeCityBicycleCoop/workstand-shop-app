@@ -4,6 +4,7 @@
 	import { superForm } from 'sveltekit-superforms';
 	import { LiabilityWaiver, MemberEditFields, addToast } from '$lib/ui';
 	import type { Writable } from 'svelte/store';
+	import MemberRightsAndGuidelines from '$lib/ui/MemberRightsAndGuidelines.svelte';
 
 	export let data;
 
@@ -43,6 +44,12 @@
 	</form>
 
 	<LiabilityWaiver
+		name={$form.name}
+		requiresGuardian={$form.requiresGuardian}
+		guardianName={$form.guardianName}
+	/>
+
+	<MemberRightsAndGuidelines
 		name={$form.name}
 		requiresGuardian={$form.requiresGuardian}
 		guardianName={$form.guardianName}
