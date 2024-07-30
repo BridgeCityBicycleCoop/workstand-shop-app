@@ -3,6 +3,7 @@ import { members as membersService } from '$lib/server/db';
 import { toValidDateFilters } from '$lib/server/utils/dates';
 import { hasEmptyDates, clearEmptyDatesFromURL } from '$lib/utils';
 
+
 export const load = async ({ locals, url }) => {
 	if (!locals.user?.role?.includes('admin')) {
 		error(403, 'Not an admin');

@@ -5,6 +5,7 @@ import { zod } from 'sveltekit-superforms/adapters';
 import { toValidDateFilters } from '$lib/server/utils/dates';
 import { hasEmptyDates, clearEmptyDatesFromURL } from '$lib/utils';
 
+
 import { visits as visitsService, purposes as purposesService } from '$lib/server/db';
 
 export const load = async ({ locals, url }) => {
