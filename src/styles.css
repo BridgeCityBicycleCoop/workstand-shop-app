@@ -47,8 +47,10 @@ a {
 	text-decoration: none;
 }
 
-a:hover {
-	text-decoration: underline;
+@media (hover: hover) {
+	a:hover {
+		text-decoration: underline;
+	}
 }
 
 h1 {
@@ -205,8 +207,10 @@ button.primary {
 	color: var(--color-accent-subtle);
 	outline-color: var(--color-accent-subtle);
 
-	&:hover {
-		background-color: rgb(var(--color-primary));
+	@media (hover: hover) {
+		&:hover {
+			background-color: rgb(var(--color-primary));
+		}
 	}
 
 	&:active {
@@ -220,8 +224,10 @@ button.secondary {
 	color: var(--color-accent-subtle);
 	outline-color: var(--color-accent-subtle);
 
-	&:hover {
-		background-color: rgb(var(--color-secondary));
+	@media (hover: hover) {
+		&:hover {
+			background-color: rgb(var(--color-secondary));
+		}
 	}
 
 	&:active {
@@ -234,12 +240,14 @@ button.neutral {
 	background-color: rgb(var(--color-neutral));
 	color: var(--color-text);
 
-	&:hover {
-		background-color: hsl(from rgb(var(--color-neutral)) h s calc(l + 10) / 1);
+	@media (hover: hover) {
+		&:hover {
+			background-color: hsl(from rgb(var(--color-neutral)) h s 100% / 1);
+		}
 	}
 
 	&:active {
-		background-color: hsl(from rgb(var(--color-neutral)) h s calc(l + 20) / 1);
+		background-color: hsl(from rgb(var(--color-neutral)) h s 100% / 1);
 	}
 }
 
@@ -250,9 +258,10 @@ button.unavailable {
 	border-color: light-dark(rgba(118, 118, 118, 0.3), rgba(195, 195, 195, 0.3));
 	outline-color: var(--color-accent);
 	text-shadow: 0 1px 0 hsl(from var(--color-bg-light) h s l / 0.3);
-
-	&:hover {
-		background-color: light-dark(rgba(239, 239, 239, 0.3), rgba(19, 1, 1, 0.3));
+	@media (hover: hover) {
+		&:hover {
+			background-color: light-dark(rgba(239, 239, 239, 0.3), rgba(19, 1, 1, 0.3));
+		}
 	}
 }
 
@@ -260,8 +269,10 @@ button[disabled] {
 	cursor: default;
 }
 
-button.unavailable:hover {
-	background-color: rgba(249, 249, 249, 0.5);
+@media (hover: hover) {
+	button.unavailable:hover {
+		background-color: rgba(249, 249, 249, 0.5);
+	}
 }
 
 .btn-link,

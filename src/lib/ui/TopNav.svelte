@@ -86,7 +86,7 @@
 		color: rgb(var(--color-primary));
 	}
 
-	@media (hover) {
+	@media (hover: hover) {
 		a:hover {
 			color: rgb(var(--color-primary));
 		}

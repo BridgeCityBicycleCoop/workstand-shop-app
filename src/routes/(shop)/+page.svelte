@@ -231,11 +231,11 @@
 	}
 
 	.button-group .icon.warning {
-		color: hsl(from var(--color-warning) h calc(s + 10) calc(l + 10) / 1);
+		color: hsl(from var(--color-warning) h 110% 60% / 1);
 	}
 
 	.button-group .icon.error {
-		color: hsl(from var(--color-error) h calc(s + 10) calc(l + 10) / 1);
+		color: hsl(from var(--color-error) h 110% 60% / 1);
 	}
 
 	.button-group .edit {
@@ -253,7 +253,7 @@
 			justify-content: center;
 			gap: 0.5rem;
 			padding: 1rem;
-			background-color: hsl(from var(--color-bg-light) h s calc(l - 10));
+			background-color: hsl(from var(--color-bg-light) h s 70%);
 
 			& > *:first-child {
 				min-width: 1.2rem;
