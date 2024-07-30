@@ -8,11 +8,7 @@ import {
 	type MemberUpdate,
 	type Member
 } from '$lib/models';
-import {
-	getStartDate,
-	getEndDate,
-	getTzConvertedStartEndDates
-} from '$lib/server/utils/getTzConvertedStartEndDates';
+import { createDateFilter } from './utils';
 import type { TypedPocketBase, MembersResponse } from './types';
 
 const pb = new PocketBase(env.POCKETBASE_URL) as TypedPocketBase;
@@ -36,26 +32,11 @@ export const find = async (_filters: Record<string, unknown> = {}): Promise<Memb
 // startDate only, should end with the latest member
 // endDate only, should start from the very first member
 // foo: 2024-07-23 00:31:37 (UTC) -- should show on 7-22 filter for eastern time zone GMT-4
-
-export const findByDate = async (
-	options: { startDate?: string; endDate?: string } = {}
-): Promise<Member[]> => {
-	let filter;
-
-	if (!options.startDate && !options.endDate) {
-		filter = pb.filter('');
-	} else {
-		const { startDateTime, endDateTime } = getTzConvertedStartEndDates(
-			getStartDate(options.startDate),
-			getEndDate(options.endDate),
-			'UTC'
-		);
-
-		filter = pb.filter('{:startDateTime} <= waiver && {:endDateTime} >= waiver', {
-			startDateTime,
-			endDateTime
-		});
-	}
+export const findByDate = async ({
+	startDate,
+	endDate
+}: { startDate?: Date; endDate?: Date } = {}): Promise<Member[]> => {
+	const filter = createDateFilter('waiver', { startDate, endDate });
 
 	const listResult = await pb
 		.collection('members')

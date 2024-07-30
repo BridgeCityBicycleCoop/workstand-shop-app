@@ -12,8 +12,8 @@ import { startOfDay, endOfDay } from 'date-fns';
 
 export async function load() {
 	const members = await membersService.find();
-	const startDate = startOfDay(Date.now()).toISOString();
-	const endDate = endOfDay(Date.now()).toISOString();
+	const startDate = startOfDay(Date.now());
+	const endDate = endOfDay(Date.now());
 
 	const visits = await visitsService.findByDate({
 		startDate,

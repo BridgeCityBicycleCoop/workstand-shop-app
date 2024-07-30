@@ -1,11 +1,6 @@
 import PocketBase, { ClientResponseError } from 'pocketbase';
 import { z } from 'zod';
 import { toDate } from 'date-fns';
-import {
-	getStartDate,
-	getEndDate,
-	getTzConvertedStartEndDates
-} from '$lib/server/utils/getTzConvertedStartEndDates';
 import { env } from '$env/dynamic/private';
 import {
 	visitSchema,
@@ -15,6 +10,7 @@ import {
 	type VisitCreate,
 	type VisitUpdate
 } from '$lib/models';
+import { createDateFilter } from './utils';
 import type { MembersResponse, PurposesResponse, VisitsResponse, TypedPocketBase } from './types';
 
 const pb = new PocketBase(env.POCKETBASE_URL) as TypedPocketBase;
@@ -80,25 +76,11 @@ export const remove = async (id: string): Promise<boolean> =>
 // no startDate or endDate, all visits,
 // startDate only, should end with the latest visit
 // endDate only, should start from the very first visit
-export const findByDate = async (
-	options: { startDate?: string; endDate?: string } = {}
-): Promise<Visit[]> => {
-	let filter;
-
-	if (!options.startDate && !options.endDate) {
-		filter = pb.filter('');
-	} else {
-		const { startDateTime, endDateTime } = getTzConvertedStartEndDates(
-			getStartDate(options.startDate),
-			getEndDate(options.endDate),
-			'UTC'
-		);
-
-		filter = pb.filter('{:startDateTime} <= date && {:endDateTime} >= date', {
-			startDateTime,
-			endDateTime
-		});
-	}
+export const findByDate = async ({
+	startDate,
+	endDate
+}: { startDate?: Date; endDate?: Date } = {}): Promise<Visit[]> => {
+	const filter = createDateFilter('date', { startDate, endDate });
 
 	const listResult = await pb
 		.collection('visits')
