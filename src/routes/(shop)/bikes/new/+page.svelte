@@ -1,8 +1,10 @@
 <script lang="ts">
+	import { getContext } from 'svelte';
 	import { goto } from '$app/navigation';
-	import { getLocaleDisplayDate } from '$lib/ui';
-	import type { FormEventHandler } from 'svelte/elements';
+	import { superForm } from 'sveltekit-superforms';
+	import { BikeCreateFields, Message, getLocaleDisplayDate } from '$lib/ui';
 	import type { Bike } from '$lib/models';
+	import type { Writable } from 'svelte/store';
 
 	export let data;
 	const BIKE_THEFT_URL = 'https://www.cpic-cipc.ca/sbi-rve-eng.htm';
@@ -28,43 +30,31 @@
 		);
 	}
 
-	let searchElement: HTMLInputElement;
-	let filteredBikeList: Bike[] = data.bikes;
-	const handleSearchInput: FormEventHandler<HTMLInputElement> = (event) => {
-		const filterText = event.currentTarget?.value.toLocaleLowerCase().trim();
+	const { form, errors, enhance, message, delayed, submitting } = superForm(data.form);
 
-		if (!filterText) {
-			filteredBikeList = data.bikes;
-			return;
-		}
-
-		filteredBikeList = data.bikes.filter((bike) => {
-			const color = bike.colour?.toLocaleLowerCase();
-			const make = bike.make?.toLocaleLowerCase();
-
-			return (
-				color?.match(filterText) || make?.match(filterText) || bike.serialNumber.match(filterText)
-			);
-		});
-	};
+	const loading = getContext<Writable<boolean>>('loading-store');
+	$: $loading = $delayed;
 </script>
 
-<section class="bike-list">
-	<div class="bike-search">
-		<label for="filter">Search:</label>
-		<button class="primary" on:click={() => goto('/bikes/new')}>Register New Bike</button>
-		<input
-			on:input={handleSearchInput}
-			name="filter"
-			type="search"
-			bind:this={searchElement}
-			autocomplete="off"
-		/>
-	</div>
+<h1>Register New Bike</h1>
+<Message message={$message} />
 
+<form id="register-bike" method="POST" use:enhance>
+	<BikeCreateFields bikeForm={form} {errors} />
+	<div class="register-bike-buttons">
+		<button class="neutral" type="button" form="register-bike" on:click={() => goto('/bikes')}
+			>Back</button
+		>
+		<button class="primary" type="submit" data-loading={$submitting} form="register-bike">
+			Register New Bike
+		</button>
+	</div>
+</form>
+
+<section class="bike-list">
 	<h3>Bike List</h3>
 	<div class="table-wrap">
-		{#if filteredBikeList.length > 0}
+		{#if data.bikes.length > 0}
 			<table>
 				<thead>
 					<tr>
@@ -83,7 +73,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					{#each filteredBikeList as bike}
+					{#each data.bikes as bike}
 						<tr>
 							<td>
 								<button class="link" on:click={(event) => handleBikeUpdate(event, bike)}>
@@ -116,28 +106,21 @@
 </section>
 
 <style>
+	form {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+		width: fit-content;
+		margin: auto;
+	}
+	.register-bike-buttons {
+		display: flex;
+		justify-content: space-between;
+	}
+
 	.bike-list {
 		max-width: 100%;
-		padding-top: 3rem;
-	}
-	.bike-search {
-		display: grid;
-		grid-template-columns: 1fr max-content;
-		grid-template-areas:
-			'label register'
-			'search search';
-	}
-	.bike-search button {
-		grid-area: register;
-	}
-	.bike-search label {
-		grid-area: label;
-		display: block;
-		margin: 30px 0px;
-	}
-	.bike-search input {
-		grid-area: search;
-		width: 100%;
+		margin-top: 5rem;
 	}
 
 	.table-wrap {

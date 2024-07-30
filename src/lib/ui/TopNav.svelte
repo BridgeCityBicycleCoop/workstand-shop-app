@@ -2,6 +2,8 @@
 	import { page } from '$app/stores';
 
 	export let navItems: { name: string; href: string }[];
+	const matchesPath = (path: string, href: string) =>
+		path === href || (href.length > 1 && path.startsWith(href));
 </script>
 
 <nav>
@@ -11,7 +13,9 @@
 	<ul>
 		{#each navItems as { name, href }}
 			<li>
-				<a aria-current={$page.url.pathname === href ? 'page' : undefined} {href}>{name}</a>
+				<a aria-current={matchesPath($page.url.pathname, href) ? 'page' : undefined} {href}
+					>{name}</a
+				>
 			</li>
 		{/each}
 	</ul>
@@ -86,7 +90,7 @@
 		color: rgb(var(--color-primary));
 	}
 
-	@media (hover) {
+	@media (hover: hover) {
 		a:hover {
 			color: rgb(var(--color-primary));
 		}
