@@ -51,13 +51,10 @@
 		objective will not be tolerated.
 	</li>
 	<li>Ask for help: With tools, processes, and even emotions</li>
-	<p>___ Initials</p>
 
 	<h3>Respect the Community</h3>
 	<li>Build positive relationships with Community Members</li>
 	<li>Build positive relationships with CNYC employees, volunteers, and patrons</li>
-
-	<p>___ Initials</p>
 
 	<h3>Respect the Space</h3>
 	<li>Replace tools when not using them so that others can play too.</li>
@@ -81,17 +78,13 @@
 		need help or guidance, ask someone! It’s what we’re here for!
 	</li>
 
-	<p>___ Initials</p>
-
 	<h4>Giving Back:</h4>
-	<li>
+	<p>
 		Our services are free and Members are encouraged to contribute in any way they can. Our vibrancy
 		comes from the volunteer work of a large community with diverse skills and passions. There are
 		so many ways to be a part of this community, regardless of whether or not you know how to change
 		a tire (yet!). Ask how you can help out!
-	</li>
-
-	<p>___ Initials</p>
+	</p>
 </div>
 <div class="guidelines-signature">
 	<p>
