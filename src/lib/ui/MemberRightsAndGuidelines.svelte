@@ -4,6 +4,8 @@
 	export let name: string = '';
 	export let requiresGuardian: boolean = false;
 	export let guardianName: string | null = '';
+	let isCollapsed = true;
+	$: collapseButtonText = isCollapsed ? 'Show Guidelines +' : 'Hide Guidelines -';
 
 	let waiverDate = format(Date.now(), 'LLLL dd, yyyy');
 
@@ -14,8 +16,10 @@
 		if (content) {
 			if (content.style.maxHeight) {
 				content.style.maxHeight = '';
+				isCollapsed = true;
 			} else {
 				content.style.maxHeight = content.scrollHeight + 'px';
+				isCollapsed = false;
 			}
 		}
 	};
@@ -27,7 +31,7 @@
 	towards education, empowerment and community-building. In order to do so we need your input and
 	support.
 </small>
-<button class="collapsible" on:click={toggleCollapsibleContent}>Show Guidelines</button>
+<button class="collapsible" on:click={toggleCollapsibleContent}>{collapseButtonText}</button>
 <div class="collapsible-content">
 	<h3>Member Privileges</h3>
 	<li>Access to the BCBC tools, stands and workspace</li>
@@ -125,18 +129,6 @@
 	.active,
 	.collapsible:hover {
 		background-color: #555;
-	}
-
-	.collapsible:after {
-		content: '\002B';
-		color: white;
-		font-weight: bold;
-		float: right;
-		margin-left: 5px;
-	}
-
-	.active:after {
-		content: '\2212';
 	}
 
 	.collapsible-content {

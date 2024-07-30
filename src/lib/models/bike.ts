@@ -31,6 +31,7 @@ export const bikeCreateSchema = bikeSchema.omit({
 	outOfShopDate: true,
 	pricePaid: true,
 	bikeDestiny: true,
+	cpicDate: true,
 	bcbcProgram: true
 });
 export const bikeUpdateSchema = makeOptionalPropsNullable(

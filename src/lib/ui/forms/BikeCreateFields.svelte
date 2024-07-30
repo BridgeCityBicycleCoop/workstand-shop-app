@@ -23,7 +23,6 @@
 	<Field name="suggestedDonation" step="0.01" type="number" bind:value={$bikeForm.suggestedDonation}
 		>Suggested Donation</Field
 	>
-	<Field name="cpicDate" type="date" bind:value={$bikeForm.cpicDate}>CPIC Date</Field>
 	<Field name="notes" type="textarea" rows="4" bind:value={$bikeForm.notes}>Notes</Field>
 	{#if $bikeForm.id}
 		<input type="hidden" name="id" bind:value={$bikeForm.id} />
