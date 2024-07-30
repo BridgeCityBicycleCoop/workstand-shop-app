@@ -5,7 +5,7 @@
 	export let requiresGuardian: boolean = false;
 	export let guardianName: string | null = '';
 	let isCollapsed = true;
-	$: collapseButtonText = isCollapsed ? 'Show Guidelines' : 'Hide Guidelines';
+	$: collapseButtonText = isCollapsed ? 'Show Guidelines +' : 'Hide Guidelines -';
 
 	let waiverDate = format(Date.now(), 'LLLL dd, yyyy');
 
@@ -129,18 +129,6 @@
 	.active,
 	.collapsible:hover {
 		background-color: #555;
-	}
-
-	.collapsible:after {
-		content: '\002B';
-		color: white;
-		font-weight: bold;
-		float: right;
-		margin-left: 5px;
-	}
-
-	.active:after {
-		content: '\2212';
 	}
 
 	.collapsible-content {
