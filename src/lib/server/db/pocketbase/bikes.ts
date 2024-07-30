@@ -9,11 +9,7 @@ import {
 	type BikeUpdate
 } from '$lib/models';
 import { parseISO } from 'date-fns';
-import {
-	getStartDate,
-	getEndDate,
-	getTzConvertedStartEndDates
-} from '$lib/server/utils/getTzConvertedStartEndDates';
+import { createDateFilter } from './utils';
 import type { TypedPocketBase, BikesResponse } from './types';
 
 const pb = new PocketBase(env.POCKETBASE_URL) as TypedPocketBase;
@@ -50,25 +46,11 @@ export const find = async (_filters: Record<string, unknown> = {}): Promise<Bike
 // no startDate or endDate, all bikes,
 // startDate only, should end with the latest bike
 // endDate only, should start from the very first bike
-export const findByDate = async (
-	options: { startDate?: string; endDate?: string } = {}
-): Promise<Bike[]> => {
-	let filter;
-
-	if (!options.startDate && !options.endDate) {
-		filter = pb.filter('');
-	} else {
-		const { startDateTime, endDateTime } = getTzConvertedStartEndDates(
-			getStartDate(options.startDate),
-			getEndDate(options.endDate),
-			'UTC'
-		);
-
-		filter = pb.filter('{:startDateTime} <= donationDate && {:endDateTime} >= donationDate', {
-			startDateTime,
-			endDateTime
-		});
-	}
+export const findByDate = async ({
+	startDate,
+	endDate
+}: { startDate?: Date; endDate?: Date } = {}): Promise<Bike[]> => {
+	const filter = createDateFilter('donationDate', { startDate, endDate });
 
 	const listResult = await pb
 		.collection('bikes')

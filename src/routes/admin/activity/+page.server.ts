@@ -1,7 +1,8 @@
+import { error } from '@sveltejs/kit';
 import z from 'zod';
 import { message, superValidate, fail } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
-import { error } from '@sveltejs/kit';
+import { toValidDateFilters } from '$lib/server/utils/dates';
 
 import { visits as visitsService, purposes as purposesService } from '$lib/server/db';
 
@@ -10,16 +11,13 @@ export const load = async ({ locals, url }) => {
 		error(403, 'Not an admin');
 	}
 
-	// grab start and end date from params
-	const startDate = url.searchParams.get('startDate') || '';
-	const endDate = url.searchParams.get('endDate') || '';
-	// create the options obj
-	const filterOptions = { startDate, endDate };
+	const startDate = url.searchParams.get('startDate') ?? '';
+	const endDate = url.searchParams.get('endDate') ?? '';
+	const visits = await visitsService.findByDate(toValidDateFilters({ startDate, endDate }));
 
 	// const filterVisitsForm = await superValidate(zod(filterVisitFormSchema));
 	const logVisitForm = await superValidate(zod(logVisitFormSchema));
 	const purposes = await purposesService.find();
-	const visits = await visitsService.findByDate(filterOptions);
 
 	return { startDate, endDate, logVisitForm, purposes, visits };
 };
@@ -38,7 +36,7 @@ export const actions = {
 					memberId
 				});
 			} else {
-				await visitsService.add({ memberId, purposeId, date: new Date() });
+				await visitsService.add({ memberId, purposeId });
 			}
 		} catch (error) {
 			if (error instanceof Error) {

@@ -6,14 +6,14 @@ export const visitSchema = z.object({
 	id: z.string(),
 	member: memberSchema,
 	purpose: purposeSchema,
-	date: z.date()
+	date: z.coerce.date()
 });
 
 export const visitListSchema = z.array(visitSchema);
 export const visitCreateSchema = z.object({
 	memberId: z.string(),
 	purposeId: z.string(),
-	date: z.date().default(new Date())
+	date: z.coerce.date().default(() => new Date())
 });
 export const visitUpdateSchema = visitCreateSchema.partial().extend({ id: visitSchema.shape.id });
 
