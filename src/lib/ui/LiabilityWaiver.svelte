@@ -4,6 +4,8 @@
 	export let name: string = '';
 	export let requiresGuardian: boolean = false;
 	export let guardianName: string | null = '';
+	let isCollapsed = true;
+	$: collapseButtonText = isCollapsed ? 'Show Waiver' : 'Hide Waiver';
 
 	let waiverDate = format(Date.now(), 'LLLL dd, yyyy');
 
@@ -14,8 +16,10 @@
 		if (content) {
 			if (content.style.maxHeight) {
 				content.style.maxHeight = '';
+				isCollapsed = true;
 			} else {
 				content.style.maxHeight = content.scrollHeight + 'px';
+				isCollapsed = false;
 			}
 		}
 	};
@@ -31,7 +35,7 @@
 		***Children under the age of 13 must have guardian supervision when participating in BCBC
 		activities and events.
 	</small>
-	<button class="collapsible" on:click={toggleCollapsibleContent}>Show Waiver</button>
+	<button class="collapsible" on:click={toggleCollapsibleContent}>{collapseButtonText}</button>
 	<div class="collapsible-content">
 		<p>
 			The Bridge City Bicycle Co-operative (herein referred to as The BCBC and The Community) is a
