@@ -10,6 +10,7 @@ export const memberSchema = z.object({
 	email: z.string().optional(),
 	pronouns: z.string().optional(),
 	emailConsent: z.coerce.boolean(),
+	volunteerConsent: z.coerce.boolean(),
 	phone: z.string().optional(),
 	requiresGuardian: z.coerce.boolean(),
 	guardianName: z.string().optional(),
@@ -26,7 +27,9 @@ export const memberCreateSchema = memberSchema
 	})
 	.refine((data) => data.email || data.phone, 'Either an email or phone number is required');
 export const memberUpdateSchema = makeOptionalPropsNullable(
-	memberSchema.partial().required({ id: true, emailConsent: true, requiresGuardian: true })
+	memberSchema
+		.partial()
+		.required({ id: true, emailConsent: true, volunteerConsent: true, requiresGuardian: true })
 ).omit({ waiver: true });
 
 export const memberFilterSchema = memberSchema.omit({ id: true }).partial();

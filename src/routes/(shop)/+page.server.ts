@@ -92,6 +92,7 @@ const memberUpdateFormSchema = memberUpdateSchema.pick({
 	pronouns: true,
 	email: true,
 	emailConsent: true,
+	volunteerConsent: true,
 	phone: true,
 	requiresGuardian: true,
 	guardianName: true,
