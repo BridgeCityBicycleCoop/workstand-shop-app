@@ -31,6 +31,9 @@
 	<Field name="emailConsent" type="toggle" bind:checked={$memberForm.emailConsent}>
 		Email Consent
 	</Field>
+	<Field name="volunteerConsent" type="toggle" bind:checked={$memberForm.volunteerConsent}>
+		Open to Volunteer
+	</Field>
 	<Field name="phone" errors={$errors.phone} bind:value={$memberForm.phone}>Phone</Field>
 	<Field name="requiresGuardian" type="toggle" bind:checked={$memberForm.requiresGuardian}>
 		Requires Guardian

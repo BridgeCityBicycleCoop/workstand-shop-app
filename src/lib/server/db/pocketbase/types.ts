@@ -65,6 +65,7 @@ export type MembersRecord = {
 	waiver?: IsoDateString;
 	email?: string;
 	emailConsent?: boolean;
+	volunteerConsent?: boolean;
 	guardianName?: string;
 	name?: string;
 	notes?: HTMLString;
