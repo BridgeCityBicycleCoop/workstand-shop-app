@@ -23,17 +23,21 @@ export const bikeSchema = z.object({
 });
 
 export const bikeListSchema = z.array(bikeSchema);
-export const bikeCreateSchema = bikeSchema.omit({
-	id: true,
-	recipientAge: true,
-	recipientName: true,
-	recipientPhoneNumber: true,
-	outOfShopDate: true,
-	pricePaid: true,
-	bikeDestiny: true,
-	cpicDate: true,
-	bcbcProgram: true
-});
+export const bikeCreateSchema = bikeSchema
+	.omit({
+		id: true,
+		recipientAge: true,
+		recipientName: true,
+		recipientPhoneNumber: true,
+		outOfShopDate: true,
+		pricePaid: true,
+		bikeDestiny: true,
+		cpicDate: true,
+		bcbcProgram: true
+	})
+	.extend({
+		donationDate: bikeSchema.shape.donationDate.default(() => new Date())
+	});
 export const bikeUpdateSchema = makeOptionalPropsNullable(
 	bikeSchema.partial().required({ id: true, serialNumber: true })
 );
