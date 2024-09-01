@@ -1,0 +1,15 @@
+# WorkstandApp
+services:
+  sveltekit:
+    build: .
+    ports:
+      - '5173:5173'
+    volumes:
+      - .:/app
+      - /app/node_modules
+    networks:
+      - workstand-docknet
+
+networks:
+  workstand-docknet:
+    external: true
