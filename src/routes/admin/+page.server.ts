@@ -13,15 +13,17 @@ export const load = async ({ locals, url }) => {
 
 	const startDate = url.searchParams.get('startDate') || '';
 	const endDate = url.searchParams.get('endDate') || '';
-	const page = url.searchParams.get('page') || '1';
+	const startPage = url.searchParams.get('page') || '1';
+	let page;
+	$: page = parseInt(startPage, 10);
 
-	const members = await membersService.findByDate({
+	const { membersList, totalPages } = await membersService.findByDate({
 		startDate: toValidStartDate(startDate),
 		endDate: toValidEndDate(endDate),
-		page: parseInt(page, 10)
+		page
 	});
 
-	const endPage = Math.ceil(members.length / 30);
+	const urlString = url.toString();
 
-	return { members, startDate, endDate, page, endPage, url };
+	return { membersList, totalPages, page, startDate, endDate, urlString };
 };

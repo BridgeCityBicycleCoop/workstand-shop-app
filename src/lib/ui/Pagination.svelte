@@ -1,38 +1,39 @@
 <script lang="ts">
-	export let start = 1;
-	export let end = 1;
-	export let page = '1';
-	export let url: URL;
+	export let totalPages: number;
+	export let page;
+	export let urlString: string;
 
-	const getPreviousHref = (url: URL) => {
+	const getPreviousHref = (url: string) => {
 		const newUrl = new URL(url);
+		let pageTarget = page;
 
-		const pageAsNumber = parseInt(page, 10);
-		if (pageAsNumber === start) {
-			return url;
+		if (page > 1) {
+			pageTarget--;
 		}
-		newUrl.searchParams.set('page', (pageAsNumber - 1).toString());
+
+		newUrl.searchParams.set('page', pageTarget.toString());
 
 		return newUrl;
 	};
 
-	const getNextHref = (url: URL) => {
+	const getNextHref = (url: string) => {
 		const newUrl = new URL(url);
+		let pageTarget = page;
 
-		const pageAsNumber = parseInt(page, 10);
-		if (pageAsNumber === end) {
-			return url;
+		if (page < totalPages) {
+			pageTarget++;
 		}
-		newUrl.searchParams.set('page', (pageAsNumber + 1).toString());
+
+		newUrl.searchParams.set('page', pageTarget.toString());
 
 		return newUrl;
 	};
 </script>
 
 <div class="pagination-controls">
-	<a class="btn btn-primary" href={`${getPreviousHref(url)}`}> Prev </a>
+	<a href={`${getPreviousHref(urlString)}`}><button class="btn btn-primary">Prev</button></a>
 	<div class="current-page">{page}</div>
-	<a class="btn btn-primary" href={`${getNextHref(url)}`}> Next </a>
+	<a href={`${getNextHref(urlString)}`}> <button class="btn btn-primary">Next</button></a>
 </div>
 
 <style>
