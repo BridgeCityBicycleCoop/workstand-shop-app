@@ -69,6 +69,9 @@
 </section>
 
 <style>
+	button {
+		min-height: var(--admin-button-height);
+	}
 	.wrapper {
 		list-style-type: none;
 		padding: 0;

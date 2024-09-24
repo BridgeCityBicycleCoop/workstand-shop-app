@@ -51,4 +51,8 @@
 		font-size: 2em;
 		margin: 0px 60px;
 	}
+
+	button {
+		min-height: var(--admin-button-height);
+	}
 </style>
