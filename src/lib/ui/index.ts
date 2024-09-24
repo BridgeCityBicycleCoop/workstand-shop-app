@@ -9,6 +9,7 @@ export { default as Message } from './Message.svelte';
 export { default as FilterDataList } from './FilterDataList.svelte';
 export { default as LiabilityWaiver } from './LiabilityWaiver.svelte';
 export { default as MemberRightsAndGuidelines } from './MemberRightsAndGuidelines.svelte';
+export { default as Pagination } from './Pagination.svelte';
 
 export { default as PageLayout } from './layouts/PageLayout.svelte';
 

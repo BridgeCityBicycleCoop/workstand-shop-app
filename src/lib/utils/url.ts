@@ -1,17 +1,15 @@
-export const hasEmptyDates = (url: URL) => {
-	return (
-		(url.searchParams.has('startDate') && !url.searchParams.get('startDate')) ||
-		(url.searchParams.has('endDate') && !url.searchParams.get('endDate'))
-	);
-};
+export const isEmpty = (value: unknown) => value === '' || value === null || value === undefined;
 
-export const clearEmptyDatesFromURL = (url: URL) => {
+export const hasEmptyUrlParams = (url: URL) => [...url.searchParams.values()].some(isEmpty);
+
+export const clearEmptyUrlParams = (url: URL) => {
 	const newUrl = new URL(url);
-	if (!url.searchParams.get('startDate')) {
-		newUrl.searchParams.delete('startDate');
-	}
-	if (!url.searchParams.get('endDate')) {
-		newUrl.searchParams.delete('endDate');
-	}
+
+	url.searchParams.forEach((value, key) => {
+		if (isEmpty(value)) {
+			newUrl.searchParams.delete(key);
+		}
+	});
+
 	return newUrl;
 };

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { FilterDataList, getLocaleDisplayDate, camelCaseToWords } from '$lib/ui';
+	import { FilterDataList, Pagination, getLocaleDisplayDate, camelCaseToWords } from '$lib/ui';
 	import { memberSchema } from '$lib/models';
 
 	export let data;
@@ -25,6 +25,10 @@
 
 	let startDate = data.startDate;
 	let endDate = data.endDate;
+	let page = data.page;
+	let endPage = data.endPage;
+	let url = data.url;
 </script>
 
 <FilterDataList {startDate} {endDate} {name} {headers} {list} />
+<Pagination {url} {page} end={endPage} />

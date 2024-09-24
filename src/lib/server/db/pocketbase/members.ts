@@ -34,20 +34,38 @@ export const find = async (_filters: Record<string, unknown> = {}): Promise<Memb
 // foo: 2024-07-23 00:31:37 (UTC) -- should show on 7-22 filter for eastern time zone GMT-4
 export const findByDate = async ({
 	startDate,
-	endDate
-}: { startDate?: Date; endDate?: Date } = {}): Promise<Member[]> => {
+	endDate,
+	page = 1,
+	perPage = 30,
+	sortBy = 'waiver',
+	sortDirection = 'ascending'
+}: {
+	startDate?: Date;
+	endDate?: Date;
+	page?: number;
+	perPage?: number;
+	sortBy?: string;
+	sortDirection?: string;
+} = {}): Promise<Member[]> => {
 	const filter = createDateFilter('waiver', { startDate, endDate });
+	const ascendOrDescend = sortDirection === 'descending' ? '+' : '-';
+	const sortString = ascendOrDescend + sortBy;
 
 	const listResult = await pb
 		.collection('members')
-		.getList<MembersResponse>(1, 100, {
+		.getList<MembersResponse>(1, 30, {
 			filter,
-			sort: '-waiver'
+			sort: sortString,
+			page,
+			perPage
 		})
 		.catch((e) => {
 			throw e.originalError;
 		});
 
+	// const { page, perPage, totalItems, totalPages, items } = listResult;
+
+	// console.log('pagination deets', page, perPage, totalItems, totalPages);
 	return recordsToMemberListSchema.parse(listResult.items);
 };
 
