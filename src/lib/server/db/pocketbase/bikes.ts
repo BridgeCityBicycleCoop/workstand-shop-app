@@ -46,7 +46,7 @@ export const find = async (_filters: Record<string, unknown> = {}): Promise<Bike
 
 interface FindByDateResult {
 	bikesList: Bike[];
-	totalMembers: number;
+	totalBikes: number;
 	page: number;
 	perPage: number;
 	totalPages: number;
@@ -86,7 +86,7 @@ export const findByDate = async ({
 
 	return {
 		bikesList: recordsToBikeListSchema.parse(listResult.items),
-		totalMembers: listResult.totalItems,
+		totalBikes: listResult.totalItems,
 		page: listResult.page,
 		perPage: listResult.perPage,
 		totalPages: listResult.totalPages

@@ -75,7 +75,7 @@ export const remove = async (id: string): Promise<boolean> =>
 
 interface FindByDateResult {
 	visitsList: Visit[];
-	totalMembers: number;
+	totalVisits: number;
 	page: number;
 	perPage: number;
 	totalPages: number;
@@ -115,7 +115,7 @@ export const findByDate = async ({
 
 	return {
 		visitsList: recordsToVisitListSchema.parse(listResult.items.map(expandMemberAndPurpose)),
-		totalMembers: listResult.totalItems,
+		totalVisits: listResult.totalItems,
 		page: listResult.page,
 		perPage: listResult.perPage,
 		totalPages: listResult.totalPages
