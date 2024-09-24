@@ -22,7 +22,7 @@
 	let filteredMemeberList: Member[];
 	let searchElement: HTMLInputElement;
 
-	$: signedInMembers = new Set(data.visits.map((visit) => visit.member.id));
+	$: signedInMembers = new Set(data.visits.visitsList.map((visit) => visit.member.id));
 
 	const handleInput: FormEventHandler<HTMLInputElement> = (event) => {
 		const filterText = event.currentTarget?.value.toLocaleLowerCase();
@@ -110,7 +110,7 @@
 	<section class="currently-signed-in">
 		<h3>Signed in today</h3>
 		<div class="tableWrap">
-			{#if data.visits.length > 0}
+			{#if data.visits.visitsList.length > 0}
 				<table>
 					<thead>
 						<tr>
@@ -120,7 +120,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						{#each data.visits as visit}
+						{#each data.visits.visitsList as visit}
 							<tr>
 								<td>
 									<button
