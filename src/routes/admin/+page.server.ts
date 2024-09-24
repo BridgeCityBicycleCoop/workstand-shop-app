@@ -14,6 +14,7 @@ export const load = async ({ locals, url }) => {
 	const startDate = url.searchParams.get('startDate') || '';
 	const endDate = url.searchParams.get('endDate') || '';
 	const startPage = url.searchParams.get('page') || '1';
+	const urlString = url.toString();
 	let page;
 	$: page = parseInt(startPage, 10);
 
@@ -22,8 +23,6 @@ export const load = async ({ locals, url }) => {
 		endDate: toValidEndDate(endDate),
 		page
 	});
-
-	const urlString = url.toString();
 
 	return { membersList, totalPages, page, startDate, endDate, urlString };
 };

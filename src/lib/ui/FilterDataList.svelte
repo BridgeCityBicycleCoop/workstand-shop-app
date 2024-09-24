@@ -1,12 +1,16 @@
 <script lang="ts">
 	import type { IsoDateString } from '$lib/server/db/pocketbase/types';
 	import { convertAndDownloadCsv } from '$lib/utils';
+	import { Pagination } from '$lib/ui';
 
 	export let name: string;
 	export let headers: string[];
 	export let list: string[][];
 	export let startDate: IsoDateString;
 	export let endDate: IsoDateString;
+	export let page;
+	export let totalPages;
+	export let urlString;
 
 	const downloadCSV = (_event: MouseEvent) => {
 		list.unshift(headers);
@@ -41,6 +45,7 @@
 		{#if list.length > 0}
 			<table>
 				<thead>
+					<Pagination {urlString} {page} {totalPages} />
 					<tr>
 						{#each headers as header}
 							<th class="sticky-header">{header}</th>
@@ -79,6 +84,13 @@
 		padding: 0.5em 1em 0.5em 0;
 	}
 
+	thead {
+		background: var(color-bg-light);
+		height: 60px;
+		position: sticky;
+		inset-block-start: 0;
+	}
+
 	.data-list {
 		margin-top: 1rem;
 		display: grid;
@@ -86,7 +98,7 @@
 			'filter-data'
 			'download-csv'
 			'search-result';
-		row-gap: 2rem;
+		row-gap: 0.5rem;
 	}
 
 	.filter-list {

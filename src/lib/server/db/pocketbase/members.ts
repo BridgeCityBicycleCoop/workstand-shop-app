@@ -45,7 +45,7 @@ export const findByDate = async ({
 	page = 1,
 	perPage = 30,
 	sortBy = 'waiver',
-	sortDirection = 'ascending'
+	sortDirection = 'descending'
 }: {
 	startDate?: Date;
 	endDate?: Date;
@@ -55,7 +55,7 @@ export const findByDate = async ({
 	sortDirection?: string;
 } = {}): Promise<FindByDateResult> => {
 	const filter = createDateFilter('waiver', { startDate, endDate });
-	const ascendOrDescend = sortDirection === 'descending' ? '+' : '-';
+	const ascendOrDescend = sortDirection === 'descending' ? '-' : '+';
 	const sortString = ascendOrDescend + sortBy;
 
 	const listResult = await pb
@@ -64,7 +64,7 @@ export const findByDate = async ({
 			filter,
 			sort: sortString
 		})
-		.catch((e) => {
+		.catch((e: ClientResponseError) => {
 			throw e.originalError;
 		});
 

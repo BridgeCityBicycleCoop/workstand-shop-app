@@ -43,26 +43,54 @@ export const find = async (_filters: Record<string, unknown> = {}): Promise<Bike
 	const bikes = recordsToBikeListSchema.parse(records);
 	return bikes;
 };
+
+interface FindByDateResult {
+	bikesList: Bike[];
+	totalMembers: number;
+	page: number;
+	perPage: number;
+	totalPages: number;
+}
+
 // no startDate or endDate, all bikes,
 // startDate only, should end with the latest bike
 // endDate only, should start from the very first bike
 export const findByDate = async ({
 	startDate,
-	endDate
-}: { startDate?: Date; endDate?: Date } = {}): Promise<Bike[]> => {
+	endDate,
+	page = 1,
+	perPage = 30,
+	sortBy = 'donationDate',
+	sortDirection = 'descending'
+}: {
+	startDate?: Date;
+	endDate?: Date;
+	page?: number;
+	perPage?: number;
+	sortBy?: string;
+	sortDirection?: string;
+} = {}): Promise<FindByDateResult> => {
 	const filter = createDateFilter('donationDate', { startDate, endDate });
+	const ascendOrDescend = sortDirection === 'descending' ? '-' : '+';
+	const sortString = ascendOrDescend + sortBy;
 
 	const listResult = await pb
 		.collection('bikes')
-		.getList<BikesResponse>(1, 100, {
+		.getList<BikesResponse>(page, perPage, {
 			filter,
-			sort: '-donationDate'
+			sort: sortString
 		})
 		.catch((e: ClientResponseError) => {
 			throw e.originalError;
 		});
 
-	return recordsToBikeListSchema.parse(listResult.items);
+	return {
+		bikesList: recordsToBikeListSchema.parse(listResult.items),
+		totalMembers: listResult.totalItems,
+		page: listResult.page,
+		perPage: listResult.perPage,
+		totalPages: listResult.totalPages
+	};
 };
 export const get = async (id: string): Promise<Bike> => {
 	return recordToBikeSchema.parse(

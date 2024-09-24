@@ -31,20 +31,24 @@
 </script>
 
 <div class="pagination-controls">
-	<a href={`${getPreviousHref(urlString)}`}><button class="btn btn-primary">Prev</button></a>
+	<a href={`${getPreviousHref(urlString)}`}>
+		<button class="btn btn-primary">Prev</button>
+	</a>
 	<div class="current-page">{page}</div>
-	<a href={`${getNextHref(urlString)}`}> <button class="btn btn-primary">Next</button></a>
+	<a href={`${getNextHref(urlString)}`}>
+		<button class="btn btn-primary">Next</button>
+	</a>
 </div>
 
 <style>
 	.pagination-controls {
 		display: flex;
 		flex-direction: row;
-		justify-content: space-evenly;
-		margin-top: 1em;
+		margin: 0.5em 0em;
 	}
 
 	.current-page {
 		font-size: 2em;
+		margin: 0px 60px;
 	}
 </style>

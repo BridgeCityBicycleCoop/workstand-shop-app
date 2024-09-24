@@ -3,13 +3,20 @@
 	import { bikeSchema } from '$lib/models';
 
 	export let data;
+	let startDate = data.startDate;
+	let endDate = data.endDate;
+	$: page = data.page;
+	$: totalPages = data.totalPages;
+	$: urlString = data.urlString;
+
 	const name = 'Bikes';
 
 	const bikeProps = bikeSchema.shape;
 	type BikePropKeys = keyof typeof bikeProps;
 	const bikeKeys = (Object.keys(bikeProps) as BikePropKeys[]).filter((key) => key !== 'id');
 	const headers = bikeKeys.map(camelCaseToWords);
-	$: list = data.bikes.map((bike) => {
+
+	$: list = data.bikesList.map((bike) => {
 		return bikeKeys.map((key) => {
 			const value = bike[key];
 
@@ -22,9 +29,6 @@
 			}
 		});
 	});
-
-	let startDate = data.startDate;
-	let endDate = data.endDate;
 </script>
 
-<FilterDataList {startDate} {endDate} {name} {headers} {list} />
+<FilterDataList {startDate} {endDate} {name} {headers} {list} {page} {totalPages} {urlString} />
