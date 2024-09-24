@@ -73,26 +73,53 @@ export const remove = async (id: string): Promise<boolean> =>
 			throw e.originalError;
 		});
 
+interface FindByDateResult {
+	visitsList: Visit[];
+	totalVisits: number;
+	page: number;
+	perPage: number;
+	totalPages: number;
+}
 // no startDate or endDate, all visits,
 // startDate only, should end with the latest visit
 // endDate only, should start from the very first visit
 export const findByDate = async ({
 	startDate,
-	endDate
-}: { startDate?: Date; endDate?: Date } = {}): Promise<Visit[]> => {
+	endDate,
+	page = 1,
+	perPage = 30,
+	sortBy = 'date',
+	sortDirection = 'descending'
+}: {
+	startDate?: Date;
+	endDate?: Date;
+	page?: number;
+	perPage?: number;
+	sortBy?: string;
+	sortDirection?: string;
+} = {}): Promise<FindByDateResult> => {
 	const filter = createDateFilter('date', { startDate, endDate });
+	const ascendOrDescend = sortDirection === 'descending' ? '-' : '+';
+	const sortString = ascendOrDescend + sortBy;
 
 	const listResult = await pb
 		.collection('visits')
-		.getList<VisitWithMemberAndPurpose>(1, 100, {
+		.getList<VisitWithMemberAndPurpose>(page, perPage, {
 			filter,
-			sort: '-date',
+			sort: sortString,
 			expand: 'memberId,purposeId'
 		})
 		.catch((e: ClientResponseError) => {
 			throw e.originalError;
 		});
-	return recordsToVisitListSchema.parse(listResult.items.map(expandMemberAndPurpose));
+
+	return {
+		visitsList: recordsToVisitListSchema.parse(listResult.items.map(expandMemberAndPurpose)),
+		totalVisits: listResult.totalItems,
+		page: listResult.page,
+		perPage: listResult.perPage,
+		totalPages: listResult.totalPages
+	};
 };
 
 const expandMemberAndPurpose = (

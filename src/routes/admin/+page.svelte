@@ -3,13 +3,20 @@
 	import { memberSchema } from '$lib/models';
 
 	export let data;
+	let startDate = data.startDate;
+	let endDate = data.endDate;
+	$: page = data.page;
+	$: totalPages = data.totalPages;
+	$: urlString = data.urlString;
+
 	const name = 'Members';
 
 	const memberProps = memberSchema.shape;
 	type MemberPropKeys = keyof typeof memberProps;
 	const memberKeys = (Object.keys(memberProps) as MemberPropKeys[]).filter((key) => key !== 'id');
 	const headers = memberKeys.map(camelCaseToWords);
-	$: list = data.members.map((member) => {
+
+	$: list = data.membersList.map((member) => {
 		return memberKeys.map((key) => {
 			const value = member[key];
 
@@ -22,9 +29,6 @@
 			}
 		});
 	});
-
-	let startDate = data.startDate;
-	let endDate = data.endDate;
 </script>
 
-<FilterDataList {startDate} {endDate} {name} {headers} {list} />
+<FilterDataList {startDate} {endDate} {name} {headers} {list} {page} {totalPages} {urlString} />

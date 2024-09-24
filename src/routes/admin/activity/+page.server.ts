@@ -2,8 +2,8 @@ import { error, redirect } from '@sveltejs/kit';
 import z from 'zod';
 import { message, superValidate, fail } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
-import { toValidDateFilters } from '$lib/server/utils/dates';
-import { hasEmptyDates, clearEmptyDatesFromURL } from '$lib/utils';
+import { toValidStartDate, toValidEndDate } from '$lib/server/utils/dates';
+import { hasEmptyUrlParams, clearEmptyUrlParams } from '$lib/utils';
 
 import { visits as visitsService, purposes as purposesService } from '$lib/server/db';
 
@@ -11,19 +11,28 @@ export const load = async ({ locals, url }) => {
 	if (!locals.user?.role?.includes('admin')) {
 		error(403, 'Not an admin');
 	}
-	if (hasEmptyDates(url)) {
-		redirect(307, clearEmptyDatesFromURL(url).toString());
+	if (hasEmptyUrlParams(url)) {
+		redirect(307, clearEmptyUrlParams(url).toString());
 	}
 
 	const startDate = url.searchParams.get('startDate') ?? '';
 	const endDate = url.searchParams.get('endDate') ?? '';
-	const visits = await visitsService.findByDate(toValidDateFilters({ startDate, endDate }));
+	const startPage = url.searchParams.get('page') || '1';
+	const urlString = url.toString();
+	let page;
+	$: page = parseInt(startPage, 10);
+
+	const { visitsList, totalPages } = await visitsService.findByDate({
+		startDate: toValidStartDate(startDate),
+		endDate: toValidEndDate(endDate),
+		page
+	});
 
 	// const filterVisitsForm = await superValidate(zod(filterVisitFormSchema));
 	const logVisitForm = await superValidate(zod(logVisitFormSchema));
 	const purposes = await purposesService.find();
 
-	return { startDate, endDate, logVisitForm, purposes, visits };
+	return { startDate, endDate, logVisitForm, purposes, visitsList, page, totalPages, urlString };
 };
 
 export const actions = {
