@@ -6,7 +6,16 @@ export const getDisplayName = (member?: Member): string => {
 };
 
 export const getLocaleDisplayDate = (date: Date | undefined): string => {
-	return date ? date.toLocaleString() : '';
+	const options: Intl.DateTimeFormatOptions = {
+		year: 'numeric',
+		month: 'numeric',
+		day: 'numeric',
+		hour: '2-digit',
+		minute: '2-digit',
+		hour12: true
+	};
+
+	return date ? date.toLocaleString(undefined, options) : ''; // undefined uses browswer default locale
 };
 
 export const camelCaseToWords = (s: string): string => {
