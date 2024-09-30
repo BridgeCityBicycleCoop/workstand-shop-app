@@ -70,7 +70,7 @@
 
 <style>
 	button {
-		min-height: var(--admin-button-height);
+		min-height: var(--button-height-admin);
 	}
 	.wrapper {
 		list-style-type: none;
