@@ -14,6 +14,8 @@
 	--border-radius: 6px;
 	--button-height-shop: 50px;
 	--button-height-admin: 44px;
+	--max-width-main: 48rem;
+	--max-width-sm: 36rem;
 
 	font-size: var(--font-size);
 	font-family: var(--font-body);

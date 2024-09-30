@@ -76,15 +76,15 @@
 						<th class="sticky-header">Donation Date</th>
 						<th class="sticky-header">Colour/Make</th>
 						<th class="sticky-header">Serial Number</th>
+						<th class="sticky-header">CPIC Date</th>
 						<th class="sticky-header">Suggested Donation</th>
 						<th class="sticky-header">Price Paid</th>
-						<th class="sticky-header">Recipient Name</th>
-						<th class="sticky-header">Recipient Phone</th>
-						<th class="sticky-header">Recipient Age</th>
 						<th class="sticky-header">Bike Destiny</th>
-						<th class="sticky-header">CPIC Date</th>
 						<th class="sticky-header">Out of Shop Date</th>
 						<th class="sticky-header">BCBC Program</th>
+						<th class="sticky-header">Recipient Name</th>
+						<th class="sticky-header">Recipient Age</th>
+						<th class="sticky-header">Recipient Phone</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -101,15 +101,15 @@
 									{bike.serialNumber}
 								</button>
 							</td>
+							<td>{getLocaleDisplayDate(bike.cpicDate)}</td>
 							<td>{bike.suggestedDonation}</td>
 							<td>{bike.pricePaid}</td>
-							<td>{bike.recipientName}</td>
-							<td>{bike.recipientPhoneNumber}</td>
-							<td>{bike.recipientAge}</td>
 							<td>{bike.bikeDestiny}</td>
-							<td>{getLocaleDisplayDate(bike.cpicDate)}</td>
 							<td>{getLocaleDisplayDate(bike.outOfShopDate)}</td>
 							<td>{bike.bcbcProgram}</td>
+							<td>{bike.recipientName}</td>
+							<td>{bike.recipientAge}</td>
+							<td>{bike.recipientPhoneNumber}</td>
 						</tr>
 					{/each}
 				</tbody>
@@ -122,8 +122,7 @@
 
 <style>
 	.bike-list {
-		margin-left: calc((-100vw + 50rem) / 2);
-		width: calc(96vw - 2rem);
+		max-width: var(--max-width-sm);
 		padding-top: 3rem;
 	}
 	.bike-search {
