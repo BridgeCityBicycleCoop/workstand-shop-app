@@ -68,6 +68,7 @@
 			<table>
 				<thead>
 					<tr>
+						<th class="sticky-header">Donation Date</th>
 						<th class="sticky-header">Colour/Make</th>
 						<th class="sticky-header">Serial Number</th>
 						<th class="sticky-header">Suggested Donation</th>
@@ -76,7 +77,6 @@
 						<th class="sticky-header">Recipient Phone</th>
 						<th class="sticky-header">Recipient Age</th>
 						<th class="sticky-header">Bike Destiny</th>
-						<th class="sticky-header">Donation Date</th>
 						<th class="sticky-header">CPIC Date</th>
 						<th class="sticky-header">Out of Shop Date</th>
 						<th class="sticky-header">BCBC Program</th>
@@ -85,6 +85,7 @@
 				<tbody>
 					{#each filteredBikeList as bike}
 						<tr>
+							<td>{getLocaleDisplayDate(bike.donationDate)}</td>
 							<td>
 								<button class="link" on:click={(event) => handleBikeUpdate(event, bike)}>
 									{bike.colour} / {bike.make}
@@ -101,7 +102,6 @@
 							<td>{bike.recipientPhoneNumber}</td>
 							<td>{bike.recipientAge}</td>
 							<td>{bike.bikeDestiny}</td>
-							<td>{getLocaleDisplayDate(bike.donationDate)}</td>
 							<td>{getLocaleDisplayDate(bike.cpicDate)}</td>
 							<td>{getLocaleDisplayDate(bike.outOfShopDate)}</td>
 							<td>{bike.bcbcProgram}</td>
