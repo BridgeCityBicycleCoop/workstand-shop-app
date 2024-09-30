@@ -3,8 +3,10 @@
 	import { getLocaleDisplayDate } from '$lib/ui';
 	import type { FormEventHandler } from 'svelte/elements';
 	import type { Bike } from '$lib/models';
+	import { page } from '$app/stores';
 
 	export let data;
+
 	const BIKE_THEFT_URL = 'https://www.cpic-cipc.ca/sbi-rve-eng.htm';
 
 	const handleBikeUpdate = (_event: MouseEvent, bike: Bike) => {
@@ -29,6 +31,7 @@
 	}
 
 	let searchElement: HTMLInputElement;
+	const showBikeSearch = $page.url.pathname === '/bikes';
 	let filteredBikeList: Bike[] = data.bikes;
 	const handleSearchInput: FormEventHandler<HTMLInputElement> = (event) => {
 		const filterText = event.currentTarget?.value.toLocaleLowerCase().trim();
@@ -50,17 +53,19 @@
 </script>
 
 <section class="bike-list">
-	<div class="bike-search">
-		<label for="filter">Search:</label>
-		<button class="primary" on:click={() => goto('/bikes/new')}>Register New Bike</button>
-		<input
-			on:input={handleSearchInput}
-			name="filter"
-			type="search"
-			bind:this={searchElement}
-			autocomplete="off"
-		/>
-	</div>
+	{#if showBikeSearch}
+		<div class="bike-search">
+			<label for="filter">Search:</label>
+			<button class="primary" on:click={() => goto('/bikes/new')}>Register New Bike</button>
+			<input
+				on:input={handleSearchInput}
+				name="filter"
+				type="search"
+				bind:this={searchElement}
+				autocomplete="off"
+			/>
+		</div>
+	{/if}
 
 	<h3>Bike List</h3>
 	<div class="table-wrap">
@@ -117,7 +122,8 @@
 
 <style>
 	.bike-list {
-		max-width: 100%;
+		margin-left: calc((-100vw + 50rem) / 2);
+		width: calc(96vw - 2rem);
 		padding-top: 3rem;
 	}
 	.bike-search {
@@ -141,7 +147,7 @@
 	}
 
 	.table-wrap {
-		overflow-x: scroll;
+		overflow-x: auto;
 	}
 
 	/* If we use border,
