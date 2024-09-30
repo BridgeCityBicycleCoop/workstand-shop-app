@@ -2,7 +2,7 @@
 	import { getContext } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { superForm } from 'sveltekit-superforms';
-	import { BikeCreateFields, Message, getLocaleDisplayDate } from '$lib/ui';
+	import { BikeCreateFields, getLocaleDisplayDate, addToast } from '$lib/ui';
 	import type { Bike } from '$lib/models';
 	import type { Writable } from 'svelte/store';
 
@@ -30,14 +30,23 @@
 		);
 	}
 
-	const { form, errors, enhance, message, delayed, submitting } = superForm(data.form);
+	const { form, errors, enhance, delayed, submitting, message } = superForm(data.form, {
+		onUpdated(event) {
+			if (event.form.message) {
+				addToast({
+					type: event.form.valid ? 'success' : 'error',
+					message: event.form.message,
+					timeout: 3000
+				});
+			}
+		}
+	});
 
 	const loading = getContext<Writable<boolean>>('loading-store');
 	$: $loading = $delayed;
 </script>
 
 <h1>Register New Bike</h1>
-<Message message={$message} />
 
 <form id="register-bike" method="POST" use:enhance>
 	<BikeCreateFields bikeForm={form} {errors} />
