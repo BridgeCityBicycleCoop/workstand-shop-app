@@ -34,7 +34,7 @@
 
 	@media (min-width: 1024px) {
 		main {
-			max-width: 48rem;
+			max-width: 50rem;
 		}
 	}
 
