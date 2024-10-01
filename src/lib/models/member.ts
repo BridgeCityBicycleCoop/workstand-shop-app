@@ -25,7 +25,20 @@ export const memberCreateSchema = memberSchema
 		waiver: memberSchema.shape.waiver.default(() => new Date()),
 		status: memberSchema.shape.status.default('active')
 	})
-	.refine((data) => data.email || data.phone, 'Either an email or phone number is required');
+	.superRefine((data, ctx) => {
+		if (!data.email && !data.phone) {
+			ctx.addIssue({
+				code: z.ZodIssueCode.custom,
+				message: 'Either an email or phone number is required',
+				path: ['email']
+			});
+			ctx.addIssue({
+				code: z.ZodIssueCode.custom,
+				message: 'Either an email or phone number is required',
+				path: ['phone']
+			});
+		}
+	});
 export const memberUpdateSchema = makeOptionalPropsNullable(
 	memberSchema
 		.partial()
