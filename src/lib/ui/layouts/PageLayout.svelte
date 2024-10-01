@@ -27,14 +27,14 @@
 
 	main {
 		padding: 1rem 2rem;
-		width: 100%;
-		max-width: 36rem;
+		width: 80%;
+		max-width: var(--max-width-main);
 		margin: 0 auto;
 	}
 
-	@media (min-width: 1024px) {
+	@media (width < 1024px) {
 		main {
-			max-width: 48rem;
+			max-width: var(--max-width-sm);
 		}
 	}
 

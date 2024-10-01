@@ -53,6 +53,6 @@
 	}
 
 	button {
-		min-height: var(--admin-button-height);
+		min-height: var(--button-height-admin);
 	}
 </style>

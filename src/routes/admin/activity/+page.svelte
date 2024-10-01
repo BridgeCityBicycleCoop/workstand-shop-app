@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { FilterDataList, getLocaleDisplayDate, getDisplayName } from '$lib/ui';
+	import { FilterDataList, getLocaleDisplayDateAndTime, getDisplayName } from '$lib/ui';
 
 	export let data;
 	$: page = data.page;
@@ -9,7 +9,11 @@
 	const name = 'Visits';
 	const headers = ['Name', 'Purpose', 'Signed-in'];
 	$: list = data.visitsList.map((visit) => {
-		return [getDisplayName(visit.member), visit.purpose.name, getLocaleDisplayDate(visit.date)];
+		return [
+			getDisplayName(visit.member),
+			visit.purpose.name,
+			getLocaleDisplayDateAndTime(visit.date).display
+		];
 	});
 	let startDate = data.startDate;
 	let endDate = data.endDate;

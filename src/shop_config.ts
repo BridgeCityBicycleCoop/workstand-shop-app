@@ -1,6 +1,8 @@
 export const shopConfig: Record<string, string> = {
-	// locale - used for dates, language and currency preferences
+	// locale & timeZone- used for dates, language and currency preferences
+	// 'en-CA', 	'Canada/Saskatchewan', 'Canada/Central', 'Canada/Mountain'
 	locale: 'en-US',
+	timeZone: 'America/Detroit',
 
 	// logo url - set to update the left upper corner logo
 	// recommended ratio is roughly 5 (wide) x 2 (high) resolution

@@ -12,8 +12,10 @@
 	--color-bg-med: rgb(132, 165, 197);
 	--color-bg-dark: rgb(36, 46, 66);
 	--border-radius: 6px;
-	--shop-button-height: 50px;
-	--admin-button-height: 44px;
+	--button-height-shop: 50px;
+	--button-height-admin: 44px;
+	--max-width-main: 48rem;
+	--max-width-sm: 36rem;
 
 	font-size: var(--font-size);
 	font-family: var(--font-body);
@@ -163,7 +165,7 @@ button {
 	border-radius: var(--border-radius, 6px);
 	padding: 0 1rem;
 	margin: auto 0.2rem;
-	min-height: var(--shop-button-height);
+	min-height: var(--button-height-shop);
 	text-shadow: 0 1px 0 var(--color-bg-dark);
 	border: 0 solid transparent;
 	outline-color: var(--color-accent);
