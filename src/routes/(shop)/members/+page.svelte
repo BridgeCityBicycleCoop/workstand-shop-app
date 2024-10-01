@@ -2,35 +2,57 @@
 	import { getContext } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { superForm } from 'sveltekit-superforms';
-	import { LiabilityWaiver, MemberEditFields, addToast } from '$lib/ui';
+	import {
+		LiabilityWaiver,
+		MemberEditFields,
+		addToast,
+		ActivitySelect,
+		Modal,
+		getDisplayName
+	} from '$lib/ui';
 	import type { Writable } from 'svelte/store';
 	import MemberRightsAndGuidelines from '$lib/ui/MemberRightsAndGuidelines.svelte';
+	import type { Member, Purpose, Visit } from '$lib/models';
 
 	export let data;
 
-	const { form, errors, enhance, message, delayed, submitting } = superForm(data.form, {
-		onUpdated(event) {
-			if ($message) {
-				addToast({
-					type: event.form.valid ? 'success' : 'error',
-					message: $message,
-					timeout: 3000
-				});
-			}
-			if ($errors._errors?.length) {
-				$errors._errors.forEach((message) => {
+	let selectedPurpose: Purpose;
+	let activeMember: Member | undefined;
+	let activeVisit: Visit | undefined;
+	let isOpen: boolean;
+
+	const { form, errors, enhance, message, delayed, submitting } = superForm(
+		data.registerMemberForm,
+		{
+			onUpdated(event) {
+				if ($message) {
 					addToast({
-						type: 'error',
-						message,
+						type: event.form.valid ? 'success' : 'error',
+						message: $message.text,
 						timeout: 3000
 					});
-				});
-			}
-			if (event.form.valid) {
-				goto('/');
+				}
+				if ($errors._errors?.length) {
+					$errors._errors.forEach((message) => {
+						addToast({
+							type: 'error',
+							message,
+							timeout: 3000
+						});
+					});
+				}
+				if (event.form.valid && event.form.message.member) {
+					activeMember = event.form.message.member;
+					isOpen = true;
+				}
 			}
 		}
-	});
+	);
+
+	const handleClose = () => {
+		isOpen = false;
+		activeMember = undefined;
+	};
 
 	const loading = getContext<Writable<boolean>>('loading-store');
 	$: $loading = $delayed;
@@ -39,7 +61,7 @@
 <section class="register-member">
 	<h1>Register New Member</h1>
 
-	<form id="register-member" method="POST" use:enhance>
+	<form id="register-member" method="POST" action="?/registerMember" use:enhance>
 		<MemberEditFields memberForm={form} {errors} />
 	</form>
 
@@ -62,6 +84,22 @@
 		</button>
 	</div>
 </section>
+
+<Modal bind:open={isOpen}>
+	<ActivitySelect
+		formId="log-visit"
+		formData={data.logVisitForm}
+		bind:selectedPurpose
+		purposes={data.purposes}
+		displayName={getDisplayName(activeMember)}
+		{activeMember}
+		{activeVisit}
+		onSuccess={handleClose}
+	></ActivitySelect>
+	<div slot="buttons">
+		<button class="primary" on:click={handleClose}>Cancel</button>
+	</div>
+</Modal>
 
 <style>
 	h1 {
