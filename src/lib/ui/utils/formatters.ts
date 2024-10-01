@@ -52,7 +52,6 @@ export const getLocaleDisplayDateAndTime = (date: Date | undefined): DisplayDate
 	const displayDate = date ? date.toLocaleString(locale, dateOptions) : '';
 	const displayTime = date ? date.toLocaleString(locale, timeOptions) : '';
 	const display = `${displayDate} ${displayTime}`;
-	console.log('date/time', displayDate, displayTime);
 
 	return { display, displayDate, displayTime };
 };
