@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { getLocaleDisplayDate } from '$lib/ui';
+	import { getLocaleDisplayDateAndTime } from '$lib/ui';
 	import type { FormEventHandler } from 'svelte/elements';
 	import type { Bike } from '$lib/models';
 	import { page } from '$app/stores';
@@ -90,7 +90,7 @@
 				<tbody>
 					{#each filteredBikeList as bike}
 						<tr>
-							<td>{getLocaleDisplayDate(bike.donationDate)}</td>
+							<td>{getLocaleDisplayDateAndTime(bike.donationDate).displayDate}</td>
 							<td>
 								<button class="link" on:click={(event) => handleBikeUpdate(event, bike)}>
 									{bike.colour} / {bike.make}
@@ -101,11 +101,11 @@
 									{bike.serialNumber}
 								</button>
 							</td>
-							<td>{getLocaleDisplayDate(bike.cpicDate)}</td>
+							<td>{getLocaleDisplayDateAndTime(bike.cpicDate).displayDate}</td>
 							<td>{bike.suggestedDonation}</td>
 							<td>{bike.pricePaid}</td>
 							<td>{bike.bikeDestiny}</td>
-							<td>{getLocaleDisplayDate(bike.outOfShopDate)}</td>
+							<td>{getLocaleDisplayDateAndTime(bike.outOfShopDate).displayDate}</td>
 							<td>{bike.bcbcProgram}</td>
 							<td>{bike.recipientName}</td>
 							<td>{bike.recipientAge}</td>

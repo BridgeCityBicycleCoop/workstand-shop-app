@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { ActivitySelect, Modal, getLocaleDisplayDate, getDisplayName } from '$lib/ui';
+	import { ActivitySelect, Modal, getLocaleDisplayDateAndTime, getDisplayName } from '$lib/ui';
 	import ClipboardEditOutline from '~icons/mdi/clipboard-edit-outline';
 	import QuestionMark from '~icons/mdi/question-mark';
 	import Exclamation from '~icons/mdi/exclamation-thick';
@@ -130,7 +130,7 @@
 									</button>
 								</td>
 								<td>{visit.purpose.name}</td>
-								<td>{getLocaleDisplayDate(visit.date)}</td>
+								<td>{getLocaleDisplayDateAndTime(visit.date).display}</td>
 							</tr>
 						{/each}
 					</tbody>

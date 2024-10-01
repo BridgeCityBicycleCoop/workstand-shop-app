@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { FilterDataList, getLocaleDisplayDate, camelCaseToWords } from '$lib/ui';
+	import { FilterDataList, getLocaleDisplayDateAndTime, camelCaseToWords } from '$lib/ui';
 	import { bikeSchema } from '$lib/models';
 
 	export let data;
@@ -23,7 +23,7 @@
 			if (!value) {
 				return '';
 			} else if (value instanceof Date) {
-				return getLocaleDisplayDate(value);
+				return getLocaleDisplayDateAndTime(value).displayDate;
 			} else {
 				return value.toString();
 			}

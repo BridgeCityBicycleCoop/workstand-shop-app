@@ -2,7 +2,7 @@
 	import { getContext } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { superForm } from 'sveltekit-superforms';
-	import { BikeCreateFields, getLocaleDisplayDate, addToast } from '$lib/ui';
+	import { BikeCreateFields, addToast } from '$lib/ui';
 	import BikesList from '../+page.svelte';
 	import type { Writable } from 'svelte/store';
 
