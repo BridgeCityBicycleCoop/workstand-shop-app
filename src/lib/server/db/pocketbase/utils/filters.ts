@@ -20,3 +20,7 @@ export const createDateFilter = (
 		endDate
 	});
 };
+
+export const createPropFilter = (property: string, operand: string, value: unknown) => {
+	return pb.filter(`${property} ${operand} ${value}`);
+};
