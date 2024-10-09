@@ -124,7 +124,6 @@
 
 <style>
 	.bike-list {
-		max-width: var(--max-width-sm);
 		padding-top: 1rem;
 	}
 	.bike-list-toolbar {
