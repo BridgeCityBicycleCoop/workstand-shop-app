@@ -36,7 +36,7 @@ const recordsToBikeListSchema = bikeRecordListSchema.pipe(bikeListSchema);
 export const find = async (_filters: Record<string, unknown> = {}): Promise<Bike[]> => {
 	const records = await pb
 		.collection('bikes')
-		.getFullList<BikesResponse>()
+		.getFullList<BikesResponse>(_filters)
 		.catch((e: ClientResponseError) => {
 			throw e.originalError;
 		});

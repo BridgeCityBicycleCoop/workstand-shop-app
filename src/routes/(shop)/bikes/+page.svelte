@@ -6,12 +6,13 @@
 	import { page } from '$app/stores';
 
 	export let data;
-
 	const BIKE_THEFT_URL = 'https://www.cpic-cipc.ca/sbi-rve-eng.htm';
 
 	const handleBikeUpdate = (_event: MouseEvent, bike: Bike) => {
 		goto(`/bikes/${bike.id}`);
 	};
+
+	$: showBikeButtonText = data.showAll ? 'Show Available Bikes' : 'Show All Bikes';
 
 	const handleCheckSerialNumber = (_event: MouseEvent, bike: Bike) => {
 		updateClipboard(bike.serialNumber);
@@ -32,7 +33,8 @@
 
 	let searchElement: HTMLInputElement;
 	const showBikeSearch = $page.url.pathname === '/bikes';
-	let filteredBikeList: Bike[] = data.bikes;
+
+	$: filteredBikeList = data.bikes;
 	const handleSearchInput: FormEventHandler<HTMLInputElement> = (event) => {
 		const filterText = event.currentTarget?.value.toLocaleLowerCase().trim();
 
@@ -52,7 +54,7 @@
 	};
 </script>
 
-<section class="bike-list">
+<section>
 	{#if showBikeSearch}
 		<div class="bike-search">
 			<label for="filter">Search:</label>
@@ -67,24 +69,28 @@
 		</div>
 	{/if}
 
-	<h3>Bike List</h3>
-	<div class="table-wrap">
+	<div class="table-wrap bike-list">
+		<div class="bike-list-toolbar">
+			<div class="bike-list-heading">Bike List:</div>
+			<form class="bike-toggle" method="get">
+				<button class="btn btn-tertiary" name="showAll" value={data.showAll ? '' : 'true'}
+					>{showBikeButtonText}</button
+				>
+			</form>
+		</div>
+
 		{#if filteredBikeList.length > 0}
 			<table>
 				<thead>
 					<tr>
 						<th class="sticky-header">Donation Date</th>
-						<th class="sticky-header">Colour/Make</th>
-						<th class="sticky-header">Serial Number</th>
+						<th class="sticky-header">Colour/Make (edit bike)</th>
+						<th class="sticky-header">Serial Number (cpic site)</th>
 						<th class="sticky-header">CPIC Date</th>
 						<th class="sticky-header">Suggested Donation</th>
-						<th class="sticky-header">Price Paid</th>
 						<th class="sticky-header">Bike Destiny</th>
 						<th class="sticky-header">Out of Shop Date</th>
 						<th class="sticky-header">BCBC Program</th>
-						<th class="sticky-header">Recipient Name</th>
-						<th class="sticky-header">Recipient Age</th>
-						<th class="sticky-header">Recipient Phone</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -103,13 +109,9 @@
 							</td>
 							<td>{getLocaleDisplayDateAndTime(bike.cpicDate).displayDate}</td>
 							<td>{bike.suggestedDonation}</td>
-							<td>{bike.pricePaid}</td>
 							<td>{bike.bikeDestiny}</td>
 							<td>{getLocaleDisplayDateAndTime(bike.outOfShopDate).displayDate}</td>
 							<td>{bike.bcbcProgram}</td>
-							<td>{bike.recipientName}</td>
-							<td>{bike.recipientAge}</td>
-							<td>{bike.recipientPhoneNumber}</td>
 						</tr>
 					{/each}
 				</tbody>
@@ -123,14 +125,25 @@
 <style>
 	.bike-list {
 		max-width: var(--max-width-sm);
-		padding-top: 3rem;
+		padding-top: 1rem;
+	}
+	.bike-list-toolbar {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+	}
+	.bike-toggle {
+		float: right;
+		margin-bottom: 0.25rem;
 	}
 	.bike-search {
 		display: grid;
 		grid-template-columns: 1fr max-content;
 		grid-template-areas:
 			'label register'
-			'search search';
+			'search search'
+			'heading toggle';
 	}
 	.bike-search button {
 		grid-area: register;
@@ -153,6 +166,7 @@
 	we must use table-collapse to avoid
 	a slight movement of the header row */
 	table {
+		max-width: var(--max-width-main);
 		border-collapse: collapse;
 	}
 </style>
