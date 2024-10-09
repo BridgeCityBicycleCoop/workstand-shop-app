@@ -74,8 +74,8 @@ export const remove = async (id: string): Promise<boolean> =>
 		});
 
 interface FindByDateResult {
-	visitsList: Visit[];
-	totalVisits: number;
+	list: Visit[];
+	total: number;
 	page: number;
 	perPage: number;
 	totalPages: number;
@@ -114,8 +114,8 @@ export const findByDate = async ({
 		});
 
 	return {
-		visitsList: recordsToVisitListSchema.parse(listResult.items.map(expandMemberAndPurpose)),
-		totalVisits: listResult.totalItems,
+		list: recordsToVisitListSchema.parse(listResult.items.map(expandMemberAndPurpose)),
+		total: listResult.totalItems,
 		page: listResult.page,
 		perPage: listResult.perPage,
 		totalPages: listResult.totalPages

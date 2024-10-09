@@ -19,10 +19,9 @@ export const load = async ({ locals, url }) => {
 	const endDate = url.searchParams.get('endDate') ?? '';
 	const startPage = url.searchParams.get('page') || '1';
 	const urlString = url.toString();
-	let page;
-	$: page = parseInt(startPage, 10);
+	const page = parseInt(startPage, 10);
 
-	const { visitsList, totalPages } = await visitsService.findByDate({
+	const { list, totalPages } = await visitsService.findByDate({
 		startDate: toValidStartDate(startDate),
 		endDate: toValidEndDate(endDate),
 		page
@@ -32,7 +31,7 @@ export const load = async ({ locals, url }) => {
 	const logVisitForm = await superValidate(zod(logVisitFormSchema));
 	const purposes = await purposesService.find();
 
-	return { startDate, endDate, logVisitForm, purposes, visitsList, page, totalPages, urlString };
+	return { startDate, endDate, logVisitForm, purposes, list, page, totalPages, urlString };
 };
 
 export const actions = {

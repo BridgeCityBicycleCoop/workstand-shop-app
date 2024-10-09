@@ -52,20 +52,4 @@
 		display: flex;
 		justify-content: space-between;
 	}
-
-	.bike-list {
-		max-width: 100%;
-		margin-top: 5rem;
-	}
-
-	.table-wrap {
-		overflow-x: scroll;
-	}
-
-	/* If we use border,
-	we must use table-collapse to avoid
-	a slight movement of the header row */
-	table {
-		border-collapse: collapse;
-	}
 </style>

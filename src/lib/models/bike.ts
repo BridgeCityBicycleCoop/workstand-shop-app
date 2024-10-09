@@ -42,7 +42,17 @@ export const bikeUpdateSchema = makeOptionalPropsNullable(
 	bikeSchema.partial().required({ id: true, serialNumber: true })
 );
 
-export const bikeFilterSchema = z.object({ outOfShopDate: z.date().nullish() });
+export const bikeFilterSchema = z
+	.object({
+		startDate: z.date(),
+		endDate: z.date(),
+		page: z.number().int(),
+		perPage: z.number().int(),
+		sortBy: bikeSchema.keyof(),
+		sortDirection: z.union([z.literal('ascending'), z.literal('descending')]),
+		available: z.boolean()
+	})
+	.partial();
 
 export type Bike = Prettify<z.infer<typeof bikeSchema>>;
 export type BikeList = Prettify<z.infer<typeof bikeListSchema>>;

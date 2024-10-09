@@ -4,6 +4,7 @@ import { env } from '$env/dynamic/private';
 import {
 	bikeSchema,
 	bikeListSchema,
+	bikeFilterSchema,
 	type Bike,
 	type BikeCreate,
 	type BikeUpdate,
@@ -34,51 +35,29 @@ const recordToBikeSchema = bikeRecordSchema.pipe(bikeSchema);
 const bikeRecordListSchema = bikeRecordSchema.array();
 const recordsToBikeListSchema = bikeRecordListSchema.pipe(bikeListSchema);
 
-export const find = async (filters: BikeFilter = {}): Promise<Bike[]> => {
-	const filter =
-		'outOfShopDate' in filters ? pb.filter('outOfShopDate = {:outOfShopDate}', filters) : '';
-	const records = await pb
-		.collection('bikes')
-		.getFullList<BikesResponse>({ filter })
-		.catch((e: ClientResponseError) => {
-			throw e.originalError;
-		});
-	const bikes = recordsToBikeListSchema.parse(records);
-	return bikes;
-};
-
-interface FindByDateResult {
-	bikesList: Bike[];
-	totalBikes: number;
-	page: number;
-	perPage: number;
-	totalPages: number;
-}
-
-// no startDate or endDate, all bikes,
-// startDate only, should end with the latest bike
-// endDate only, should start from the very first bike
-export const findByDate = async (
-	filters: {
-		startDate?: Date;
-		endDate?: Date;
-		page?: number;
-		perPage?: number;
-		sortBy?: string;
-		sortDirection?: string;
-		outOfShopDate?: Date | null;
-	} = {}
-): Promise<FindByDateResult> => {
-	const { page = 1, perPage = 30, sortBy = 'donationDate', sortDirection = 'descending' } = filters;
-	const ascendOrDescend = sortDirection === 'descending' ? '-' : '+';
-	const sortString = ascendOrDescend + sortBy;
+export const find = async (filters: BikeFilter = {}) => {
+	const parsedFilters = bikeFilterSchema.parse(filters);
+	const {
+		page = 1,
+		perPage = 30,
+		sortBy = 'donationDate',
+		sortDirection = 'descending'
+	} = parsedFilters;
+	const sortString = `${sortDirection === 'descending' ? '-' : '+'}${sortBy}`;
 
 	const filterElements = [];
 	if ('startDate' in filters || 'endDate' in filters) {
+		// no startDate or endDate, all bikes,
+		// startDate only, should end with the latest bike
+		// endDate only, should start from the very first bike
 		filterElements.push(createDateFilter('donationDate', filters));
 	}
-	if ('outOfShopDate' in filters) {
-		filterElements.push(pb.filter('outOfShopDate = {:outOfShopDate}', filters));
+	if ('available' in filters) {
+		if (filters.available) {
+			filterElements.push(pb.filter('outOfShopDate = null'));
+		} else {
+			filterElements.push(pb.filter('outOfShopDate != null'));
+		}
 	}
 	const filter = filterElements.join(' && ');
 
@@ -93,8 +72,8 @@ export const findByDate = async (
 		});
 
 	return {
-		bikesList: recordsToBikeListSchema.parse(listResult.items),
-		totalBikes: listResult.totalItems,
+		list: recordsToBikeListSchema.parse(listResult.items),
+		total: listResult.totalItems,
 		page: listResult.page,
 		perPage: listResult.perPage,
 		totalPages: listResult.totalPages

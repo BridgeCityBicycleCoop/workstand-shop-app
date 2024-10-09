@@ -34,16 +34,16 @@
 	let searchElement: HTMLInputElement;
 	const showBikeSearch = $page.url.pathname === '/bikes';
 
-	$: filteredBikeList = data.bikes;
+	$: filteredBikeList = data.bikes.list;
 	const handleSearchInput: FormEventHandler<HTMLInputElement> = (event) => {
 		const filterText = event.currentTarget?.value.toLocaleLowerCase().trim();
 
 		if (!filterText) {
-			filteredBikeList = data.bikes;
+			filteredBikeList = data.bikes.list;
 			return;
 		}
 
-		filteredBikeList = data.bikes.filter((bike) => {
+		filteredBikeList = data.bikes.list.filter((bike) => {
 			const color = bike.colour?.toLocaleLowerCase();
 			const make = bike.make?.toLocaleLowerCase();
 

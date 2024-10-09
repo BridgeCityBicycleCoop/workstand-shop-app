@@ -23,8 +23,26 @@ interface ResourceService<
 
 export type MembersService = ResourceService<Member, MemberFilter>;
 export type VisitsService = ResourceService<Visit, VisitFilter> & {
-	findByDate(options?: { startDate?: Date; endDate?: Date }): Promise<Visit[]>;
+	findByDate(options?: { startDate?: Date; endDate?: Date }): Promise<{
+		list: Visit[];
+		total: number;
+		page: number;
+		perPage: number;
+		totalPages: number;
+	}>;
 	add(data: { memberId: string; purposeId: string }): Promise<Visit>;
 };
 export type PurposesService = ResourceService<Purpose, PurposeFilter>;
-export type BikesService = ResourceService<Bike, BikeFilter>;
+export type BikesService = {
+	find(filters: BikeFilter): Promise<{
+		list: Bike[];
+		total: number;
+		page: number;
+		perPage: number;
+		totalPages: number;
+	}>;
+	get(id: Bike['id']): Promise<Bike>;
+	add(data: Partial<Bike>): Promise<Bike>;
+	update(data: Nullable<Partial<Bike>> & Pick<Bike, 'id'>): Promise<Bike>;
+	remove(id: Bike['id']): Promise<boolean>;
+};

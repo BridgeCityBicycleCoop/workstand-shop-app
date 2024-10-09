@@ -15,14 +15,13 @@ export const load = async ({ locals, url }) => {
 	const endDate = url.searchParams.get('endDate') ?? '';
 	const startPage = url.searchParams.get('page') || '1';
 	const urlString = url.toString();
-	let page;
-	$: page = parseInt(startPage, 10);
+	const page = parseInt(startPage, 10);
 
-	const { bikesList, totalPages } = await bikesService.findByDate({
+	const result = await bikesService.find({
 		startDate: toValidStartDate(startDate),
 		endDate: toValidEndDate(endDate),
 		page
 	});
 
-	return { bikesList, startDate, endDate, page, urlString, totalPages };
+	return { startDate, endDate, urlString, ...result };
 };

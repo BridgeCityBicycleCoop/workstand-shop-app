@@ -16,7 +16,7 @@
 	const bikeKeys = (Object.keys(bikeProps) as BikePropKeys[]).filter((key) => key !== 'id');
 	const headers = bikeKeys.map(camelCaseToWords);
 
-	$: list = data.bikesList.map((bike) => {
+	$: list = data.list.map((bike) => {
 		return bikeKeys.map((key) => {
 			const value = bike[key];
 

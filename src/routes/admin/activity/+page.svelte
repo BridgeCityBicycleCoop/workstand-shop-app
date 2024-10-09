@@ -8,7 +8,7 @@
 
 	const name = 'Visits';
 	const headers = ['Name', 'Purpose', 'Signed-in'];
-	$: list = data.visitsList.map((visit) => {
+	$: list = data.list.map((visit) => {
 		return [
 			getDisplayName(visit.member),
 			visit.purpose.name,

@@ -1,17 +1,25 @@
-import { fail } from '@sveltejs/kit';
+import { fail, redirect } from '@sveltejs/kit';
 import { superValidate, message } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import { bikeCreateSchema } from '$lib/models';
 import { bikes as bikesService } from '$lib/server/db';
+import { hasEmptyUrlParams, clearEmptyUrlParams } from '$lib/utils';
 
-export async function load() {
+export async function load({ url }) {
+	if (hasEmptyUrlParams(url)) {
+		redirect(307, clearEmptyUrlParams(url).toString());
+	}
+
+	const showAll = url.searchParams.has('showAll') ?? '';
+	const filter = showAll ? {} : { available: true };
 	const form = await superValidate(zod(bikeCreateSchema));
 
-	const bikes = await bikesService.find();
+	const bikes = await bikesService.find(filter);
 
 	return {
 		form: form,
-		bikes: bikes
+		bikes: bikes,
+		showAll
 	};
 }
 
