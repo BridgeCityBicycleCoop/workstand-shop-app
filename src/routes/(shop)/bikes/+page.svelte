@@ -12,7 +12,7 @@
 		goto(`/bikes/${bike.id}`);
 	};
 
-	$: showBikeButtonText = data.showAll ? 'Show Available Bikes' : 'Show All Bikes';
+	$: showBikeButtonText = data.showAll ? 'Show Available Bikes Only' : 'Show All Bikes';
 
 	const handleCheckSerialNumber = (_event: MouseEvent, bike: Bike) => {
 		updateClipboard(bike.serialNumber);

@@ -9,12 +9,15 @@ export async function load({ url }) {
 	if (hasEmptyUrlParams(url)) {
 		redirect(307, clearEmptyUrlParams(url).toString());
 	}
-
-	const showAll = url.searchParams.has('showAll') ?? '';
-	const filter = showAll ? {} : { available: true };
 	const form = await superValidate(zod(bikeCreateSchema));
 
-	const bikes = await bikesService.find(filter);
+	const showAll = url.searchParams.has('showAll') && url.searchParams.get('showAll') === 'true';
+	const availableFilter = showAll ? {} : { available: true };
+
+	const bikes = await bikesService.find({
+		perPage: 2500,
+		...availableFilter
+	});
 
 	return {
 		form: form,

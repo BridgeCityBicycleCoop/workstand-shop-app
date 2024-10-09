@@ -7,11 +7,14 @@ export async function load({ url }) {
 		redirect(307, clearEmptyUrlParams(url).toString());
 	}
 
-	const showAll = url.searchParams.has('showAll') ?? '';
-	const filter = showAll ? {} : { available: true };
+	const showAll = url.searchParams.has('showAll') && url.searchParams.get('showAll') === 'true';
+	const availableFilter = showAll ? {} : { available: true };
 
 	return {
-		bikes: await bikesService.find(filter),
+		bikes: await bikesService.find({
+			perPage: 2500,
+			...availableFilter
+		}),
 		showAll
 	};
 }
