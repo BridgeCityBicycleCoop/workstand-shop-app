@@ -1,28 +1,12 @@
 <script lang="ts">
 	import { format } from 'date-fns';
+	import Disclosure from './Disclosure.svelte';
 
 	export let name: string = '';
 	export let requiresGuardian: boolean = false;
 	export let guardianName: string | null = '';
-	let isCollapsed = true;
-	$: collapseButtonText = isCollapsed ? 'Show Guidelines +' : 'Hide Guidelines -';
 
 	let waiverDate = format(Date.now(), 'LLLL dd, yyyy');
-
-	const toggleCollapsibleContent = (ev: MouseEvent) => {
-		const el = <HTMLElement>ev.target;
-		el?.classList.toggle('active');
-		const content = <HTMLElement>el.nextElementSibling;
-		if (content) {
-			if (content.style.maxHeight) {
-				content.style.maxHeight = '';
-				isCollapsed = true;
-			} else {
-				content.style.maxHeight = content.scrollHeight + 'px';
-				isCollapsed = false;
-			}
-		}
-	};
 </script>
 
 <h2>Bridge City Bicycle Co-op - Member Rights and Respect Guidelines</h2>
@@ -31,8 +15,10 @@
 	towards education, empowerment and community-building. In order to do so we need your input and
 	support.
 </small>
-<button class="collapsible" on:click={toggleCollapsibleContent}>{collapseButtonText}</button>
-<div class="collapsible-content">
+<Disclosure>
+	<span slot="title">Show Guidelines</span>
+	<span slot="open-title">Hide Guidelines</span>
+
 	<h3>Member Privileges</h3>
 	<li>Access to the BCBC tools, stands and workspace</li>
 	<li>Access to friendly mechanical assistance and education when available</li>
@@ -89,7 +75,7 @@
 		so many ways to be a part of this community, regardless of whether or not you know how to change
 		a tire (yet!). Ask how you can help out!
 	</p>
-</div>
+</Disclosure>
 <div class="guidelines-signature">
 	<p>
 		I {name} (print full name) acknowledge that my Membership and privileges in the Bridge City Bicycle
@@ -112,30 +98,5 @@
 	.signature {
 		font-style: italic;
 		font-weight: bold;
-	}
-
-	.collapsible {
-		background-color: #777;
-		color: white;
-		cursor: pointer;
-		padding: 18px;
-		width: 100%;
-		border: none;
-		text-align: left;
-		outline: none;
-		font-size: 15px;
-	}
-
-	.active,
-	.collapsible:hover {
-		background-color: #555;
-	}
-
-	.collapsible-content {
-		padding: 0 18px;
-		max-height: 0;
-		overflow: hidden;
-		transition: max-height 0.2s ease-out;
-		background-color: #f1f1f1;
 	}
 </style>

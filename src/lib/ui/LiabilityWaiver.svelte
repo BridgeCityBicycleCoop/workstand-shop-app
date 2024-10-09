@@ -1,29 +1,12 @@
 <script lang="ts">
 	import { format } from 'date-fns';
+	import Disclosure from './Disclosure.svelte';
 
 	export let name: string = '';
 	export let requiresGuardian: boolean = false;
 	export let guardianName: string | null = '';
-	let isCollapsed = true;
-	$: collapseButtonText = isCollapsed ? 'Show Waiver +' : 'Hide Waiver -';
 
 	let waiverDate = format(Date.now(), 'LLLL dd, yyyy');
-
-	const toggleCollapsibleContent = (ev: MouseEvent) => {
-		const el = <HTMLElement>ev.target;
-		el?.classList.toggle('active');
-		const copyToCollapse = <HTMLElement>el.nextElementSibling;
-
-		if (copyToCollapse) {
-			if (copyToCollapse.style.maxHeight) {
-				copyToCollapse.style.maxHeight = '';
-				isCollapsed = true;
-			} else {
-				copyToCollapse.style.maxHeight = copyToCollapse.scrollHeight + 'px';
-				isCollapsed = false;
-			}
-		}
-	};
 </script>
 
 <div class="wavier-container">
@@ -36,8 +19,9 @@
 		***Children under the age of 13 must have guardian supervision when participating in BCBC
 		activities and events.
 	</small>
-	<button class="collapsible" on:click={toggleCollapsibleContent}>{collapseButtonText}</button>
-	<div class="collapsible-content">
+	<Disclosure>
+		<span slot="title">Show Waiver</span>
+		<span slot="open-title">Hide Waiver</span>
 		<p>
 			The Bridge City Bicycle Co-operative (herein referred to as The BCBC and The Community) is a
 			nonprofit, community bicycle repair education and resource co-operative. We offer our members
@@ -70,7 +54,7 @@
 			whether the cause of the claims or liability arise from the negligence, acts or omissions of
 			me, a third party, or the Community.
 		</p>
-	</div>
+	</Disclosure>
 	<div class="wavier-signature">
 		<p>I {name} have read and agree to the above terms & conditions.</p>
 		<p>Date: {waiverDate}</p>
@@ -91,30 +75,5 @@
 	.signature {
 		font-style: italic;
 		font-weight: bold;
-	}
-
-	.collapsible {
-		background-color: #777;
-		color: white;
-		cursor: pointer;
-		padding: 18px;
-		width: 100%;
-		border: none;
-		text-align: left;
-		outline: none;
-		font-size: 15px;
-	}
-
-	.active,
-	.collapsible:hover {
-		background-color: #555;
-	}
-
-	.collapsible-content {
-		padding: 0 18px;
-		max-height: 0;
-		overflow: hidden;
-		transition: max-height 0.2s ease-out;
-		background-color: #f1f1f1;
 	}
 </style>
