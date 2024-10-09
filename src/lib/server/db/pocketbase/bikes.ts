@@ -6,7 +6,8 @@ import {
 	bikeListSchema,
 	type Bike,
 	type BikeCreate,
-	type BikeUpdate
+	type BikeUpdate,
+	type BikeFilter
 } from '$lib/models';
 import { parseISO } from 'date-fns';
 import { createDateFilter } from './utils';
@@ -33,10 +34,12 @@ const recordToBikeSchema = bikeRecordSchema.pipe(bikeSchema);
 const bikeRecordListSchema = bikeRecordSchema.array();
 const recordsToBikeListSchema = bikeRecordListSchema.pipe(bikeListSchema);
 
-export const find = async (_filters: Record<string, unknown> = {}): Promise<Bike[]> => {
+export const find = async (filters: BikeFilter = {}): Promise<Bike[]> => {
+	const filter =
+		'outOfShopDate' in filters ? pb.filter('outOfShopDate = {:outOfShopDate}', filters) : '';
 	const records = await pb
 		.collection('bikes')
-		.getFullList<BikesResponse>(_filters)
+		.getFullList<BikesResponse>({ filter })
 		.catch((e: ClientResponseError) => {
 			throw e.originalError;
 		});
@@ -55,24 +58,29 @@ interface FindByDateResult {
 // no startDate or endDate, all bikes,
 // startDate only, should end with the latest bike
 // endDate only, should start from the very first bike
-export const findByDate = async ({
-	startDate,
-	endDate,
-	page = 1,
-	perPage = 30,
-	sortBy = 'donationDate',
-	sortDirection = 'descending'
-}: {
-	startDate?: Date;
-	endDate?: Date;
-	page?: number;
-	perPage?: number;
-	sortBy?: string;
-	sortDirection?: string;
-} = {}): Promise<FindByDateResult> => {
-	const filter = createDateFilter('donationDate', { startDate, endDate });
+export const findByDate = async (
+	filters: {
+		startDate?: Date;
+		endDate?: Date;
+		page?: number;
+		perPage?: number;
+		sortBy?: string;
+		sortDirection?: string;
+		outOfShopDate?: Date | null;
+	} = {}
+): Promise<FindByDateResult> => {
+	const { page = 1, perPage = 30, sortBy = 'donationDate', sortDirection = 'descending' } = filters;
 	const ascendOrDescend = sortDirection === 'descending' ? '-' : '+';
 	const sortString = ascendOrDescend + sortBy;
+
+	const filterElements = [];
+	if ('startDate' in filters || 'endDate' in filters) {
+		filterElements.push(createDateFilter('donationDate', filters));
+	}
+	if ('outOfShopDate' in filters) {
+		filterElements.push(pb.filter('outOfShopDate = {:outOfShopDate}', filters));
+	}
+	const filter = filterElements.join(' && ');
 
 	const listResult = await pb
 		.collection('bikes')
@@ -92,6 +100,7 @@ export const findByDate = async ({
 		totalPages: listResult.totalPages
 	};
 };
+
 export const get = async (id: string): Promise<Bike> => {
 	return recordToBikeSchema.parse(
 		await pb
@@ -102,6 +111,7 @@ export const get = async (id: string): Promise<Bike> => {
 			})
 	);
 };
+
 export const add = async (data: BikeCreate): Promise<Bike> => {
 	return recordToBikeSchema.parse(
 		await pb
@@ -112,6 +122,7 @@ export const add = async (data: BikeCreate): Promise<Bike> => {
 			})
 	);
 };
+
 export const update = async (data: BikeUpdate): Promise<Bike> => {
 	return recordToBikeSchema.parse(
 		await pb
@@ -122,6 +133,7 @@ export const update = async (data: BikeUpdate): Promise<Bike> => {
 			})
 	);
 };
+
 export const remove = async (id: string): Promise<boolean> => {
 	return await pb
 		.collection('bikes')

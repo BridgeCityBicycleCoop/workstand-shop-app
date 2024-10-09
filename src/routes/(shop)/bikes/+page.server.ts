@@ -8,10 +8,10 @@ export async function load({ url }) {
 	}
 
 	const showAll = url.searchParams.has('showAll') ?? '';
-	const filter = showAll ? '' : 'outOfShopDate = ""';
+	const filter = showAll ? {} : { outOfShopDate: null };
 
 	return {
-		bikes: await bikesService.find({ filter }),
+		bikes: await bikesService.find(filter),
 		showAll
 	};
 }

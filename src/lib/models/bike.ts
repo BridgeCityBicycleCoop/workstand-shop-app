@@ -42,14 +42,13 @@ export const bikeUpdateSchema = makeOptionalPropsNullable(
 	bikeSchema.partial().required({ id: true, serialNumber: true })
 );
 
-export const bikeFilterSchema = bikeSchema.omit({ id: true });
+export const bikeFilterSchema = z.object({ outOfShopDate: z.date().nullish() });
 
 export type Bike = Prettify<z.infer<typeof bikeSchema>>;
 export type BikeList = Prettify<z.infer<typeof bikeListSchema>>;
 export type BikeCreate = Prettify<z.infer<typeof bikeCreateSchema>>;
 export type BikeUpdate = Prettify<z.infer<typeof bikeUpdateSchema>>;
-
-export type BikeFilter = z.infer<typeof bikeFilterSchema>; // Todo: use this in the find method
+export type BikeFilter = z.infer<typeof bikeFilterSchema>;
 
 export const bikeSearchFilter = (bikes: Bike[], filter: string) => {
 	return bikes.filter(
