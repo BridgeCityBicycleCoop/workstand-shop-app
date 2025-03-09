@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { getContext } from 'svelte';
 	import { superForm } from 'sveltekit-superforms/client';
-	import { Field, Control, Label, Description, FieldErrors } from 'formsnap';
 	import { Message } from '$lib/ui';
 	import type { Writable } from 'svelte/store';
 
@@ -9,19 +8,10 @@
 	const loginForm = superForm(data.loginForm);
 	const { form, enhance, message, delayed } = loginForm;
 
-	const registerForm = superForm(data.registerForm);
-	const {
-		form: registerFormData,
-		enhance: registerEnhance,
-		message: registerMessage,
-		delayed: registerDelayed
-	} = registerForm;
-
 	const loading = getContext<Writable<boolean>>('loading-store');
-	$: $loading = $delayed || $registerDelayed;
+	$: $loading = $delayed;
 
-	let registering = false;
-	$: headingText = registering ? 'BCBC Workstand Registration' : 'BCBC Workstand Login';
+	$: headingText = 'BCBC Workstand Login';
 </script>
 
 <svelte:head>
@@ -38,70 +28,18 @@
 	{:else}
 		<h1>{headingText}</h1>
 
-		{#if !registering}
-			<div>Please enter your username and password to log in to Workstand</div>
+		<div>Please enter your username and password to log in to Workstand</div>
 
-			<form method="post" action="?/login" use:enhance>
-				<Field form={loginForm} name="email">
-					<Control let:attrs>
-						<Label>Email</Label>
-						<input {...attrs} type="email" bind:value={$form.email} />
-					</Control>
-					<FieldErrors />
-				</Field>
-				<Field form={loginForm} name="password">
-					<Control let:attrs>
-						<Label>Password</Label>
-						<input {...attrs} type="password" bind:value={$form.password} />
-					</Control>
-					<FieldErrors />
-				</Field>
-				<Message message={$message} />
-				<button class="btn btn-primary">Log In</button>
-			</form>
-		{:else}
-			<div>
-				<div>Please register for Workstand with and email and password</div>
-				<div>(password must contain 8 letters, a number, and a special symbol)</div>
-				<form method="POST" action="?/register" use:registerEnhance>
-					<Field form={registerForm} name="email">
-						<Control let:attrs>
-							<Label>Email</Label>
-							<input {...attrs} type="email" bind:value={$registerFormData.email} />
-						</Control>
-						<Description>You will be emailed a confirmation email to this address</Description>
-						<FieldErrors />
-					</Field>
-					<Field form={registerForm} name="password">
-						<Control let:attrs>
-							<Label>Password</Label>
-							<input {...attrs} type="password" bind:value={$registerFormData.password} />
-						</Control>
-						<Description
-							>password must contain 8 letters, a number, and a special symbol</Description
-						>
-						<FieldErrors />
-					</Field>
-					<Field form={registerForm} name="confirmPassword">
-						<Control let:attrs>
-							<Label>Confirm Password</Label>
-							<input
-								{...attrs}
-								type="confirmPassword"
-								bind:value={$registerFormData.confirmPassword}
-							/>
-						</Control>
-						<Description
-							>password must contain 8 letters, a number, and a special symbol</Description
-						>
-						<FieldErrors />
-					</Field>
+		<form method="post" action="?/login" use:enhance>
+			<label for="email">Email</label>
+			<input id="email" name="email" type="email" bind:value={$form.email} />
 
-					{#if $registerMessage}<h3>{$registerMessage}</h3>{/if}
-					<button class="btn btn-primary">Register</button>
-				</form>
-			</div>
-		{/if}
+			<label for="password">Password</label>
+			<input id="password" name="password" type="password" bind:value={$form.password} />
+
+			<Message message={$message} />
+			<button class="btn btn-primary">Log In</button>
+		</form>
 	{/if}
 </div>
 
@@ -121,9 +59,5 @@
 		display: flex;
 		justify-content: center;
 		margin: 80px 0px;
-	}
-
-	[data-fs-error] {
-		border: 3px solid red;
 	}
 </style>
