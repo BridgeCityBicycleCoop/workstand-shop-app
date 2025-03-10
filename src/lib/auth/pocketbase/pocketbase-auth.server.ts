@@ -1,4 +1,4 @@
-import PocketBase from 'pocketbase';
+import PocketBase, { type AuthRecord } from 'pocketbase';
 import cookie from 'cookie';
 import { redirect, type RequestEvent } from '@sveltejs/kit';
 import { env } from '$env/dynamic/private';
@@ -11,8 +11,9 @@ export const loginWithPassword = (async (event: RequestEvent, email: string, pas
 	const { token, record } = await event.locals.pb
 		.collection('users')
 		.authWithPassword(email, password);
-	event.locals.pb.authStore.save(token, record);
+	event.locals.pb.authStore.save(token, record as AuthRecord);
 	const pbAuthCookie = cookie.parse(event.locals.pb.authStore.exportToCookie());
+	if (!pbAuthCookie.pb_auth) throw new Error('Failed to create auth cookie');
 	event.cookies.set(SESSION_COOKIE_NAME, pbAuthCookie.pb_auth, {
 		path: '/'
 	});

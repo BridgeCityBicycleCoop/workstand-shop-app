@@ -3,10 +3,14 @@
 	import type { SuperForm } from 'sveltekit-superforms';
 	import Field from './Field.svelte';
 
-	type BikeForm = BikeUpdate | (BikeCreate & { id?: string });
+	type BikeForm = BikeUpdate;
 
-	export let bikeForm: SuperForm<BikeForm>['form'];
-	export let errors: SuperForm<BikeForm>['errors'];
+	interface Props {
+		bikeForm: SuperForm<BikeForm>['form'];
+		errors: SuperForm<BikeForm>['errors'];
+	}
+
+	let { bikeForm, errors }: Props = $props();
 </script>
 
 <fieldset>
@@ -15,8 +19,8 @@
 	<Field name="colour" bind:value={$bikeForm.colour}>Colour</Field>
 	<Field name="donatedBy" list="donated-sources" bind:value={$bikeForm.donatedBy}>Donated By</Field>
 	<datalist id="donated-sources">
-		<option value="Public" />
-		<option value="Landfill" />
+		<option value="Public"></option>
+		<option value="Landfill"></option>
 	</datalist>
 	<Field name="email" type="email" bind:value={$bikeForm.email} errors={$errors.email}>Email</Field>
 	<Field name="donationDate" type="date" bind:value={$bikeForm.donationDate}>Donation Date</Field>
@@ -29,8 +33,8 @@
 		>Recipient Age</Field
 	>
 	<datalist id="recipient-ages">
-		<option value="Adult" />
-		<option value="Youth" />
+		<option value="Adult"></option>
+		<option value="Youth"></option>
 	</datalist>
 	<Field name="recipientPhoneNumber" bind:value={$bikeForm.recipientPhoneNumber}
 		>Recipient Phone Number</Field
@@ -45,25 +49,25 @@
 		>Bike Destiny</Field
 	>
 	<datalist id="bike-destinies">
-		<option value="Sold" />
-		<option value="Parts" />
-		<option value="Scrap" />
-		<option value="Unknown" />
+		<option value="Sold"></option>
+		<option value="Parts"></option>
+		<option value="Scrap"></option>
+		<option value="Unknown"></option>
 	</datalist>
 	<Field name="bcbcProgram" list="bcbc-programs" bind:value={$bikeForm.bcbcProgram}
 		>BCBC Program</Field
 	>
 	<datalist id="bcbc-programs">
-		<option value="Bike Sale Fundraiser" />
-		<option value="Kids Bike Giveaway" />
-		<option value="ODS" />
-		<option value="Online Sale" />
-		<option value="Open Hours" />
-		<option value="The Bridge Workshop" />
-		<option value="Women and Queer Program" />
-		<option value="Youth Build-a-Bicycle Workshops" />
+		<option value="Bike Sale Fundraiser"></option>
+		<option value="Kids Bike Giveaway"></option>
+		<option value="ODS"></option>
+		<option value="Online Sale"></option>
+		<option value="Open Hours"></option>
+		<option value="The Bridge Workshop"></option>
+		<option value="Women and Queer Program"></option>
+		<option value="Youth Build-a-Bicycle Workshops"></option>
 	</datalist>
-	<Field name="notes" type="textarea" rows="4" bind:value={$bikeForm.notes}>Notes</Field>
+	<Field name="notes" type="textarea" rows={4} bind:value={$bikeForm.notes}>Notes</Field>
 	{#if $bikeForm.id}
 		<input type="hidden" name="id" bind:value={$bikeForm.id} />
 	{/if}

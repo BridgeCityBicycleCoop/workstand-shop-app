@@ -2,12 +2,12 @@
 	import { FilterDataList, getLocaleDisplayDateAndTime, camelCaseToWords } from '$lib/ui';
 	import { bikeSchema } from '$lib/models';
 
-	export let data;
+	let { data } = $props();
 	let startDate = data.startDate;
 	let endDate = data.endDate;
-	$: page = data.page;
-	$: totalPages = data.totalPages;
-	$: urlString = data.urlString;
+	let page = $derived(data.page);
+	let totalPages = $derived(data.totalPages);
+	let urlString = $derived(data.urlString);
 
 	const name = 'Bikes';
 
@@ -16,7 +16,7 @@
 	const bikeKeys = (Object.keys(bikeProps) as BikePropKeys[]).filter((key) => key !== 'id');
 	const headers = bikeKeys.map(camelCaseToWords);
 
-	$: list = data.bikesList.map((bike) => {
+	let list = $derived(data.bikesList.map((bike) => {
 		return bikeKeys.map((key) => {
 			const value = bike[key];
 
@@ -28,7 +28,7 @@
 				return value.toString();
 			}
 		});
-	});
+	}));
 </script>
 
 <FilterDataList {startDate} {endDate} {name} {headers} {list} {page} {totalPages} {urlString} />

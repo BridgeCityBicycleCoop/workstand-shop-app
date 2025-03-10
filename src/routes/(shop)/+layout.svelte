@@ -3,32 +3,38 @@
 	import { PageLayout, Header, Footer, TopNav, Logo, Toasts } from '$lib/ui';
 	import type { Writable } from 'svelte/store';
 
-	export let data;
+	let { data, children } = $props();
 
-	$: logoUrl = data.shopConfig.logoUrl;
-	$: shopName = data.shopConfig.shopName;
-	$: user = data.user;
+	let logoUrl = $derived(data.shopConfig.logoUrl);
+	let shopName = $derived(data.shopConfig.shopName);
+	let user = $derived(data.user);
 
 	const loading = getContext<Writable<boolean>>('loading-store');
 
-	$: navItems = [
+	let navItems = $derived([
 		{ name: 'Login', href: '/login' },
 		{ name: 'Shop', href: '/' },
 		{ name: 'Members', href: '/members' },
 		{ name: 'Bikes', href: '/bikes' },
 		...(user?.role.includes('admin') ? [{ name: 'Admin', href: '/admin' }] : [])
-	];
+	]);
 </script>
 
 <PageLayout loading={$loading}>
-	<Header slot="header">
-		<Logo {logoUrl} {shopName} slot="logo" />
-		<TopNav {navItems} />
-	</Header>
+	{#snippet header()}
+		<Header >
+			{#snippet logo()}
+				<Logo {logoUrl} {shopName}  />
+			{/snippet}
+			<TopNav {navItems} />
+		</Header>
+	{/snippet}
 
-	<slot />
+	{@render children?.()}
 
-	<Footer slot="footer" />
+	{#snippet footer()}
+		<Footer  />
+	{/snippet}
 </PageLayout>
 
 <Toasts />

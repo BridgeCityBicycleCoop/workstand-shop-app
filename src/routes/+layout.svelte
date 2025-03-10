@@ -4,10 +4,10 @@
 	import { navigating } from '$app/stores';
 	import { loadingStore } from '$lib/ui';
 
-	export let data;
+	let { data, children } = $props();
 	const theme = data.theme;
 
-	$: themeStyles = `
+	let themeStyles = $derived(`
 	<style class="theme-styles">
 		:root {
 			${Object.keys(theme).reduce((str: string, key: string) => {
@@ -15,7 +15,7 @@
 			}, '')}
 		}
 	</style>
-	`;
+	`);
 
 	const loading = loadingStore(navigating);
 	// ...and add it to the context for child components to access
@@ -27,4 +27,4 @@
 	{@html themeStyles}
 </svelte:head>
 
-<slot />
+{@render children?.()}

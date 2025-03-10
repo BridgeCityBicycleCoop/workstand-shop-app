@@ -1,6 +1,10 @@
 <script lang="ts">
-	export let logoUrl: string = '';
-	export let shopName: string = 'Workstand';
+	interface Props {
+		logoUrl?: string;
+		shopName?: string;
+	}
+
+	let { logoUrl = '', shopName = 'Workstand' }: Props = $props();
 </script>
 
 <a href="/">

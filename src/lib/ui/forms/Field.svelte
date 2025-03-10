@@ -1,56 +1,74 @@
 <script lang="ts">
 	import { format, parse } from 'date-fns';
 	import ToggleSwitch from './ToggleSwitch.svelte';
+	import type {
+		HTMLInputAttributes,
+		HTMLTextareaAttributes,
+		HTMLSelectAttributes,
+		HTMLInputTypeAttribute
+	} from 'svelte/elements';
+	import type { Snippet } from 'svelte';
 
-	export let type:
-		| 'text'
-		| 'toggle'
-		| 'textarea'
-		| 'select'
-		| 'button'
-		| 'checkbox'
-		| 'color'
-		| 'date'
-		| 'datetime-local'
-		| 'email'
-		| 'file'
-		| 'hidden'
-		| 'image'
-		| 'month'
-		| 'number'
-		| 'password'
-		| 'radio'
-		| 'range'
-		| 'reset'
-		| 'search'
-		| 'submit'
-		| 'time'
-		| 'week'
-		| 'url' = 'text';
-	export let id: string = $$props.name;
-	export let options: [key: string, value: string][] = [];
-	export let value: string | Date | null | number | undefined = undefined;
-	export let checked = false;
-	export let errors: string[] | undefined = undefined;
+	type FieldProps = {
+		type?: HTMLInputTypeAttribute | 'toggle' | 'textarea' | 'select';
+		errors?: string[];
+		children?: Snippet;
+		checked?: boolean;
+		options?: [key: string, value: string][];
+		option?: Snippet<[[key: string, value: string]]>;
+	};
 
-	$: dateString = value instanceof Date ? format(value, 'yyyy-MM-dd') : '';
+	type Props =
+		| ({
+				type: 'textarea';
+		  } & FieldProps &
+				HTMLTextareaAttributes)
+		| ({ type: 'select' } & FieldProps & HTMLSelectAttributes)
+		| ({ type: 'toggle' } & FieldProps & HTMLInputAttributes)
+		| (FieldProps & HTMLInputAttributes);
+
+	const generatedId = $props.id();
+
+	let {
+		children,
+		value = $bindable(),
+		checked = $bindable(),
+		id = generatedId,
+		type,
+		errors,
+		options = [],
+		option,
+		...rest
+	}: Props = $props();
+
+	let dateString = $derived(value instanceof Date ? format(value, 'yyyy-MM-dd') : '');
 	const onDateChange = (event: Event) => {
 		const target = event.target as HTMLInputElement;
 		value = parse(target.value, 'yyyy-MM-dd', new Date());
 	};
 </script>
 
-<label for={id}><slot /></label>
+<label for={id}>{@render children?.()}</label>
 <div class="field">
 	{#if type === 'toggle'}
-		<ToggleSwitch {id} {...$$props} aria-invalid={errors ? 'true' : undefined} bind:checked />
+		<ToggleSwitch {id} {...rest as HTMLInputAttributes} bind:checked />
 	{:else if type === 'textarea'}
-		<textarea {id} {...$$props} aria-invalid={errors ? 'true' : undefined} bind:value></textarea>
+		<textarea
+			{id}
+			{...rest as HTMLTextareaAttributes}
+			aria-invalid={errors ? true : undefined}
+			bind:value
+		></textarea>
 	{:else if type === 'select'}
-		<select {id} {...$$props} aria-invalid={errors ? 'true' : undefined} bind:value>
-			{#if $$slots.option}
+		<select
+			{id}
+			{...rest as HTMLSelectAttributes}
+			aria-invalid={errors ? 'true' : undefined}
+			bind:value
+		>
+			{#if option}
 				{#each options as entry}
-					<slot name="option" {entry} />
+					{@render option(entry)}
 				{/each}
 			{:else}
 				{#each options as entry}
@@ -61,13 +79,18 @@
 	{:else if type === 'date'}
 		<input
 			{id}
-			{...$$props}
+			{...rest as HTMLInputAttributes}
 			aria-invalid={errors ? 'true' : undefined}
 			value={dateString}
-			on:input={onDateChange}
+			oninput={onDateChange}
 		/>
 	{:else}
-		<input {id} {...$$props} aria-invalid={errors ? 'true' : undefined} bind:value />
+		<input
+			{id}
+			{...rest as HTMLInputAttributes}
+			aria-invalid={errors ? 'true' : undefined}
+			bind:value
+		/>
 	{/if}
 	{#if errors}<span class="invalid">{errors}</span>{/if}
 </div>

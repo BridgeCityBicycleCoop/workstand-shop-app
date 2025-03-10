@@ -1,9 +1,11 @@
 <script lang="ts">
-	export let checked = false;
+	import type { HTMLInputAttributes } from 'svelte/elements';
+
+	let { checked = $bindable(), ...rest }: HTMLInputAttributes = $props();
 </script>
 
 <label>
-	<input {...$$props} type="checkbox" bind:checked />
+	<input type="checkbox" bind:checked {...rest} />
 </label>
 
 <style>

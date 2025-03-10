@@ -1,4 +1,4 @@
-<script context="module">
+<script module>
 	import { dismissToast, toasts, addToast } from './store';
 	export { addToast };
 </script>

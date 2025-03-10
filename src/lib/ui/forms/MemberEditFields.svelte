@@ -5,8 +5,12 @@
 
 	type MemberForm = Omit<MemberUpdate, 'waiver'> | (MemberCreate & { id?: string });
 
-	export let memberForm: SuperForm<MemberForm>['form'];
-	export let errors: SuperForm<MemberForm>['errors'];
+	interface Props {
+		memberForm: SuperForm<MemberForm>['form'];
+		errors: SuperForm<MemberForm>['errors'];
+	}
+
+	let { memberForm, errors }: Props = $props();
 </script>
 
 <fieldset>
@@ -21,9 +25,9 @@
 		bind:value={$memberForm.pronouns}>Pronouns</Field
 	>
 	<datalist id="common-pronouns">
-		<option value="he/him/his" />
-		<option value="she/her/hers" />
-		<option value="they/them/theirs" />
+		<option value="he/him/his"></option>
+		<option value="she/her/hers"></option>
+		<option value="they/them/theirs"></option>
 	</datalist>
 	<Field name="email" type="email" errors={$errors.email} bind:value={$memberForm.email}
 		>Email</Field
@@ -57,7 +61,7 @@
 			Status
 		</Field>
 	{/if}
-	<Field name="notes" type="textarea" rows="4" errors={$errors.notes} bind:value={$memberForm.notes}
+	<Field name="notes" type="textarea" rows={4} errors={$errors.notes} bind:value={$memberForm.notes}
 		>Notes</Field
 	>
 	{#if $memberForm.id}
