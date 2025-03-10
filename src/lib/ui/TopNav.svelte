@@ -1,7 +1,11 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 
-	export let navItems: { name: string; href: string }[];
+	interface Props {
+		navItems: { name: string; href: string }[];
+	}
+
+	let { navItems }: Props = $props();
 	const matchesPath = (path: string, href: string) =>
 		path === href || (href.length > 1 && path.startsWith(href));
 </script>

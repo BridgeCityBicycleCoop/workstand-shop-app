@@ -8,8 +8,13 @@
 
 	const dispatch = createEventDispatcher();
 
-	export let type: 'success' | 'error' | 'info' = 'info';
-	export let dismissible = true;
+	interface Props {
+		type?: 'success' | 'error' | 'info';
+		dismissible?: boolean;
+		children?: import('svelte').Snippet;
+	}
+
+	let { type = 'info', dismissible = true, children }: Props = $props();
 </script>
 
 <article class={type} role="alert" transition:fade>
@@ -22,11 +27,11 @@
 	{/if}
 
 	<div class="text">
-		<slot />
+		{@render children?.()}
 	</div>
 
 	{#if dismissible}
-		<button class="close" on:click={() => dispatch('dismiss')}>
+		<button class="close" onclick={() => dispatch('dismiss')}>
 			<CloseIcon width="0.8em" />
 		</button>
 	{/if}

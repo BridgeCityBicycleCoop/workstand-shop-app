@@ -1,26 +1,26 @@
 <script lang="ts">
-	export let open = false;
-	export let name: string | undefined | null = undefined;
+	import { snippetOrText, type SnippetOrText, type Snippet } from '$lib/utils';
+	type Props = {
+		open?: boolean;
+		name?: string | null;
+		title?: SnippetOrText;
+		openTitle?: SnippetOrText;
+		closedTitle?: SnippetOrText;
+		children?: Snippet;
+	};
+	let { name, open = false, title, openTitle, closedTitle, children }: Props = $props();
+
+	let titleForRender = $derived(
+		open ? (openTitle ? openTitle : title) : closedTitle ? closedTitle : title
+	);
 </script>
 
 <details bind:open {name}>
-	{#if $$slots.title && ((!$$slots['open-title'] && open) || (!$$slots['closed-title'] && !open))}
-		<summary>
-			<slot name="title"></slot>
-		</summary>
-	{/if}
-	{#if $$slots['open-title'] && open}
-		<summary>
-			<slot name="open-title"></slot>
-		</summary>
-	{/if}
-	{#if $$slots['closed-title'] && !open}
-		<summary>
-			<slot name="closed-title"></slot>
-		</summary>
-	{/if}
+	<summary>
+		{@render snippetOrText?.(titleForRender)}
+	</summary>
 	<div class="content">
-		<slot></slot>
+		{@render children?.()}
 	</div>
 </details>
 

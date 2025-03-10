@@ -1,37 +1,45 @@
 <script lang="ts">
-	export let open: boolean = false;
-	export let onCloseCallback: { (): void } | undefined = undefined;
+	import { run } from 'svelte/legacy';
 
-	let dialog: HTMLDialogElement;
-
-	$: {
-		if (open && !dialog?.open) {
-			dialog.showModal();
-		}
-		if (!open && dialog?.open) {
-			dialog.close();
-		}
+	interface Props {
+		open?: boolean;
+		onCloseCallback?: { (): void } | undefined;
+		children?: import('svelte').Snippet;
+		buttons?: import('svelte').Snippet;
 	}
 
+	let { open = $bindable(false), onCloseCallback = undefined, children, buttons }: Props = $props();
+
+	let dialog: HTMLDialogElement | undefined = $state();
+
+	run(() => {
+		if (open && !dialog?.open) {
+			dialog?.showModal();
+		}
+		if (!open && dialog?.open) {
+			dialog?.close();
+		}
+	});
+
 	function handleClose() {
-		dialog.close();
+		dialog?.close();
 		open = false;
 		onCloseCallback?.();
 	}
 </script>
 
 <div class="modal-container">
-	<dialog bind:this={dialog} on:close={handleClose}>
-		<button class="close" on:click={handleClose}>&times;</button>
+	<dialog bind:this={dialog} onclose={handleClose}>
+		<button class="close" onclick={handleClose}>&times;</button>
 		<div class="content">
-			<slot />
+			{@render children?.()}
 		</div>
 
 		<span class="button-container">
-			<slot name="buttons">
+			{#if buttons}{@render buttons()}{:else}
 				<button class="primary">Cancel</button>
-				<button class="primary" on:click={handleClose}>Confirm</button>
-			</slot>
+				<button class="primary" onclick={handleClose}>Confirm</button>
+			{/if}
 		</span>
 	</dialog>
 </div>

@@ -8,23 +8,27 @@
 <h2>Shop Config</h2>
 <small>(Update Config settings in src/shop_config.ts)</small>
 <table class="settings-list">
-	{#each Object.keys(shopConfig) as setting}
-		<tr>
-			<th>{camelCaseToWords(setting)}</th>
-			<td>{shopConfig[setting]}</td>
-		</tr>
-	{/each}
+	<tbody>
+		{#each Object.keys(shopConfig) as setting}
+			<tr>
+				<th>{camelCaseToWords(setting)}</th>
+				<td>{shopConfig[setting]}</td>
+			</tr>
+		{/each}
+	</tbody>
 </table>
 
 <h2>Shop Theme</h2>
 <small>(Update Theme settings in src/shop_config.ts)</small>
 <table class="theme-list">
-	{#each Object.keys(theme) as style}
-		<tr>
-			<th>{camelCaseToWords(style)}</th>
-			<td>{theme[style]}</td>
-		</tr>
-	{/each}
+	<tbody>
+		{#each Object.keys(theme) as style}
+			<tr>
+				<th>{camelCaseToWords(style)}</th>
+				<td>{theme[style]}</td>
+			</tr>
+		{/each}
+	</tbody>
 </table>
 
 <h3>(Update Liability Waiver markup content in src/lib/ui/LiabilityWaiver.svelte)</h3>

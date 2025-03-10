@@ -1,17 +1,21 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import { getContext } from 'svelte';
 	import { superForm } from 'sveltekit-superforms/client';
 	import { Message } from '$lib/ui';
 	import type { Writable } from 'svelte/store';
 
-	export let data;
+	let { data } = $props();
 	const loginForm = superForm(data.loginForm);
 	const { form, enhance, message, delayed } = loginForm;
 
 	const loading = getContext<Writable<boolean>>('loading-store');
-	$: $loading = $delayed;
+	run(() => {
+		$loading = $delayed;
+	});
 
-	$: headingText = 'BCBC Workstand Login';
+	let headingText = $derived('BCBC Workstand Login');
 </script>
 
 <svelte:head>

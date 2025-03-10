@@ -4,14 +4,15 @@ import { zod } from 'sveltekit-superforms/adapters';
 import { bikeCreateSchema } from '$lib/models';
 import { bikes as bikesService } from '$lib/server/db';
 
-export async function load() {
+export async function load({ url }) {
+	const showAll = url.searchParams.has('showAll');
 	const form = await superValidate(zod(bikeCreateSchema));
-
 	const bikes = await bikesService.find();
 
 	return {
 		form: form,
-		bikes: bikes
+		bikes: bikes,
+		showAll
 	};
 }
 

@@ -1,6 +1,18 @@
 <script lang="ts">
 	import Spinner from '$lib/ui/Spinner.svelte';
-	export let loading = false;
+	interface Props {
+		loading?: boolean;
+		header?: import('svelte').Snippet;
+		children?: import('svelte').Snippet;
+		footer?: import('svelte').Snippet;
+	}
+
+	let {
+		loading = false,
+		header,
+		children,
+		footer
+	}: Props = $props();
 </script>
 
 <div class="background-spinner" class:loading>
@@ -8,13 +20,13 @@
 </div>
 
 <div class="layout-page">
-	<slot name="header" />
+	{@render header?.()}
 
 	<main>
-		<slot />
+		{@render children?.()}
 	</main>
 
-	<slot name="footer" />
+	{@render footer?.()}
 </div>
 
 <style>

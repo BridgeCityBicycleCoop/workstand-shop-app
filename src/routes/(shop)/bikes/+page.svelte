@@ -5,14 +5,14 @@
 	import type { Bike } from '$lib/models';
 	import { page } from '$app/stores';
 
-	export let data;
+	let { data } = $props();
 	const BIKE_THEFT_URL = 'https://www.cpic-cipc.ca/sbi-rve-eng.htm';
 
 	const handleBikeUpdate = (_event: MouseEvent, bike: Bike) => {
 		goto(`/bikes/${bike.id}`);
 	};
 
-	$: showBikeButtonText = data.showAll ? 'Show Available Bikes' : 'Show All Bikes';
+	let showBikeButtonText = $derived(data.showAll ? 'Show Available Bikes' : 'Show All Bikes');
 
 	const handleCheckSerialNumber = (_event: MouseEvent, bike: Bike) => {
 		updateClipboard(bike.serialNumber);
@@ -31,10 +31,10 @@
 		);
 	}
 
-	let searchElement: HTMLInputElement;
 	const showBikeSearch = $page.url.pathname === '/bikes';
 
-	$: filteredBikeList = data.bikes;
+	let filteredBikeList = $state(data.bikes);
+
 	const handleSearchInput: FormEventHandler<HTMLInputElement> = (event) => {
 		const filterText = event.currentTarget?.value.toLocaleLowerCase().trim();
 
@@ -58,14 +58,8 @@
 	{#if showBikeSearch}
 		<div class="bike-search">
 			<label for="filter">Search:</label>
-			<button class="primary" on:click={() => goto('/bikes/new')}>Register New Bike</button>
-			<input
-				on:input={handleSearchInput}
-				name="filter"
-				type="search"
-				bind:this={searchElement}
-				autocomplete="off"
-			/>
+			<button class="primary" onclick={() => goto('/bikes/new')}>Register New Bike</button>
+			<input oninput={handleSearchInput} name="filter" type="search" autocomplete="off" />
 		</div>
 	{/if}
 
@@ -98,12 +92,12 @@
 						<tr>
 							<td>{getLocaleDisplayDateAndTime(bike.donationDate).displayDate}</td>
 							<td>
-								<button class="link" on:click={(event) => handleBikeUpdate(event, bike)}>
+								<button class="link" onclick={(event) => handleBikeUpdate(event, bike)}>
 									{bike.colour} / {bike.make}
 								</button>
 							</td>
 							<td>
-								<button class="link" on:click={(event) => handleCheckSerialNumber(event, bike)}>
+								<button class="link" onclick={(event) => handleCheckSerialNumber(event, bike)}>
 									{bike.serialNumber}
 								</button>
 							</td>

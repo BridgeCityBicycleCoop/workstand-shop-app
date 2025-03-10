@@ -9,20 +9,20 @@
 	import type { FormEventHandler } from 'svelte/elements';
 	import type { Member, Purpose, Visit } from '$lib/models';
 
-	export let data;
+	let { data } = $props();
 
 	const title = shopConfig.shopName ? `Home - ${shopConfig.shopName}` : `Home`;
-	let selectedPurpose: Purpose;
-	let activeMember: Member | undefined;
-	let activeVisit: Visit | undefined;
+	let selectedPurpose: Purpose | undefined = $state();
+	let activeMember: Member | undefined = $state();
+	let activeVisit: Visit | undefined = $state();
 
-	let isOpen: boolean;
+	let isOpen: boolean = $state(false);
 
-	let showList: boolean;
-	let filteredMemeberList: Member[];
-	let searchElement: HTMLInputElement;
+	let showList: boolean = $state(false);
+	let filteredMemeberList: Member[] = $state([]);
+	let searchElement: HTMLInputElement | undefined = $state();
 
-	$: signedInMembers = new Set(data.visits.visitsList.map((visit) => visit.member.id));
+	let signedInMembers = $derived(new Set(data.visits.visitsList.map((visit) => visit.member.id)));
 
 	const handleInput: FormEventHandler<HTMLInputElement> = (event) => {
 		const filterText = event.currentTarget?.value.toLocaleLowerCase();
@@ -67,7 +67,7 @@
 	<div class="members-search">
 		<label for="filter">Members Search:</label>
 		<input
-			on:input={handleInput}
+			oninput={handleInput}
 			name="filter"
 			type="search"
 			bind:this={searchElement}
@@ -81,7 +81,7 @@
 				<div class="button-group">
 					<button
 						class="primary activity"
-						on:click={(event) => handleMemberSelect(event, member)}
+						onclick={(event) => handleMemberSelect(event, member)}
 						disabled={signedInMembers.has(member.id)}
 					>
 						{#if member.status === 'suspended'}
@@ -97,7 +97,7 @@
 					<button
 						class="primary edit"
 						class:unavailable={signedInMembers.has(member.id)}
-						on:click={(event) => handleEditMember(event, member)}
+						onclick={(event) => handleEditMember(event, member)}
 					>
 						<ClipboardEditOutline />
 						<span class="visually-hidden">Edit Member</span>
@@ -125,7 +125,7 @@
 								<td>
 									<button
 										class="edit-profile link"
-										on:click={(event) => handleVisitUpdate(event, visit)}
+										onclick={(event) => handleVisitUpdate(event, visit)}
 										>{getDisplayName(visit.member)}
 									</button>
 								</td>
@@ -153,8 +153,10 @@
 		{activeVisit}
 		onSuccess={() => {
 			handleClose();
-			searchElement.value = '';
-			searchElement.dispatchEvent(new Event('input', { bubbles: true }));
+			if (searchElement) {
+				searchElement.value = '';
+				searchElement.dispatchEvent(new Event('input', { bubbles: true }));
+			}
 		}}
 	>
 		<div class="member-notes">
@@ -177,9 +179,11 @@
 			{/if}
 		</div>
 	</ActivitySelect>
-	<div slot="buttons">
-		<button class="primary" on:click={handleClose}>Cancel</button>
-	</div>
+	{#snippet buttons()}
+		<div>
+			<button class="primary" onclick={handleClose}>Cancel</button>
+		</div>
+	{/snippet}
 </Modal>
 
 <style>

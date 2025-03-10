@@ -2,12 +2,12 @@
 	import { FilterDataList, getLocaleDisplayDateAndTime, camelCaseToWords } from '$lib/ui';
 	import { memberSchema } from '$lib/models';
 
-	export let data;
+	let { data } = $props();
 	let startDate = data.startDate;
 	let endDate = data.endDate;
-	$: page = data.page;
-	$: totalPages = data.totalPages;
-	$: urlString = data.urlString;
+	let page = $derived(data.page);
+	let totalPages = $derived(data.totalPages);
+	let urlString = $derived(data.urlString);
 
 	const name = 'Members';
 
@@ -16,7 +16,7 @@
 	const memberKeys = (Object.keys(memberProps) as MemberPropKeys[]).filter((key) => key !== 'id');
 	const headers = memberKeys.map(camelCaseToWords);
 
-	$: list = data.membersList.map((member) => {
+	let list = $derived(data.membersList.map((member) => {
 		return memberKeys.map((key) => {
 			const value = member[key];
 
@@ -28,7 +28,7 @@
 				return value.toString();
 			}
 		});
-	});
+	}));
 </script>
 
 <FilterDataList {startDate} {endDate} {name} {headers} {list} {page} {totalPages} {urlString} />

@@ -1,7 +1,16 @@
+<script lang="ts">
+	interface Props {
+		children?: import('svelte').Snippet;
+		logo?: import('svelte').Snippet;
+	}
+
+	let { children, logo }: Props = $props();
+</script>
+
 <header>
-	<slot />
+	{@render children?.()}
 	<div class="logo">
-		<slot name="logo" />
+		{@render logo?.()}
 	</div>
 </header>
 

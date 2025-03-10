@@ -12,10 +12,10 @@
 		{ name: 'Settings', href: '/admin/settings' }
 	];
 
-	export let data;
+	let { data, children } = $props();
 
-	$: logoUrl = data.shopConfig.logoUrl;
-	$: shopName = data.shopConfig.shopName;
+	let logoUrl = $derived(data.shopConfig.logoUrl);
+	let shopName = $derived(data.shopConfig.shopName);
 </script>
 
 <div class="admin-layout">
@@ -46,7 +46,7 @@
 			<a href="/">Return to Shop</a>
 		</header>
 		<main>
-			<slot />
+			{@render children?.()}
 		</main>
 	</section>
 </div>

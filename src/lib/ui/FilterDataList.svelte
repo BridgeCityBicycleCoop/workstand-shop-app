@@ -3,14 +3,27 @@
 	import { convertAndDownloadCsv } from '$lib/utils';
 	import { Pagination } from '$lib/ui';
 
-	export let name: string;
-	export let headers: string[];
-	export let list: string[][];
-	export let startDate: IsoDateString;
-	export let endDate: IsoDateString;
-	export let page;
-	export let totalPages;
-	export let urlString;
+	interface Props {
+		name: string;
+		headers: string[];
+		list: string[][];
+		startDate: IsoDateString;
+		endDate: IsoDateString;
+		page: any;
+		totalPages: any;
+		urlString: any;
+	}
+
+	let {
+		name,
+		headers,
+		list,
+		startDate = $bindable(),
+		endDate = $bindable(),
+		page,
+		totalPages,
+		urlString
+	}: Props = $props();
 
 	const downloadCSV = (_event: MouseEvent) => {
 		list.unshift(headers);
@@ -38,7 +51,7 @@
 		</ul>
 	</form>
 
-	<button class="btn btn-primary download-csv" on:click={downloadCSV}>Download {name} as CSV</button
+	<button class="btn btn-primary download-csv" onclick={downloadCSV}>Download {name} as CSV</button
 	>
 
 	<div class="tableWrap search-result">

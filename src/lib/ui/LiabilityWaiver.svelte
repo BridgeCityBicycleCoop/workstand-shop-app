@@ -2,9 +2,13 @@
 	import { format } from 'date-fns';
 	import Disclosure from './Disclosure.svelte';
 
-	export let name: string = '';
-	export let requiresGuardian: boolean = false;
-	export let guardianName: string | null = '';
+	interface Props {
+		name?: string;
+		requiresGuardian?: boolean;
+		guardianName?: string | null;
+	}
+
+	let { name = '', requiresGuardian = false, guardianName = '' }: Props = $props();
 
 	let waiverDate = format(Date.now(), 'LLLL dd, yyyy');
 </script>
@@ -20,8 +24,12 @@
 		activities and events.
 	</small>
 	<Disclosure>
-		<span slot="title">Show Waiver</span>
-		<span slot="open-title">Hide Waiver</span>
+		{#snippet closedTitle()}
+			<span>Show Waiver</span>
+		{/snippet}
+		{#snippet openTitle()}
+			<span>Hide Waiver</span>
+		{/snippet}
 		<p>
 			The Bridge City Bicycle Co-operative (herein referred to as The BCBC and The Community) is a
 			nonprofit, community bicycle repair education and resource co-operative. We offer our members

@@ -23,7 +23,13 @@ interface ResourceService<
 
 export type MembersService = ResourceService<Member, MemberFilter>;
 export type VisitsService = ResourceService<Visit, VisitFilter> & {
-	findByDate(options?: { startDate?: Date; endDate?: Date }): Promise<Visit[]>;
+	findByDate(options?: { startDate?: Date; endDate?: Date }): Promise<{
+		visitsList: Visit[];
+		totalVisits: number;
+		page: number;
+		perPage: number;
+		totalPages: number;
+	}>;
 	add(data: { memberId: string; purposeId: string }): Promise<Visit>;
 };
 export type PurposesService = ResourceService<Purpose, PurposeFilter>;

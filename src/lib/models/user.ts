@@ -6,7 +6,7 @@ export const userSchema = z.object({
 	email: z.string(),
 	name: z.string().optional(),
 	emailVisibility: z.coerce.boolean(),
-	role: z.enum(['admin', 'staff']).array().default([]),
+	role: z.enum(["'admin'", "'staff'"]),
 	verified: z.coerce.boolean(),
 	avatar: z.string().optional()
 });

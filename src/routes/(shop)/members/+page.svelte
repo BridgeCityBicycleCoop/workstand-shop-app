@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import { getContext } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { superForm } from 'sveltekit-superforms';
@@ -14,12 +16,12 @@
 	import MemberRightsAndGuidelines from '$lib/ui/MemberRightsAndGuidelines.svelte';
 	import type { Member, Purpose, Visit } from '$lib/models';
 
-	export let data;
+	let { data } = $props();
 
-	let selectedPurpose: Purpose;
-	let activeMember: Member | undefined;
+	let selectedPurpose: Purpose | undefined = $state();
+	let activeMember: Member | undefined = $state();
 	let activeVisit: Visit | undefined;
-	let isOpen: boolean;
+	let isOpen: boolean = $state(false);
 
 	const { form, errors, enhance, message, delayed, submitting } = superForm(
 		data.registerMemberForm,
@@ -55,7 +57,9 @@
 	};
 
 	const loading = getContext<Writable<boolean>>('loading-store');
-	$: $loading = $delayed;
+	run(() => {
+		$loading = $delayed;
+	});
 </script>
 
 <section class="register-member">
@@ -78,7 +82,7 @@
 	/>
 
 	<div class="register-member-buttons">
-		<button class="primary" on:click={() => goto('/')}>Cancel Registration</button>
+		<button class="primary" onclick={() => goto('/')}>Cancel Registration</button>
 		<button class="primary" data-loading={$submitting} type="submit" form="register-member">
 			Click to Agree to Waiver
 		</button>
@@ -96,9 +100,11 @@
 		{activeVisit}
 		onSuccess={handleClose}
 	></ActivitySelect>
-	<div slot="buttons">
-		<button class="primary" on:click={handleClose}>Cancel</button>
-	</div>
+	{#snippet buttons()}
+		<div>
+			<button class="primary" onclick={handleClose}>Cancel</button>
+		</div>
+	{/snippet}
 </Modal>
 
 <style>

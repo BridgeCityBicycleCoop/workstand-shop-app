@@ -1,17 +1,20 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import { getContext } from 'svelte';
 	import { superForm, type SuperValidated } from 'sveltekit-superforms';
 	import type { Member, Visit, Purpose } from '$lib/models';
 	import type { Writable } from 'svelte/store';
 
-	export let formId: string;
-	export let activeMember: Member | undefined;
-	export let selectedPurpose: Purpose | undefined;
-	export let activeVisit: Visit | undefined;
-	export let purposes: Purpose[];
-	export let displayName: string;
-	export let onSuccess = () => {};
-	export let formData: SuperValidated<
+	interface Props {
+		formId: string;
+		activeMember: Member | undefined;
+		selectedPurpose: Purpose | undefined;
+		activeVisit: Visit | undefined;
+		purposes: Purpose[];
+		displayName: string;
+		onSuccess?: any;
+		formData: SuperValidated<
 		{
 			memberId: string;
 			purposeId: string;
@@ -22,24 +25,40 @@
 			purposeId: string;
 		}
 	>;
+		children?: import('svelte').Snippet;
+	}
+
+	let {
+		formId,
+		activeMember,
+		selectedPurpose = $bindable(),
+		activeVisit,
+		purposes,
+		displayName,
+		onSuccess = () => {},
+		formData,
+		children
+	}: Props = $props();
 
 	const { enhance, delayed, submitting } = superForm(formData, {
 		onUpdated: onSuccess
 	});
 
 	const loading = getContext<Writable<boolean>>('loading-store');
-	$: $loading = $delayed;
+	run(() => {
+		$loading = $delayed;
+	});
 </script>
 
 {#if activeMember?.id}
 	<form id={formId} method="post" action="?/logVisit" use:enhance>
 		<div class="activity-title">Select <b>{displayName}</b>'s activity for today</div>
-		<slot />
+		{@render children?.()}
 		<div class="activity-container">
 			{#each purposes as purpose}
 				<button
 					class="primary option"
-					on:click={() => {
+					onclick={() => {
 						selectedPurpose = purpose;
 					}}
 					data-loading={$submitting && selectedPurpose === purpose}

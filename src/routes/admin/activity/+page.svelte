@@ -1,20 +1,20 @@
 <script lang="ts">
 	import { FilterDataList, getLocaleDisplayDateAndTime, getDisplayName } from '$lib/ui';
 
-	export let data;
-	$: page = data.page;
-	$: totalPages = data.totalPages;
-	$: urlString = data.urlString;
+	let { data } = $props();
+	let page = $derived(data.page);
+	let totalPages = $derived(data.totalPages);
+	let urlString = $derived(data.urlString);
 
 	const name = 'Visits';
 	const headers = ['Name', 'Purpose', 'Signed-in'];
-	$: list = data.visitsList.map((visit) => {
+	let list = $derived(data.visitsList.map((visit) => {
 		return [
 			getDisplayName(visit.member),
 			visit.purpose.name,
 			getLocaleDisplayDateAndTime(visit.date).display
 		];
-	});
+	}));
 	let startDate = data.startDate;
 	let endDate = data.endDate;
 </script>

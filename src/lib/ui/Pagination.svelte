@@ -1,7 +1,11 @@
 <script lang="ts">
-	export let totalPages: number;
-	export let page;
-	export let urlString: string;
+	interface Props {
+		totalPages: number;
+		page: any;
+		urlString: string;
+	}
+
+	let { totalPages, page, urlString }: Props = $props();
 
 	const getPreviousHref = (url: string) => {
 		const newUrl = new URL(url);

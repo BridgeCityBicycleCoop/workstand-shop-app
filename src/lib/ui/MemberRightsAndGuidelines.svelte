@@ -2,9 +2,13 @@
 	import { format } from 'date-fns';
 	import Disclosure from './Disclosure.svelte';
 
-	export let name: string = '';
-	export let requiresGuardian: boolean = false;
-	export let guardianName: string | null = '';
+	interface Props {
+		name?: string;
+		requiresGuardian?: boolean;
+		guardianName?: string | null;
+	}
+
+	let { name = '', requiresGuardian = false, guardianName = '' }: Props = $props();
 
 	let waiverDate = format(Date.now(), 'LLLL dd, yyyy');
 </script>
@@ -16,8 +20,12 @@
 	support.
 </small>
 <Disclosure>
-	<span slot="title">Show Guidelines</span>
-	<span slot="open-title">Hide Guidelines</span>
+	{#snippet closedTitle()}
+		<span>Show Guidelines</span>
+	{/snippet}
+	{#snippet openTitle()}
+		<span>Hide Guidelines</span>
+	{/snippet}
 
 	<h3>Member Privileges</h3>
 	<li>Access to the BCBC tools, stands and workspace</li>
