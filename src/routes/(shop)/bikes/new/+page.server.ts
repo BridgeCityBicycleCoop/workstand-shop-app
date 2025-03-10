@@ -1,4 +1,5 @@
 import { fail } from '@sveltejs/kit';
+import z from 'zod';
 import { superValidate, message } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import { bikeCreateSchema } from '$lib/models';
@@ -16,13 +17,17 @@ export async function load({ url }) {
 	};
 }
 
+const newBikeFormSchema = bikeCreateSchema.extend({
+	serialNumber: z.preprocess((v) => (v === '' ? undefined : v), z.string()),
+	make: z.preprocess((v) => (v === '' ? undefined : v), z.string()),
+	colour: z.preprocess((v) => (v === '' ? undefined : v), z.string())
+});
+
 export const actions = {
 	async default({ request }) {
-		const form = await superValidate(request, zod(bikeCreateSchema));
+		const form = await superValidate(request, zod(newBikeFormSchema));
+		if (!form.valid) return fail(422, { form });
 
-		if (!form.valid) {
-			return message(form, form.errors);
-		}
 		try {
 			await bikesService.add(form.data);
 			return message(form, 'Bike added successfully!');
