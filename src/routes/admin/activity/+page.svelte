@@ -8,15 +8,27 @@
 
 	const name = 'Visits';
 	const headers = ['Name', 'Purpose', 'Signed-in'];
-	let list = $derived(data.visitsList.map((visit) => {
-		return [
-			getDisplayName(visit.member),
-			visit.purpose.name,
-			getLocaleDisplayDateAndTime(visit.date).display
-		];
-	}));
+	let list = $derived(
+		data.visitsList.map((visit) => {
+			return [
+				getDisplayName(visit.member),
+				visit.purpose.name,
+				getLocaleDisplayDateAndTime(visit.date).display
+			];
+		})
+	);
 	let startDate = data.startDate;
 	let endDate = data.endDate;
 </script>
 
-<FilterDataList {startDate} {endDate} {name} {headers} {list} {urlString} {page} {totalPages} />
+<FilterDataList
+	{startDate}
+	{endDate}
+	{name}
+	{headers}
+	{list}
+	{urlString}
+	{page}
+	{totalPages}
+	downloadPath="/admin/activity/download"
+/>

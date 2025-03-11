@@ -158,7 +158,8 @@ th {
 }
 
 /* Buttons */
-button {
+button,
+a:where(.btn) {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
@@ -184,15 +185,22 @@ button {
 	}
 }
 
-button:focus-visible {
+a.btn {
+	text-decoration: none;
+}
+
+button:focus-visible,
+a.btn:focus-visible {
 	outline-style: dashed;
 }
 
-button:focus:not(:focus-visible) {
+button:focus:not(:focus-visible),
+a.btn:focus:not(:focus-visible) {
 	outline: none;
 }
 
-button:has(.icon) {
+button:has(.icon),
+a.btn:has(.icon) {
 	justify-content: space-between;
 
 	&::after {
@@ -200,7 +208,8 @@ button:has(.icon) {
 	}
 }
 
-button > .icon {
+button > .icon,
+a.btn > .icon {
 	display: inline-block;
 	line-height: 0.5;
 }

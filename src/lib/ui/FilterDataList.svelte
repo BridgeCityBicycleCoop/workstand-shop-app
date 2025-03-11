@@ -1,6 +1,5 @@
 <script lang="ts">
 	import type { IsoDateString } from '$lib/server/db/pocketbase/types';
-	import { convertAndDownloadCsv } from '$lib/utils';
 	import { Pagination } from '$lib/ui';
 
 	interface Props {
@@ -12,6 +11,7 @@
 		page: any;
 		totalPages: any;
 		urlString: any;
+		downloadPath: string;
 	}
 
 	let {
@@ -22,13 +22,9 @@
 		endDate = $bindable(),
 		page,
 		totalPages,
-		urlString
+		urlString,
+		downloadPath
 	}: Props = $props();
-
-	const downloadCSV = (_event: MouseEvent) => {
-		list.unshift(headers);
-		convertAndDownloadCsv(list, name);
-	};
 </script>
 
 <section class="data-list">
@@ -51,14 +47,19 @@
 		</ul>
 	</form>
 
-	<button class="btn btn-primary download-csv" onclick={downloadCSV}>Download {name} as CSV</button
+	<a
+		href={downloadPath}
+		class="btn btn-primary download-csv"
+		download={`${name.toLocaleLowerCase()}.csv`}
 	>
+		Download {name} as CSV
+	</a>
 
 	<div class="tableWrap search-result">
+		<Pagination {urlString} {page} {totalPages} />
 		{#if list.length > 0}
 			<table>
 				<thead>
-					<Pagination {urlString} {page} {totalPages} />
 					<tr>
 						{#each headers as header}
 							<th class="sticky-header">{header}</th>
