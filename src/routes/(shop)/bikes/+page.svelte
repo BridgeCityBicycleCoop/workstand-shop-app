@@ -3,7 +3,7 @@
 	import { getLocaleDisplayDateAndTime } from '$lib/ui';
 	import type { FormEventHandler } from 'svelte/elements';
 	import type { Bike } from '$lib/models';
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 
 	let { data } = $props();
 	const BIKE_THEFT_URL = 'https://www.cpic-cipc.ca/sbi-rve-eng.htm';
@@ -12,6 +12,7 @@
 		goto(`/bikes/${bike.id}`);
 	};
 
+	let showAllBikesButton = page.url.pathname === '/bikes';
 	let showBikeButtonText = $derived(data.showAll ? 'Show Available Bikes' : 'Show All Bikes');
 
 	const handleCheckSerialNumber = (_event: MouseEvent, bike: Bike) => {
@@ -31,7 +32,7 @@
 		);
 	}
 
-	const showBikeSearch = $page.url.pathname === '/bikes';
+	const showBikeSearch = page.url.pathname === '/bikes';
 
 	let filteredBikeList = $state(data.bikes);
 
@@ -66,11 +67,13 @@
 	<div class="table-wrap bike-list">
 		<div class="bike-list-toolbar">
 			<div class="bike-list-heading">Bike List:</div>
-			<form class="bike-toggle" method="get">
-				<button class="btn btn-tertiary" name="showAll" value={data.showAll ? '' : 'true'}
-					>{showBikeButtonText}</button
-				>
-			</form>
+			{#if showAllBikesButton}
+				<form class="bike-toggle" method="get">
+					<button class="btn btn-tertiary" name="showAll" value={data.showAll ? '' : 'true'}
+						>{showBikeButtonText}</button
+					>
+				</form>
+			{/if}
 		</div>
 
 		{#if filteredBikeList.length > 0}
