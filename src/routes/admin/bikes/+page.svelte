@@ -16,19 +16,31 @@
 	const bikeKeys = (Object.keys(bikeProps) as BikePropKeys[]).filter((key) => key !== 'id');
 	const headers = bikeKeys.map(camelCaseToWords);
 
-	let list = $derived(data.bikesList.map((bike) => {
-		return bikeKeys.map((key) => {
-			const value = bike[key];
+	let list = $derived(
+		data.bikesList.map((bike) => {
+			return bikeKeys.map((key) => {
+				const value = bike[key];
 
-			if (!value) {
-				return '';
-			} else if (value instanceof Date) {
-				return getLocaleDisplayDateAndTime(value).displayDate;
-			} else {
-				return value.toString();
-			}
-		});
-	}));
+				if (!value) {
+					return '';
+				} else if (value instanceof Date) {
+					return getLocaleDisplayDateAndTime(value).displayDate;
+				} else {
+					return value.toString();
+				}
+			});
+		})
+	);
 </script>
 
-<FilterDataList {startDate} {endDate} {name} {headers} {list} {page} {totalPages} {urlString} />
+<FilterDataList
+	{startDate}
+	{endDate}
+	{name}
+	{headers}
+	{list}
+	{page}
+	{totalPages}
+	{urlString}
+	downloadPath="/admin/bikes/download"
+/>

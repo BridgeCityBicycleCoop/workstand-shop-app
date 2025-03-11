@@ -4,9 +4,9 @@ import { makeOptionalPropsNullable } from './utils';
 export const memberSchema = z.object({
 	id: z.string(),
 	name: z.string().min(1, 'Name is required'),
+	preferredName: z.string().optional(),
 	waiver: z.date(),
 	status: z.enum(['active', 'suspended', 'banned']),
-	preferredName: z.string().optional(),
 	email: z.string().optional(),
 	pronouns: z.string().optional(),
 	emailConsent: z.coerce.boolean(),
