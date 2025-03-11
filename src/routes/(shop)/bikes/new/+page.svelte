@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
-
 	import { getContext } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { superForm } from 'sveltekit-superforms';
@@ -10,7 +8,7 @@
 
 	let { data } = $props();
 
-	const { form, errors, enhance, delayed, submitting, message } = superForm(data.form, {
+	const { form, errors, enhance, delayed, submitting } = superForm(data.form, {
 		onUpdated(event) {
 			if (event.form.message) {
 				addToast({
@@ -23,7 +21,7 @@
 	});
 
 	const loading = getContext<Writable<boolean>>('loading-store');
-	run(() => {
+	$effect(() => {
 		$loading = $delayed;
 	});
 </script>

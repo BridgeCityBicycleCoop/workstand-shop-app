@@ -16,19 +16,31 @@
 	const memberKeys = (Object.keys(memberProps) as MemberPropKeys[]).filter((key) => key !== 'id');
 	const headers = memberKeys.map(camelCaseToWords);
 
-	let list = $derived(data.membersList.map((member) => {
-		return memberKeys.map((key) => {
-			const value = member[key];
+	let list = $derived(
+		data.membersList.map((member) => {
+			return memberKeys.map((key) => {
+				const value = member[key];
 
-			if (!value) {
-				return '';
-			} else if (value instanceof Date) {
-				return getLocaleDisplayDateAndTime(value).display;
-			} else {
-				return value.toString();
-			}
-		});
-	}));
+				if (!value) {
+					return '';
+				} else if (value instanceof Date) {
+					return getLocaleDisplayDateAndTime(value).display;
+				} else {
+					return value.toString();
+				}
+			});
+		})
+	);
 </script>
 
-<FilterDataList {startDate} {endDate} {name} {headers} {list} {page} {totalPages} {urlString} />
+<FilterDataList
+	{startDate}
+	{endDate}
+	{name}
+	{headers}
+	{list}
+	{page}
+	{totalPages}
+	{urlString}
+	downloadPath="/admin/members/download"
+/>
