@@ -17,7 +17,7 @@
 	<Field name="serialNumber" errors={$errors.serialNumber} bind:value={$bikeForm.serialNumber}
 		>Serial Number</Field
 	>
-	<Field name="make" errors={$errors.make} bind:value={$bikeForm.make}>Make</Field>
+	<Field name="make" errors={$errors.make} bind:value={$bikeForm.make}>Make and Model</Field>
 	<Field name="colour" errors={$errors.colour} bind:value={$bikeForm.colour}>Colour</Field>
 	<Field
 		name="donatedBy"

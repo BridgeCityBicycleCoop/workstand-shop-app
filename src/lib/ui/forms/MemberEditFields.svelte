@@ -14,7 +14,7 @@
 </script>
 
 <fieldset>
-	<Field name="name" errors={$errors.name} bind:value={$memberForm.name}>Name</Field>
+	<Field name="name" errors={$errors.name} bind:value={$memberForm.name}>Full Name</Field>
 	<Field name="preferredName" errors={$errors.preferredName} bind:value={$memberForm.preferredName}
 		>Preferred Name</Field
 	>

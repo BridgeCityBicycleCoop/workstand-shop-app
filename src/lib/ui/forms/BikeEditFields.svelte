@@ -15,7 +15,7 @@
 
 <fieldset>
 	<Field name="serialNumber" bind:value={$bikeForm.serialNumber}>Serial Number</Field>
-	<Field name="make" bind:value={$bikeForm.make}>Make</Field>
+	<Field name="make" bind:value={$bikeForm.make}>Make and Model</Field>
 	<Field name="colour" bind:value={$bikeForm.colour}>Colour</Field>
 	<Field name="donatedBy" list="donated-sources" bind:value={$bikeForm.donatedBy}>Donated By</Field>
 	<datalist id="donated-sources">
@@ -28,7 +28,7 @@
 		>Suggested Donation</Field
 	>
 	<Field name="cpicDate" type="date" bind:value={$bikeForm.cpicDate}>CPIC Date</Field>
-	<Field name="recipientName" bind:value={$bikeForm.recipientName}>Recipient Name</Field>
+	<Field name="recipientName" bind:value={$bikeForm.recipientName}>Recipient Full Name</Field>
 	<Field name="recipientAge" list="recipient-ages" bind:value={$bikeForm.recipientAge}
 		>Recipient Age</Field
 	>
@@ -58,12 +58,9 @@
 		>BCBC Program</Field
 	>
 	<datalist id="bcbc-programs">
-		<option value="Bike Sale Fundraiser"></option>
+		<option value="Bike Sale"></option>
 		<option value="Kids Bike Giveaway"></option>
-		<option value="ODS"></option>
-		<option value="Online Sale"></option>
 		<option value="Open Hours"></option>
-		<option value="The Bridge Workshop"></option>
 		<option value="Women and Queer Program"></option>
 		<option value="Youth Build-a-Bicycle Workshops"></option>
 	</datalist>
